@@ -47,6 +47,7 @@ const Hero = () => {
   const [where, setWhere] = useState('');
   const [whatOptions, setWhatOptions] = useState([]);
   const [whereOptions, setWhereOptions] = useState([]);
+  const [showWhatOptions, setShowWhatOptions] = useState(false);
 
   useEffect(() => {
     const populateWhatOptions = async () => {
@@ -95,6 +96,13 @@ const Hero = () => {
     }
   };
 
+  const handleWhatSelect = (option) => {
+    setWhat(option);
+    setShowWhatOptions(false);
+  };
+
+  const handleFocusWhat = () => setShowWhatOptions(true);
+
 
     return (
         <>  
@@ -119,23 +127,36 @@ const Hero = () => {
                             </div>
                             <div className='simple-line'></div>
                             <div className="search">
-                                <IoMdSearch className="icon-loc-src" />
-                                <input type="text" className='search-input' placeholder="Search Providers" id="what"
-                  value={what}
-                  onChange={(e) => setWhat(e.target.value)}
-                  list="what-options"/>
-                  <datalist id="what-options">
-                {whatOptions.map((option, index) => (
-                  <option key={index} value={option} />
-                ))}
-              </datalist>
-                                <div className='simple-line-small'></div>
-                                <div className="outer">
-                                    <button className="search-button" onClick={searchDoctors}>
-                                    Find My Provider
-                                    </button>
-                                </div>
-                            </div>
+                <IoMdSearch className="icon-loc-src" />
+                <input
+                type="text"
+                className="search-input"
+                id="what"
+                value={what}
+                onChange={(e) => setWhat(e.target.value)}
+                placeholder="Search Providers"
+                onFocus={handleFocusWhat}
+                onBlur={() => setTimeout(() => setShowWhatOptions(false), 200)}
+                autoComplete="off"
+                />
+                {showWhatOptions && (
+                <ul className="dropdown-list what-dropdown">
+                  {whatOptions
+                    .filter(option => option.toLowerCase().includes(what.toLowerCase()))
+                    .map((option, index) => (
+                      <li key={index} className="dropdown-item" onMouseDown={() => handleWhatSelect(option)}>
+                        {option}
+                      </li>
+                    ))}
+                </ul>
+              )}
+                <div className='simple-line-small'></div>
+                <div className="outer">
+                  <button className="search-button" onClick={searchDoctors}>
+                    Find My Provider
+                  </button>
+                </div>
+              </div>
                         </div>
                     </div>
 

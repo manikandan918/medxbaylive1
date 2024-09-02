@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./SubscriptionPlans.css";
 import { SiTicktick } from "react-icons/si";
-import axios from "axios";
+import axios from "axios"; // Ensure axios is imported
 
 const SubscriptionPlans = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("Monthly");
@@ -14,7 +14,7 @@ const SubscriptionPlans = () => {
       features: {
         "Basic Profile": true,
         "Premium Profile": false,
-        "Accept Telehealth calls": false,
+        "Accept Telehealth calls": true,
         "Access to Knowledge base": false,
         "Patients can book appointment": false,
         "Chat with patients with our integrated messaging app": false,
@@ -26,7 +26,7 @@ const SubscriptionPlans = () => {
       name: "Standard",
       price: "$765",
       features: {
-        "Basic Profile": true,
+        "Basic Profile": false,
         "Premium Profile": true,
         "Accept Telehealth calls": "3% service charge",
         "Access to Knowledge base": false,
@@ -40,7 +40,7 @@ const SubscriptionPlans = () => {
       name: "Premium",
       price: "$1,020",
       features: {
-        "Basic Profile": true,
+        "Basic Profile": false,
         "Premium Profile": true,
         "Accept Telehealth calls": false,
         "Access to Knowledge base": true,
@@ -54,7 +54,7 @@ const SubscriptionPlans = () => {
       name: "Enterprise",
       price: "Contact Support",
       features: {
-        "Basic Profile": true,
+        "Basic Profile": false,
         "Premium Profile": true,
         "Accept Telehealth calls": true,
         "Access to Knowledge base": true,
@@ -85,7 +85,7 @@ const SubscriptionPlans = () => {
       name: "Standard",
       price: "$7,500",
       features: {
-        "Basic Profile": true,
+        "Basic Profile": false,
         "Premium Profile": true,
         "Accept Telehealth calls": "3% service charge",
         "Access to Knowledge base": false,
@@ -99,7 +99,7 @@ const SubscriptionPlans = () => {
       name: "Premium",
       price: "$9,600",
       features: {
-        "Basic Profile": true,
+        "Basic Profile": false,
         "Premium Profile": true,
         "Accept Telehealth calls": false,
         "Access to Knowledge base": true,
@@ -113,7 +113,7 @@ const SubscriptionPlans = () => {
       name: "Enterprise",
       price: "Contact Support",
       features: {
-        "Basic Profile": true,
+        "Basic Profile": false,
         "Premium Profile": true,
         "Accept Telehealth calls": true,
         "Access to Knowledge base": true,
@@ -125,54 +125,14 @@ const SubscriptionPlans = () => {
     },
   ];
 
-  const handleMonthlyClick = () => {
-    setSelectedPeriod("Monthly");
-  };
-
-  const handleYearlyClick = () => {
-    setSelectedPeriod("Yearly");
-  };
-
-  const handlePlanClick = (planName) => {
-    setSelectedPlan(planName);
-  };
-
-  const handleSubscribe = async () => {
-    if (!selectedPlan) {
-      alert("Please select a subscription plan");
-      return;
-    }
-
-    const currentPlans = selectedPeriod === "Monthly" ? monthlyPlans : yearlyPlans;
-    const selectedPlanDetails = currentPlans.find((plan) => plan.name === selectedPlan);
-
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/doctor/subscribe`,
-        {
-          subscriptionType: selectedPlan,
-          subscriptionDuration: selectedPeriod,
-          paymentDetails: {
-            amount: parseInt(
-              selectedPlanDetails.price.replace("$", "").replace(",", ""),
-              10
-            ) * 100,
-          },
-        },
-        { withCredentials: true }
-      );
-
-      window.location.href = response.data;
-    } catch (error) {
-      console.error("Subscription error:", error);
-      alert("Failed to initiate subscription. Please try again.");
-    }
-  };
+  const handleMonthlyClick = () => setSelectedPeriod("Monthly");
+  const handleYearlyClick = () => setSelectedPeriod("Yearly");
+  const handlePlanClick = (planName) => setSelectedPlan(planName);
 
   const features = [
     {
       title: "Basic Profile",
-      subtitle: "Name, photo, name, specialty, conditions, location, URL",
+      subtitle: "Name, photo, specialty, conditions, location, URL",
     },
     {
       title: "Premium Profile",
@@ -201,6 +161,42 @@ const SubscriptionPlans = () => {
 
   const currentPlans = selectedPeriod === "Monthly" ? monthlyPlans : yearlyPlans;
 
+  const handleSubscribe = async () => {
+    if (!selectedPlan) {
+      alert("Please select a subscription plan");
+      return;
+    }
+
+    const selectedPlanDetails = currentPlans.find((plan) => plan.name === selectedPlan);
+
+    if (selectedPlan === "Enterprise") {
+      window.location.href =  `${process.env.REACT_APP_BASE_URL}/doctor/subscribe`;
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/doctor/subscribe`,
+        {
+          subscriptionType: selectedPlan,
+          subscriptionDuration: selectedPeriod,
+          paymentDetails: {
+            amount: parseInt(
+              selectedPlanDetails.price.replace("$", "").replace(",", ""),
+              10
+            ) * 100,
+          },
+        },
+        { withCredentials: true }
+      );
+
+      window.location.href = response.data;
+    } catch (error) {
+      console.error("Subscription error:", error);
+      alert("Failed to initiate subscription. Please try again.");
+    }
+  };
+
   return (
     <div className="subscription-plans">
       <h2 className="title">Subscription Plans</h2>
@@ -220,63 +216,82 @@ const SubscriptionPlans = () => {
         </button>
       </div>
       <div className="discount-banner">15% off for annual subscriptions</div>
-      <p className="enterprise-notice">
-        For individual users, Enterprise requires 10 or more users
-      </p>
-      <table className="plans-table">
-        <thead>
-          <tr>
-            <th className="features-column">
-              <div className="feature-space">
-                <div className="feature-title">
-                  <b>Features</b>
+      <p className="enterprise-notice">For individual users, Enterprise requires 10 or more users</p>
+      <div className="plans-wrapper">
+        <table className="plans-table">
+          <thead>
+            <tr>
+              <th className="features-column">
+                <div className="feature-space">
+                  <div className="feature-title"><b>Features</b></div>
+                  <div className="special-note">Get started to watch <br /> premium doctor’s profile</div>
                 </div>
-                <div className="special-note">
-                  Get started to watch <br /> premium doctor’s profile
-                </div>
-              </div>
-            </th>
-            {currentPlans.map((plan, index) => (
-              <th
-                key={index}
-                className={`plan-header ${selectedPlan === plan.name ? "plan-column-selected" : ""}`}
-                onClick={() => handlePlanClick(plan.name)}
-              >
-                <div className="plan-name">{plan.name}</div>
-                <div className="plan-price">{plan.price}</div>
-                <button
-                  className={`add-contact-btn ${selectedPlan === plan.name ? "active" : ""}`}
-                  onClick={handleSubscribe}
-                >
-                  Subscribe
-                </button>
               </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="bg-color">
-          {features.map((feature, index) => (
-            <tr key={index}>
-              <td className="feature-titles">
-                <div className="feature-title">{feature.title}</div>
-                {feature.subtitle && <div className="feature-subtitle">{feature.subtitle}</div>}
-              </td>
-              {currentPlans.map((plan, planIndex) => (
-                <td
-                  key={planIndex}
-                  className={`plan-feature ${selectedPlan === plan.name ? "plan-column-selected" : ""}`}
+              {currentPlans.map((plan, index) => (
+                <th
+                  key={index}
+                  className={`plan-header ${selectedPlan === plan.name ? "plan-column-selected" : ""}`}
+                  onClick={() => handlePlanClick(plan.name)}
+                  aria-selected={selectedPlan === plan.name}
                 >
-                  {typeof plan.features[feature.title] === "string" ? (
-                    <span className="feature-note">{plan.features[feature.title]}</span>
-                  ) : plan.features[feature.title] ? (
-                    <SiTicktick className="tick-icon" />
-                  ) : null}
-                </td>
+                  <div className="plan-name">{plan.name}</div>
+                  <div className="plan-price">{plan.price}</div>
+                  {plan.name === "Enterprise" ? (
+                    <button
+                      className={`add-contact-btn ${selectedPlan === plan.name ? "active" : ""}`}
+                      // onClick={handleSubscribe}
+                    >
+                      Contact Sales
+                    </button>
+                  ) : (
+                    <button
+                      className={`add-contact-btn ${selectedPlan === plan.name ? "active" : ""}`}
+                      onClick={handleSubscribe}
+                    >
+                      Subscribe
+                    </button>
+                  )}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="bg-color">
+            {features.map((feature, index) => (
+              <tr key={index}>
+                <td
+                  className={`feature-titles ${
+                    feature.title === "1 free article in our condition library"
+                      ? "feature-1-free-article"
+                      : ""
+                  }`}
+                >
+                  <div className="feature-title">{feature.title}</div>
+                  {feature.subtitle && (
+                    <div className="feature-subtitle">{feature.subtitle}</div>
+                  )}
+                </td>
+                {currentPlans.map((plan, planIndex) => (
+                  <td
+                    key={planIndex}
+                    className={`plan-feature ${
+                      selectedPlan === plan.name ? "plan-column-selected" : ""
+                    } ${
+                      feature.title === "1 free article in our condition library"
+                        ? "feature-1-free-article"
+                        : ""
+                    }`}
+                  >
+                    {plan.features[feature.title] === true && (
+                      <SiTicktick className="tick-icon" />
+                    )}
+                    {plan.features[feature.title] === false ? "" : (typeof plan.features[feature.title] === "string" && plan.features[feature.title])}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

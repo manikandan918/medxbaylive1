@@ -179,41 +179,41 @@ const AddNewBlog = ({loadBlogs}) => {
                 <div className="radio-input-label">
                   <input
                     type="radio"
-                    id="check-active"
+                    id="check-high"
                     className="checkbox"
-                    checked={newBlog.priority === "active"}
+                    checked={newBlog.priority === "high"}
                     onChange={() =>
                       setNewBlog({
                         ...newBlog,
                         priority:
-                          newBlog.priority === "active"
-                            ? "notActive"
-                            : "active",
+                          newBlog.priority === "high"
+                            ? "low"
+                            : "high",
                       })
                     }
                   />
-                  <label htmlFor="check-active" className="radio-label">
-                    Active
+                  <label htmlFor="check-high" className="radio-label">
+                    High
                   </label>
                 </div>
                 <div className="radio-input-label">
                   <input
                     type="radio"
-                    id="check-inactive"
+                    id="check-inhigh"
                     className="checkbox"
-                    checked={newBlog.priority === "notActive"}
+                    checked={newBlog.priority === "low"}
                     onChange={() =>
                       setNewBlog({
                         ...newBlog,
                         priority:
-                          newBlog.priority === "notActive"
-                            ? "active"
-                            : "notActive",
+                          newBlog.priority === "low"
+                            ? "high"
+                            : "low",
                       })
                     }
                   />
-                  <label htmlFor="check-active" className="radio-label">
-                    Inactive
+                  <label htmlFor="check-high" className="radio-label">
+                    Low
                   </label>
                 </div>
               </div>
@@ -225,8 +225,7 @@ const AddNewBlog = ({loadBlogs}) => {
                 ref={quillRef}
                 defaultText="Description"
                 onTextChange={(content) => {
-                  const plainText = content.replace(/<[^>]*>/g, ""); // Remove HTML tags
-                  setNewBlog({ ...newBlog, description: plainText });
+                  setNewBlog({ ...newBlog, description: content });
                 }}
               />
             </div>

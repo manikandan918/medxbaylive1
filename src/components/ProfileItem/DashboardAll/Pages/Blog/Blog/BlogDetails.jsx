@@ -65,9 +65,10 @@ function BlogDetails({blog}) {
               alt="blog-img"
               className="blog-image"
             />
-            <p className="blog-description">
-              {blog.description}
-            </p>
+        <p
+          className="blog-description"
+          dangerouslySetInnerHTML={{ __html: blog.description }}
+        ></p>
      
             <div className="blog-tags">
               {blog.hashtags.map((e) => (
