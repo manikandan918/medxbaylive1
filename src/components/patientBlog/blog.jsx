@@ -381,7 +381,9 @@ const BlogPostList = ({ title, posts }) => {
             </div>
             <div className="post-content">
               <h4>{post.title}</h4>
-              <p>{post.description}</p>
+              <p               dangerouslySetInnerHTML={{ __html:post.description}}>
+
+                </p>
               {/* <a href="#" className="read-more">
                 Read more in 5 min <FaLongArrowAltRight />
               </a> */}
