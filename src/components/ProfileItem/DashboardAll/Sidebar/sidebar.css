@@ -33,6 +33,22 @@
   .submitbtn:hover {
     background-color: #0056b3;
   }
+  .submitbtn-trial {
+    background-color: #007bff; 
+    color: white;
+    padding: 6px 12px; 
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 17px; 
+    margin: 20px auto; 
+    display: block; 
+    margin-left: -80px;
+  }
+  
+    .submitbtn-trial:hover {
+      background-color: #0056b3;
+    }
 
 
 

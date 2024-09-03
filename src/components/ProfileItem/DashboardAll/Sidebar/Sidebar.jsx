@@ -22,7 +22,7 @@ const Sidebar = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [subscriptionType, setSubscriptionType] = useState('Free'); // Default to 'Free'
-
+  const [isTrialExpired, setIsTrialExpired] = useState(false); 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -53,12 +53,18 @@ const Sidebar = () => {
       }
 
       setSubscriptionType(doctorData.doctor.subscriptionType || 'Free'); 
+      const currentDate = new Date();
+      const trialEndDate = new Date(doctorData.doctor.trialEndDate);
+      if (currentDate > trialEndDate) {
+        setIsTrialExpired(true);
+        setIsModalOpen(true);
+      } else {
+        setIsTrialExpired(false);
+      }
 
-      console.log("Doctor verification status:", doctorData.doctor.verified);
-      console.log("Doctor subscription type:", doctorData.doctor.subscriptionType);
 
     } catch (error) {
-      console.error("Error fetching doctor details:", error);
+    
     }
   };
 
@@ -83,9 +89,18 @@ const Sidebar = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
+  
   const handleClick = () => {
-    navigate('/edit/profile/doctor');
+    if (isTrialExpired) {
+      navigate('/SubscriptionPlans'); 
+    } else {
+      navigate('/edit/profile/doctor'); 
+    }
+  };
+  const handleClickProfile = () => {
+    if (isTrialExpired) {
+      navigate('/edit/profile/doctor'); 
+    }
   };
 
   return (
@@ -104,12 +119,12 @@ const Sidebar = () => {
           </button>
         )}
       </div>
-      <ul className={`sidebar-menu ${!isVerified ? 'disabled' : ''}`}>
+      <ul className={`sidebar-menu ${!isVerified || isTrialExpired? 'disabled' : ''}`}>
         <li className={`menu-item ${activeItem === '/doctorprofile/dashboardpage/start-dashboard' ? 'active' : ''}`}
           onMouseEnter={() => setActiveItem('/doctorprofile/dashboardpage/start-dashboard')}
           onMouseLeave={() => setActiveItem(location.pathname)}
         >
-          <Link to={isVerified ? "/doctorprofile/dashboardpage/start-dashboard" : "#"} className="menu-link">
+          <Link to={isVerified && !isTrialExpired? "/doctorprofile/dashboardpage/start-dashboard" : "#"} className="menu-link">
             <div className="sidebar-icon"><PiStorefrontBold size='1.1rem' /></div>
             <span>Dashboard</span>
           </Link>
@@ -118,7 +133,7 @@ const Sidebar = () => {
           onMouseEnter={() => setActiveItem('/doctorprofile/dashboardpage/manage')}
           onMouseLeave={() => setActiveItem(location.pathname)}
         >
-          <Link to={isVerified ? "/doctorprofile/dashboardpage/manage" : "#"} className="menu-link">
+          <Link to={isVerified && !isTrialExpired ? "/doctorprofile/dashboardpage/manage" : "#"} className="menu-link">
             <div className="sidebar-icon"><CgList /></div>
             <span>My Appointments</span>
           </Link>
@@ -127,7 +142,7 @@ const Sidebar = () => {
           onMouseEnter={() => setActiveItem('/doctorprofile/dashboardpage/schedule')}
           onMouseLeave={() => setActiveItem(location.pathname)}
         >
-          <Link to={isVerified ? "/doctorprofile/dashboardpage/schedule" : "#"} className="menu-link">
+          <Link to={isVerified && !isTrialExpired ? "/doctorprofile/dashboardpage/schedule" : "#"} className="menu-link">
             <div className="sidebar-icon"><FaRegCalendarAlt /></div>
             <span>My Schedule</span>
           </Link>
@@ -137,7 +152,7 @@ const Sidebar = () => {
           onMouseEnter={() => setActiveItem('/doctorprofile/dashboardpage/patient')}
           onMouseLeave={() => setActiveItem(location.pathname)}
         >
-          <Link to={isVerified ? "/doctorprofile/dashboardpage/patient" : "#"} className="menu-link">
+          <Link to={isVerified && !isTrialExpired ? "/doctorprofile/dashboardpage/patient" : "#"} className="menu-link">
             <div className="sidebar-icon"><PiUserListBold /></div>
             <span>My Patient</span>
           </Link>
@@ -146,7 +161,7 @@ const Sidebar = () => {
           onMouseEnter={() => setActiveItem('/doctorprofile/dashboardpage/inbox')}
           onMouseLeave={() => setActiveItem(location.pathname)}
         >
-          <Link to={isVerified ? "/doctorprofile/dashboardpage/inbox" : "#"} className="menu-link">
+          <Link to={isVerified  && !isTrialExpired? "/doctorprofile/dashboardpage/inbox" : "#"} className="menu-link">
             <div className="sidebar-icon"><RiInboxLine /></div>
             <span>Inbox</span>
           </Link>
@@ -155,7 +170,7 @@ const Sidebar = () => {
           onMouseEnter={() => setActiveItem('/doctorprofile/dashboardpage/reviews')}
           onMouseLeave={() => setActiveItem(location.pathname)}
         >
-          <Link to={subscriptionType !== 'Free' ? "/doctorprofile/dashboardpage/reviews" : "#"} className="menu-link">
+          <Link to={subscriptionType !== 'Free' && !isTrialExpired? "/doctorprofile/dashboardpage/reviews" : "#"} className="menu-link">
           <div className="sidebar-icon"><TbStar /></div>
             <span>Reviews</span>
           </Link>
@@ -164,7 +179,7 @@ const Sidebar = () => {
           onMouseEnter={() => setActiveItem('/doctorprofile/dashboardpage/blog')}
           onMouseLeave={() => setActiveItem(location.pathname)}
         >
-          <Link to={subscriptionType !== 'Free' ? "/doctorprofile/dashboardpage/blog" : "#"} className="menu-link">
+          <Link to={subscriptionType !== 'Free' && !isTrialExpired? "/doctorprofile/dashboardpage/blog" : "#"} className="menu-link">
             <div className="sidebar-icon"><ImBlogger2 /></div>
             <span>Blog</span>
           </Link>
@@ -181,12 +196,20 @@ const Sidebar = () => {
       </ul>
       <Verifypopup isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className='verify-popup-doctor'>
-          <h1>🛸 Welcome to Medxbay!</h1>
-          <p>You’re almost there! 🌟</p>
-          <p>Just a few quick details and you’ll unlock your full dashboard.</p>
+          <h1>{isTrialExpired ? '🔔 Trial Expired' : '🛸 Welcome to Medxbay!'}</h1>
+          <p>{isTrialExpired ? 'Your trial period has ended.' : 'You’re almost there! 🌟'}</p>
+          <p>{isTrialExpired ? 'Please upgrade to continue using our platform.' : 'Just a few quick details and you’ll unlock your full dashboard.'}</p>
+          <div className='row '>
           <button className="submitbtn" onClick={handleClick}>
-            Enter Details
-          </button>
+      {isTrialExpired ? 'Upgrade Now' : 'Enter Details'}
+    </button>
+    {isTrialExpired && (
+    <button className="submitbtn-trial" onClick={handleClickProfile}>
+     Edit Profile
+
+    </button>
+    )}
+    </div>
         </div>
       </Verifypopup> 
     </div>

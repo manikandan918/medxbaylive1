@@ -7,7 +7,26 @@
   height: 51px;
 }
 
-
+.trial-countdown {
+  min-width: 150px; 
+  padding: 5px 10px; 
+  background-color: #ffffff; 
+  color: #333; 
+  border-radius: 5px; 
+  color:#FF7F50 ;
+  /* border: 1px solid #FF7F50; */
+  font-size: 16px;
+  text-align: center; 
+  font-weight: bold; 
+  font-size: 14px; 
+  font-weight: 400px;
+  white-space: nowrap; 
+  position: relative; 
+  top: 10px;
+}
+.nav-item.active {
+  position: relative; 
+}
 
 .navbar-head-style {
   padding: 2rem 3rem;

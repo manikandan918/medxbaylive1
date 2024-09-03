@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./SubscriptionPlans.css";
 import { SiTicktick } from "react-icons/si";
-import axios from "axios"; // Ensure axios is imported
-
+import axios from "axios"; 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const SubscriptionPlans = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("Monthly");
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -163,17 +164,17 @@ const SubscriptionPlans = () => {
 
   const handleSubscribe = async () => {
     if (!selectedPlan) {
-      alert("Please select a subscription plan");
+       toast.info("Please select a subscription plan");
       return;
     }
-
+  
     const selectedPlanDetails = currentPlans.find((plan) => plan.name === selectedPlan);
-
+  
     if (selectedPlan === "Enterprise") {
-      window.location.href =  `${process.env.REACT_APP_BASE_URL}/doctor/subscribe`;
+      window.location.href = `${process.env.REACT_APP_BASE_URL}/doctor/subscribe`;
       return;
     }
-
+  
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/doctor/subscribe`,
@@ -189,13 +190,18 @@ const SubscriptionPlans = () => {
         },
         { withCredentials: true }
       );
-
+  
       window.location.href = response.data;
     } catch (error) {
-      console.error("Subscription error:", error);
-      alert("Failed to initiate subscription. Please try again.");
+      if (error.response && error.response.status === 403) {
+         toast.info(error.response.data); 
+      } else {
+        console.error("Subscription error:", error);
+         toast.info("Failed to initiate subscription. Please try again.");
+      }
     }
   };
+  
 
   return (
     <div className="subscription-plans">

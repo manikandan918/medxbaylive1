@@ -24,7 +24,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const corporateDropdownRef = useRef(null);
   const providersDropdownRef = useRef(null);
-
+  const [trialCountdown, setTrialCountdown] = useState(null); 
+  const [trialEndDate, setTrialEndDate] = useState(null);
   const toggleCorporateDropdown = () => setCorporateDropdownOpen(!isCorporateDropdownOpen);
   const toggleProvidersDropdown = () => setProvidersDropdownOpen(!isProvidersDropdownOpen);
 
@@ -73,6 +74,8 @@ const Navbar = () => {
     setIsRegisterClicked(false);
   };
 
+
+
   const handleLogout = () => {
     sessionStorage.removeItem('loggedIn');
     sessionStorage.removeItem('userId');
@@ -105,23 +108,49 @@ const Navbar = () => {
     const fetchProfileDetails = async () => {
       try {
         const role = sessionStorage.getItem('role');
-        const apiUrl = role === 'doctor' 
+        const apiUrl = role === 'doctor'
           ? `${process.env.REACT_APP_BASE_URL}/doctor/profile/update`
-          : `${process.env.REACT_APP_BASE_URL}/patient/profile`; 
-
+          : `${process.env.REACT_APP_BASE_URL}/patient/profile`;
+  
         const response = await axios.get(apiUrl, { withCredentials: true });
         const userData = response.data;
-
+  
         if (userData) {
           if (role === 'doctor') {
             setVerified(userData.doctor.verified === 'Verified');
+  
             if (userData.doctor.profilePicture) {
               const profileImageData = `data:${userData.doctor.profilePicture.contentType};base64,${userData.doctor.profilePicture.data}`;
               setProfileImage(profileImageData);
             } else {
               setProfileImage(profilePlaceholder);
             }
+  
+            if (userData.doctor.subscriptionType === 'Free') {
+              const parsedTrialEndDate = new Date(userData.doctor.trialEndDate);
+              setTrialEndDate(parsedTrialEndDate);
+  
+              const calculateCountdown = () => {
+                const now = new Date();
+                if (parsedTrialEndDate > now) {
+                  const timeDifference = parsedTrialEndDate - now;
+                  const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                  const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                  const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                  const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+                  setTrialCountdown({ days, hours, minutes, seconds });
+                } else {
+                  setTrialCountdown(null);
+                }
+              };
+  
+              // Initial countdown calculation and interval setup
+              calculateCountdown();
+              const intervalId = setInterval(calculateCountdown, 1000);
+              return () => clearInterval(intervalId);
+            }
           } else {
+            // Handle patient profile picture
             if (userData.patient.profilePicture) {
               const profileImageData = `data:${userData.patient.profilePicture.contentType};base64,${userData.patient.profilePicture.data}`;
               setProfileImage(profileImageData);
@@ -137,15 +166,15 @@ const Navbar = () => {
         setProfileImage(profilePlaceholder);
       }
     };
-
+  
     fetchProfileDetails();
-
+  
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
+  
   useEffect(() => {
     const loggedIn = sessionStorage.getItem('loggedIn') === 'true';
     const role = sessionStorage.getItem('role');
@@ -221,6 +250,14 @@ const Navbar = () => {
                 {userRole === 'doctor' && verified && (
                   <li className="nav-item active ml-md-4">
                     <Link className="nav-link dashboard-text-button" to="/SubscriptionPlans">Upgrade</Link>
+                  </li>
+                )}
+                
+                    {trialCountdown && (
+                  <li className="nav-item active ml-md-4">
+                    <div className="trial-countdown">
+                  {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s
+                    </div>
                   </li>
                 )}
 
