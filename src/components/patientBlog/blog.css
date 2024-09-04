@@ -9,6 +9,7 @@
   margin-right: 20px;
 }
 
+
 .featured-section {
   display: flex;
   margin-bottom: 40px;
@@ -112,7 +113,7 @@
   border-radius: 8px;
   width: 400px;
   height: 780px;
-  margin-left: -400px;
+  margin-left: 160px;
   position: relative;
   left: 10px;
   

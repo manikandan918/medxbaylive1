@@ -21,7 +21,7 @@ const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
   const [isVerified, setIsVerified] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [subscriptionType, setSubscriptionType] = useState('Free'); // Default to 'Free'
+  const [subscriptionType, setSubscriptionType] = useState('Free'); 
   const [isTrialExpired, setIsTrialExpired] = useState(false); 
   useEffect(() => {
     const handleResize = () => {
@@ -43,6 +43,7 @@ const Sidebar = () => {
         { withCredentials: true }
       );
       const doctorData = response.data;
+  
 
       if (doctorData.doctor.verified === 'Verified') {
         setIsVerified(true);
@@ -51,22 +52,26 @@ const Sidebar = () => {
         setIsVerified(false);
         setIsModalOpen(true); 
       }
-
+  
+      const isSubscribed = doctorData.doctor.subscriptionType !== 'Free';
       setSubscriptionType(doctorData.doctor.subscriptionType || 'Free'); 
+
       const currentDate = new Date();
       const trialEndDate = new Date(doctorData.doctor.trialEndDate);
-      if (currentDate > trialEndDate) {
+      const trialExpired = currentDate > trialEndDate;
+  
+      if (isSubscribed || !trialExpired) {
+        setIsTrialExpired(false);
+      } else {
         setIsTrialExpired(true);
         setIsModalOpen(true);
-      } else {
-        setIsTrialExpired(false);
       }
-
-
+  
     } catch (error) {
-    
+      console.error('Error fetching doctor details:', error);
     }
   };
+  
 
   const navigate = useNavigate();
   const handleLogout = () => {

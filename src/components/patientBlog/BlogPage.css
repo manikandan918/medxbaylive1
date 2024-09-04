@@ -15,11 +15,12 @@
 
 .blog-sidebar {
     width: 37%;
-    height: 800px;
+    height: 900px;
     background-color: #ffff;
     box-shadow: 4px 5px 5px 3px  gainsboro;
     padding: 20px;
     border-radius: 8px;
+    overflow-y: auto ;
 }
 
 .blog-title {

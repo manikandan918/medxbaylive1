@@ -353,9 +353,9 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
             </p>
           </div>
           <img src={curvedesign} alt="meds" className="curvedesign" />
-          <p className="running-text">
+          <div className="running-text">
             <span ref={typedElementTwo}></span>
-          </p>
+          </div>
       
         </div>
         {isLoading ? (
