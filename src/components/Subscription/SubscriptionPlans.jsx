@@ -205,8 +205,8 @@ const SubscriptionPlans = () => {
 
   return (
     <div className="subscription-plans">
-      <h2 className="title">Subscription Plans</h2>
-      <p className="subtitle">Choose the best plan for you</p>
+      <h2 className="title">Choose the best plan for you</h2>
+      {/* <p className="subtitle">Choose the best plan for you</p> */}
       <div className="toggle-buttons">
         <button
           className={`toggle-btn ${selectedPeriod === "Monthly" ? "selected" : ""}`}

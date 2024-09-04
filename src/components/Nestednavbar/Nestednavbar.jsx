@@ -48,8 +48,15 @@ const Nestednavbar = () => {
     populateWhereOptions();
   }, []);
 
+  useEffect(()=>{
+    if(what != ''|| what != ''){
+     searchDoctors();
+    }  
+ 
+   },[what,where])
+
   const searchDoctors = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/auth/search-doctors?what=${what}&where=${where}`, { withCredentials: true });
       const doctors = response.data;

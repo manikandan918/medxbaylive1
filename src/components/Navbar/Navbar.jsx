@@ -144,13 +144,12 @@ const Navbar = () => {
                 }
               };
   
-              // Initial countdown calculation and interval setup
               calculateCountdown();
               const intervalId = setInterval(calculateCountdown, 1000);
               return () => clearInterval(intervalId);
             }
           } else {
-            // Handle patient profile picture
+      
             if (userData.patient.profilePicture) {
               const profileImageData = `data:${userData.patient.profilePicture.contentType};base64,${userData.patient.profilePicture.data}`;
               setProfileImage(profileImageData);
