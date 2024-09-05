@@ -27,6 +27,7 @@ import  BlogPage from './components/patientBlog/BlogPage';
 import Nestednavbar from './components/Nestednavbar2/Nestednavbar';
 import SubscriptionPlans from './components/Subscription/SubscriptionPlans';
 import { SearchProvider } from './components/context/context';
+import Message from './components/Subscription/Message';
 
 function App() {
   useEffect(() => {
@@ -49,6 +50,7 @@ function App() {
           <Route path="/blogs" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/>
           <Route path="/blogPost/:id" element={[<Nestednavbar/>,<BlogPage />,<Footer/>]}/>          <Route path="/edit/profile/doctor" element={[<Navbar/>,<DoctorPopUp />,<Footer/>]}  />
           <Route path="/SubscriptionPlans" element={[<Navbar/>,<SubscriptionPlans />,<Footer/>]}  />
+          <Route path="/Message" element={[<Navbar/>,<Message />,<Footer/>]}  />
 
         </Routes>
       </Router>
