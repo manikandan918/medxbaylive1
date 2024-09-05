@@ -50,16 +50,16 @@ const Notification = () => {
         {notifications.map(notification => (
           <div key={notification._id} className="notification">
             <img src={notification.senderProfilePic || 'default-image-url'} alt="Profile" />
-            <div className="details">
+            <div className="details mt-3">
               <h2>{notification.senderName}</h2>
               <p>{notification.specialization}</p>
               <p>{notification.message}</p>
             </div>
-            <div className="status">
+            <div className="status mt-4 p-2">
               <span className="time">{notification.timeAgo}</span>
               <p style={{ color: notification.statusColor }}>{notification.status}</p>
             </div>
-            <div className="buttons">
+            <div className="buttons mt-4">
               {!notification.read && (
                 <button className='btn-primary' onClick={() => handleMarkAsRead(notification._id)}>Mark as Read</button>
               )}

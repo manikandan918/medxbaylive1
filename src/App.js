@@ -28,6 +28,9 @@ import Nestednavbar from './components/Nestednavbar2/Nestednavbar';
 import SubscriptionPlans from './components/Subscription/SubscriptionPlans';
 import { SearchProvider } from './components/context/context';
 import Message from './components/Subscription/Message';
+import FaqSection from './components/Footerpage/FaqSection';
+import About from './components/Footerpage/About';
+import TermsAndConditions from './components/Footerpage/TermsAndConditions';
 
 function App() {
   useEffect(() => {
@@ -51,6 +54,9 @@ function App() {
           <Route path="/blogPost/:id" element={[<Nestednavbar/>,<BlogPage />,<Footer/>]}/>          <Route path="/edit/profile/doctor" element={[<Navbar/>,<DoctorPopUp />,<Footer/>]}  />
           <Route path="/SubscriptionPlans" element={[<Navbar/>,<SubscriptionPlans />,<Footer/>]}  />
           <Route path="/Message" element={[<Navbar/>,<Message />,<Footer/>]}  />
+          <Route path="/faq/section" element={[<Navbar/>,<FaqSection />,<Footer/>]} />
+          <Route path="/about/section" element={[<Navbar/>,<About />,<Footer/>]} />
+          <Route path="/terms" element={[<Navbar/>,<TermsAndConditions />,<Footer/>]} />
 
         </Routes>
       </Router>

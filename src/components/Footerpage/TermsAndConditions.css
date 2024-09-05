@@ -1,0 +1,85 @@
+.terms-container {
+    width: 95%;
+    padding: 30px !important;
+    margin: 0 auto; /* Center the container */
+    background: linear-gradient(to bottom, #F2F6FF 12%, #FFFFFF ); /* Gradient background with a sharp transition */
+    text-align: justify; /* Justify text within the container */
+}
+
+.terms-header {
+    padding: 60px;
+    border-radius: 10px;
+    display: flex; /* Use flexbox to align items horizontally */
+    align-items: flex-start; /* Align items to the start of the cross-axis */
+    justify-content: space-between; /* Space between content and image */
+    text-align: left; /* Align text in the header content to the left */
+}
+
+.header-content {
+    max-width: 60%; /* Adjust width as needed */
+}
+
+.header-content h1 {
+    font-size: 32px;
+    color: #272848;
+    margin: 0;
+}
+
+.terms-image {
+    max-width: 40%; /* Adjust width as needed */
+}
+
+.terms-image img {
+    width: 80%; /* Ensure the image fills its container */
+    border-radius: 10px;
+}
+
+.last-updated {
+    background-color: #FF5A47;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 20px 0;
+    text-align: left; /* Align text in the last updated section to the left */
+}
+
+.terms-header p {
+    font-size: 18px;
+    color: #545454;
+    margin-top: 20px; /* Adjust spacing as needed */
+    text-align: justify; /* Justify text in the header paragraph */
+}
+
+.terms-content {
+    padding: 60px;
+    margin-top: -40px;
+    text-align: justify; /* Justify text within the content section */
+}
+
+.terms-left {
+    width: 100%;
+    text-align: justify; /* Justify text in the left section */
+}
+
+.terms-section h2 {
+    font-size: 20px;
+    color: #272848;
+    margin-bottom: 10px;
+    text-align: left; /* Align section headings to the left */
+    padding-bottom: 20px;
+}
+
+.terms-section p {
+    font-size: 16px;
+    color: #272848;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: justify; /* Justify text in section paragraphs */
+    padding-bottom: 20px;
+}
+
+.last-updatedpara {
+    max-width: 600px;
+    text-align: justify; /* Justify text in the last updated paragraph */
+}

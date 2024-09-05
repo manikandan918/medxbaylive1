@@ -3,6 +3,7 @@ import { FaFacebookF, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { RiSendPlaneFill } from "react-icons/ri";
 import brand from '../Assets/medbrand.png';
 import './footerrs.css';
+import { Link } from "react-router-dom";
 
 import { useNavigate } from 'react-router-dom';
 const Footer = () => {
@@ -41,8 +42,8 @@ const Footer = () => {
             <ul>
             <li onClick={handleNavigation} style={{ cursor: 'pointer' }}>Home Page</li>
 
-              <li>About Us</li>
-              <li>FAQs</li>
+             <Link to="/about/section"><li>About Us</li></Link> 
+            <Link to="/faq/section"> <li>FAQs</li></Link> 
               <li>Contact</li>
             </ul>
           </div>
@@ -50,7 +51,7 @@ const Footer = () => {
             <h4>Legal</h4>
             <ul>
               <li>Privacy Policy</li>
-              <li>Terms of Service</li>
+            <Link to="/terms">  <li>Terms of Service</li></Link>
               <li>Documentation</li>
               <li>Site Map</li>
             </ul>

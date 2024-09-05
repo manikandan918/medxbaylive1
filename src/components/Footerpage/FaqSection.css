@@ -1,0 +1,63 @@
+.faq-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.fqa {
+  font-size: 36px;
+  color: #272848;
+}
+
+.faq-item {
+  padding: 15px 0;
+}
+
+.faq-question {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background-color: #F2F6FF;
+  border-radius: 5px; /* Optional: Rounded corners for a more polished look */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+.faq-question h2 {
+  font-size: 20px;
+  margin: 0;
+  color: #272848;
+  transition: color 0.3s ease; /* Ensure text color transition is smooth */
+}
+
+.faq-question span {
+  font-size: 1.5em;
+  color: #545454;
+  transition: color 0.3s ease; /* Ensure span color transition is smooth */
+}
+
+.faq-answer {
+  margin-top: 15px;
+  font-size: 1em;
+  line-height: 1.6;
+  color: #333;
+  text-align: left;
+  padding-left: 20px; /* Aligns the answer with the question */
+}
+
+.faq-item:first-of-type .faq-answer {
+  margin-top: 15px;
+  padding: 0 10px;
+}
+
+.faq-item.open .faq-question {
+  background-color: #0167FF; /* Background color when the item is open */
+  color: #fff; /* Text color when the item is open */
+}
+
+.faq-item.open .faq-question h2,
+.faq-item.open .faq-question span {
+  color: #fff; /* Ensure both h2 and span text turn white when open */
+}
