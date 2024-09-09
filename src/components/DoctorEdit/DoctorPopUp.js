@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LocationPicker from "./LocationPicker";
 import { useMapEvents } from 'react-leaflet';
-
+import { useNavigate } from 'react-router-dom';
 const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
   useEffect(() => {
     import("../DoctorEdit/DoctorPopUp.css");
@@ -18,7 +18,8 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
   const [loading, setLoading] = useState(false); 
   const [selectedLocation, setSelectedLocation] = useState({ lat: "", lng: "" });
   const [modalShow, setModalShow] = useState(false);
-
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     name: "",
     title: "",
@@ -51,27 +52,43 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
       businessProof: { data: null, contentType: "" },
     },
   });
+  const [errors, setErrors] = useState({
+    name: "",
+        name: "",
+    title: "",
+    aboutMe: "",
+    dateOfBirth: "",
+    email: "",
+    gender: "",
+    country: "",
+    state: "",
+    cities: "",
+    availability: "",
+    consultation: "",
+    speciality: "",
+    conditions: [""],
+    languages: [""],
+    facebook: "",
+    twitter: "",
+    linkedin: "",
+    instagram: "",
+    doctorFee: "",
+    hospitals: [
+      { name: "", street: "", city: "", state: "", country: "", zip: "", lat: "", lng: "" },
+    ],
+    insurances: [""],
+    awards: [""],
+    profilePicture: null,
+    documents: {
+      licenseProof: { data: null, contentType: "" },
+      certificationProof: { data: null, contentType: "" },
+      businessProof: { data: null, contentType: "" },
+    },
+  });
+  
   const [profilePicturePreview, setProfilePicturePreview] = useState(null);
   const [allInsurances, setAllInsurances] = useState([]);
 
-  const handleChange = (e, index, field, nestedField) => {
-    const newValue = e.target.value;
-    setFormData((prevData) => {
-      const newData = { ...prevData };
-      if (nestedField) {
-        newData[field] = newData[field].map((item, i) =>
-          i === index ? { ...item, [nestedField]: newValue } : item
-        );
-      } else if (Array.isArray(newData[field])) {
-        newData[field] = newData[field].map((item, i) =>
-          i === index ? newValue : item
-        );
-      } else {
-        newData[e.target.name] = newValue;
-      }
-      return newData;
-    });
-  };
 
   
 
@@ -255,11 +272,102 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
     return null;
   };
 
+
+  const handleChange = (e, index, field, nestedField) => {
+    const newValue = e.target.value;
+    const name = e.target.name;
+  
+    setFormData((prevData) => {
+      const newData = { ...prevData };
+  
+      if (nestedField) {
+        newData[field] = newData[field].map((item, i) =>
+          i === index ? { ...item, [nestedField]: newValue } : item
+        );
+      } else if (Array.isArray(newData[field])) {
+        newData[field] = newData[field].map((item, i) =>
+          i === index ? newValue : item
+        );
+      } else {
+        newData[name] = newValue;
+      }
+  
+      if (name === "name") {
+        validateName(newValue);
+      } else if (name === "title") {
+        validateTitle(newValue);
+      } else if (name === "aboutMe") {
+        validateAboutMe(newValue);
+      }
+  
+      return newData;
+    });
+  };
+  
+  const validateName = (name) => {
+    let error = '';
+    
+    if (!name) {
+      error = 'Name is required';
+    } else if (name.length < 2) {
+      error = 'Name must be at least 2 characters';
+    } else if (name.length > 50) {
+      error = 'Name must not exceed 50 characters';
+    } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+      error = 'Name must contain only letters and spaces';
+    }
+
+    setErrors((prevErrors) => ({ ...prevErrors, name: error }));
+  };
+  const validateTitle = (title) => {
+    let error = '';
+  
+    if (!title) {
+      error = 'Title is required';
+    } else if (title.length < 2) {
+      error = 'Title must be at least 2 characters';
+    } else if (title.length > 100) {
+      error = 'Title must not exceed 100 characters';
+    } else if (!/^[a-zA-Z\s]+$/.test(title)) {
+      error = 'Title must contain only letters and spaces';
+    }
+  
+    setErrors((prevErrors) => ({ ...prevErrors, title: error }));
+    return error === '';  
+  };
+  const validateAboutMe = (aboutMe) => {
+    let error = '';
+  
+
+    if (!aboutMe) {
+      error = 'About section is required';
+    } else if (aboutMe.length < 10) {
+      error = 'About section must be at least 10 characters';
+    } else if (aboutMe.length > 500) {
+      error = 'About section must not exceed 500 characters';
+    }
+  
+    setErrors((prevErrors) => ({ ...prevErrors, aboutMe: error }));
+    return error === ''; 
+  };
+  
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const isNameValid = validateName(formData.name);
+    const isTitleValid = validateTitle(formData.title);
+    const isAboutMeValid = validateAboutMe(formData.aboutMe);
 
+    if (!isNameValid || !isTitleValid || !isAboutMeValid){
+      toast.info("Please fix the errors before submitting.",{
+        className: 'toast-center toast-success',
+        closeButton: true,
+        progressBar: true,      } );
+
+      setLoading(false);
+      return;
+    }
     const formPayload = { ...formData };
 
 
@@ -290,12 +398,15 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
                 headers: { "Content-Type": "application/json" },
             }
         );
-
+   
+   
+      
         toast.info('Profile updated successfully!', {
             className: 'toast-center toast-success',
             closeButton: true,
             progressBar: true,
         });
+        navigate('/Doctor/profile/Edit'); 
     } catch (error) {
         toast.info('Failed to update profile. Please try again.', {
             className: 'toast-center toast-error',
@@ -350,9 +461,12 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter your Name"
-                  className="form-control-custom"
-                />
-              </Form.Group>
+                  className={`form-control-custom ${errors.name ? 'is-invalid' : ''}`}
+                  />
+                  {errors.name && (
+                    <div className="invalid-feedback">{errors.name}</div>
+                  )}
+                </Form.Group>
             </div>
             <div className="col-md-6">
               <Form.Group className="mb-3" controlId="formTitle">
@@ -363,9 +477,12 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Enter the Title"
-                  className="form-control-custom"
-                />
-              </Form.Group>
+                  className={`form-control-custom ${errors.title ? 'is-invalid' : ''}`}
+                  />
+                  {errors.title && (
+                    <div className="invalid-feedback">{errors.title}</div>
+                  )}
+                </Form.Group>
             </div>
           </div>
           <div className="row mb-3">
@@ -378,9 +495,13 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
                   value={formData.aboutMe}
                   onChange={handleChange}
                   placeholder="Enter the About"
-                  className="form-control-custom"
-                />
-              </Form.Group>
+
+                  className={`form-control-custom ${errors.aboutMe ? 'is-invalid' : ''}`}
+                  />
+                  {errors.aboutMe && (
+                    <div className="invalid-feedback">{errors.aboutMe}</div>
+                  )}
+                </Form.Group>
             </div>
               <div className="col-md-6">
                 <Form.Group className="mb-3" controlId="formDob">
@@ -769,6 +890,7 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
         value={formData.hospitals.lat || ''}
         onChange={(e) => handleChange(e, 0, "hospitals", "lat")}
         placeholder="Latitude"
+        readOnly
         className="form-control-custom address-field"
       />
       <Form.Control
@@ -777,6 +899,7 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
         value={formData.hospitals.lng || ''}
         onChange={(e) => handleChange(e, 0, "hospitals", "lng")}
         placeholder="Longitude"
+        readOnly
         className="form-control-custom address-field"
       />
       <Button
@@ -854,6 +977,7 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
         value={hospital.lat}
         onChange={(e) => handleChange(e, index, "hospitals", "lat")}
         placeholder="Latitude"
+        readOnly
         className="form-control-custom address-field"
       />
       <Form.Control
@@ -862,6 +986,7 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
         value={hospital.lng}
         onChange={(e) => handleChange(e, index, "hospitals", "lng")}
         placeholder="Longitude"
+        readOnly
         className="form-control-custom address-field"
       />
       <Button

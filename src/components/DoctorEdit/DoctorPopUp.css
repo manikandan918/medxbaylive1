@@ -6,6 +6,10 @@
   height: auto;
   
   }
+  .invalid-feedback{
+    left: -37%;
+    position: relative;
+  }
   .btn-custom-edit {
     background-color: #007bff;
     color: #fff;
@@ -217,12 +221,14 @@ margin-top: -10px;
     cursor: pointer;
     position: relative;
     left: 2%;
+    background-color: transparent;
     
   }
   .custom-modal  .adjust-form-icon-two{
     width: 9%;
     border: 1px solid #FF7F50;
     cursor: pointer;
+    background-color: transparent;
   }
 
   .custom-modal  .adjust-form-icon-two-insurance{
@@ -230,6 +236,7 @@ margin-top: -10px;
     border: 1px solid #FF7F50;
     cursor: pointer;
     margin-left: 20px;
+    background-color: transparent;
   }
 
   .custom-modal  .adjust-form-icon-one-add{
@@ -237,6 +244,7 @@ margin-top: -10px;
     border: 1px solid #0167FF;
     cursor: pointer;
     position: relative;
+    background-color: transparent;
     /* left: 3%; */
     
   }
@@ -246,6 +254,7 @@ margin-top: -10px;
     cursor: pointer;
     /* left: 3.5%; */
     position: relative;
+    background-color: transparent;
   }
   .custom-modal  .adjust-form-icon-address-one{
     width: 5%;

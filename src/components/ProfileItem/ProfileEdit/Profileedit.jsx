@@ -15,14 +15,13 @@ const ProfileEdit = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
-  const [address, setaddress] = useState("");
+  const [address, setAddress] = useState("");
   const [dob, setDob] = useState(null);
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   const [insuranceProvider, setInsuranceProvider] = useState("");
   const [policyNumber, setPolicyNumber] = useState("");
-  
 
   const [isEditing, setIsEditing] = useState({
     profilePicture: false,
@@ -36,6 +35,19 @@ const ProfileEdit = () => {
     bloodGroup: false,
     insuranceProvider: false,
     policyNumber: false,
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    mobileNumber: "",
+    address: "",
+    dob: "",
+    age: "",
+    gender: "",
+    bloodGroup: "",
+    insuranceProvider: "",
+    policyNumber: "",
   });
 
   const nameRef = useRef(null);
@@ -67,7 +79,7 @@ const ProfileEdit = () => {
         setName(patient.name || "");
         setEmail(patient.email || "");
         setMobileNumber(patient.phoneNumber || "");
-        setaddress(patient.address || "");
+        setAddress(patient.address || "");
         setDob(patient.dateOfBirth ? formatDate(patient.dateOfBirth) : "");
         setAge(patient.age || "");
         setGender(patient.gender || "");
@@ -100,7 +112,6 @@ const ProfileEdit = () => {
     setAge(calculateAge(dob));
   }, [dob]);
 
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -118,27 +129,117 @@ const ProfileEdit = () => {
       [field]: true,
     }));
   
-    // Ensure ref is current and focusable before calling focus()
     if (ref.current && typeof ref.current.focus === 'function') {
       ref.current.focus();
     }
+  };
+
+  const validateField = (field, value) => {
+    switch (field) {
+      case 'name':
+        const nameRegex = /^[^\d\s!@#$%^&*()_+=\[\]{};:'",.<>/?\\|`~\d][A-Za-z0-9\s]{2,49}[^\d\s!@#$%^&*()_+=\[\]{};:'",.<>/?\\|`~\d]$/;
+        if (!value) return "Name is required";
+        if (!nameRegex.test(value)) {
+          if (/^\s/.test(value)) return "Name should not start with a space";
+          if (/^[\d!@#$%^&*()_+=\[\]{};:'",.<>/?\\|`~]/.test(value)) return "Name should not start with a number or special character";
+          if (/\s{3,}/.test(value)) return "Name should not have more than 2 consecutive spaces";
+          if (/[^\w\s]/.test(value)) return "Name should only contain letters, numbers, and spaces";
+          if (value.length < 3 || value.length > 50) return "Name must be between 3 and 50 characters long";
+        }
+        return '';
+      case 'email':
+        if (!value) return "Email is required";
+        if (!/\S+@\S+\.\S+/.test(value)) return "Valid email is required";
+        return '';
+      case 'mobileNumber':
+        if (!value) return "Mobile number is required";
+        return '';
+      case 'address':
+        if (!value) return "Address is required";
+        return '';
+      case 'dob':
+        if (!value) return "Date of birth is required";
+        return '';
+      case 'age':
+        if (!value || isNaN(value) || value <= 0) return "Valid age is required";
+        return '';
+      case 'gender':
+        if (!value) return "Gender is required";
+        return '';
+      case 'bloodGroup':
+        if (!value) return "Blood group is required";
+        return '';
+      case 'insuranceProvider':
+        if (!value) return "Insurance provider is required";
+        return '';
+      case 'policyNumber':
+        if (!value) return "Policy number is required";
+        return '';
+      default:
+        return '';
+    }
+  };
+  const handleFieldChange = (field, value) => {
+    switch (field) {
+      case 'name':
+        setName(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+      case 'mobileNumber':
+        setMobileNumber(value);
+        break;
+      case 'address':
+        setAddress(value);
+        break;
+      case 'dob':
+        setDob(value);
+        break;
+      case 'age':
+        setAge(value);
+        break;
+      case 'gender':
+        setGender(value);
+        break;
+      case 'bloodGroup':
+        setBloodGroup(value);
+        break;
+      case 'insuranceProvider':
+        setInsuranceProvider(value);
+        break;
+      case 'policyNumber':
+        setPolicyNumber(value);
+        break;
+      default:
+        break;
+    }
+  };
+  
+  const handleBlur = (field) => {
+    const error = validateField(field, eval(field));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [field]: error,
+    }));
   };
   
 
   const handleSave = async (event) => {
     event.preventDefault();
   
-    // Validate date
+    if (!validateField()) return;
+
     let formattedDob = '';
     if (dob) {
       const dateObj = new Date(dob);
       if (!isNaN(dateObj.getTime())) {
-        formattedDob = dateObj.toISOString().split('T')[0]; // Convert back to YYYY-MM-DD
+        formattedDob = dateObj.toISOString().split('T')[0];
       } else {
         console.error('Invalid date:', dob);
       }
     }
-  
+
     const formData = new FormData();
   
     if (profileImage && profileImage.startsWith('data:image')) {
@@ -166,22 +267,20 @@ const ProfileEdit = () => {
       });
 
       toast.info("Profile updated successfully!", {
- 
         closeButton: true,
         progressBar: true,
         className: 'toast-center toast-success',
       });
     } catch (error) {
       console.error("There was an error updating the profile!", error);
-      toast.info("Error updating profile. Please try again.",{
-
+      toast.info("Error updating profile. Please try again.", {
         closeButton: true,
         progressBar: true,
-        className: 'toast-center toast-success',
+        className: 'toast-center toast-error',
       });
     }
   };
-  
+
 
   return (
     <>      
@@ -213,104 +312,98 @@ const ProfileEdit = () => {
           <div className="profile-group">
             <label className="profile-label" htmlFor="name">Name</label>
             <input
-              className="profile-input"
-              type="text"
-              id="name"
-              value={name}
-              placeholder="Your name"
-              onChange={(e) => setName(e.target.value)}
-              readOnly={!isEditing.name}
-              ref={nameRef}
-              autoComplete="name"
-            />
+  className="profile-input"
+  type="text"
+  id="name"
+  value={name}
+  placeholder="Your name"
+  onChange={(e) => handleFieldChange('name', e.target.value)}
+  onBlur={() => handleBlur('name')}
+  readOnly={!isEditing.name}
+  ref={nameRef}
+  autoComplete="name"
+/>
             <FiEdit3
               className="edit-icon"
               size="1rem"
               onClick={() => handleEditClick("name", nameRef)}
             />
+
           </div>
+          {errors.name && <div className="error-message">{errors.name}</div>}
+
           <div className="profile-group">
             <label className="profile-label" htmlFor="email">Email</label>
             <input
-              className="profile-input"
-              type="email"
-              id="email"
-              value={email}
-              placeholder="Your email"
-              onChange={(e) => setEmail(e.target.value)}
-              readOnly={!isEditing.email}
-              ref={emailRef}
-              autoComplete="email"
-            />
-            {/* <FiEdit3
-              className="edit-icon"
-              size="1rem"
-              onClick={() => handleEditClick("email", emailRef)}
-            /> */}
+  className="profile-input"
+  type="email"
+  id="email"
+  value={email}
+  placeholder="Your email"
+  onChange={(e) => handleFieldChange('email', e.target.value)}
+  onBlur={() => handleBlur('email')}
+  readOnly={!isEditing.email}
+  ref={emailRef}
+  autoComplete="email"
+/>
+
           </div>
+          {errors.email && <div className="error-message">{errors.email}</div>}
+
           <div className="profile-group">
             <label className="profile-label" htmlFor="mobileNumber">Mobile Number</label>
             <PhoneInput
-              country={'us'} // You can set the default country or make it dynamic based on user data
-              value={mobileNumber}
-              onChange={(value) => setMobileNumber(value)}
-              inputProps={{
-                id: 'mobileNumber',
-                ref: mobileNumberRef,
-                readOnly: !isEditing.mobileNumber,
-                className: 'react-PH-input',
-              }}
-            />
-            <FiEdit3
-              className="edit-icon"
-              size="1rem"
-              onClick={() => handleEditClick("mobileNumber", mobileNumberRef)}
-            />
-          </div>
+  country={'us'}
+  value={mobileNumber}
+  onChange={(value) => handleFieldChange('mobileNumber', value)}
+  onBlur={() => handleBlur('mobileNumber')}
+  inputProps={{
+    id: 'mobileNumber',
+    ref: mobileNumberRef,
+    readOnly: !isEditing.mobileNumber,
+    className: 'react-PH-input',
+  }}
+/>
 
-          {/* <div className="profile-group">
-            <label className="profile-label" htmlFor="mobileNumber">Mobile Number</label>
-            <input
-              className="profile-input"
-              type="tel"
-              id="mobileNumber"
-              value={mobileNumber}
-              placeholder="Add number"
-              onChange={(e) => setMobileNumber(e.target.value)}
-              readOnly={!isEditing.mobileNumber}
-              ref={mobileNumberRef}
-              autoComplete="tel"
-            />
+
             <FiEdit3
               className="edit-icon"
               size="1rem"
               onClick={() => handleEditClick("mobileNumber", mobileNumberRef)}
             />
-          </div> */}
+
+          </div>
+          {errors.mobileNumber && <div className="error-message">{errors.mobileNumber}</div>}
+
           <div className="profile-group">
             <label className="profile-label" htmlFor="location">Location</label>
             <input
-              className="profile-input"
-              type="text"
-              id="address"
-              value={address}
-              onChange={(e) => setaddress(e.target.value)}
-              readOnly={!isEditing.address}
-              ref={addressRef}
-              autoComplete="address-level1"
-            />
+  className="profile-input"
+  type="text"
+  id="address"
+  value={address}
+  onChange={(e) => handleFieldChange('address', e.target.value)}
+  onBlur={() => handleBlur('address')}
+  readOnly={!isEditing.address}
+  ref={addressRef}
+  autoComplete="address-level1"
+/>
             <FiEdit3
               className="edit-icon"
               size="1rem"
               onClick={() => handleEditClick("address", addressRef)}
             />
+
           </div>
+          {errors.address && <div className="error-message">{errors.address}</div>}
+
           <div className="profile-group">
   <label className="profile-label" htmlFor="dob">DOB</label>
   <DatePicker
   value={dob}
   selected={dob}
-  onChange={(date) => setDob(date)}
+  onChange={(date) => handleFieldChange('dob', date)}
+  onBlur={() => handleBlur('dob')}
   dateFormat="yyyy-MM-dd"
   className="profile-input"
   placeholderText="Select date of birth"
@@ -321,141 +414,145 @@ const ProfileEdit = () => {
   popperPlacement="bottom-start"
   showYearDropdown
   showMonthDropdown
-  dropdownMode="select" // Optional: To use select instead of scrolling for month and year
+  dropdownMode="select"
 />
   <FiEdit3
     className="edit-icon"
     size="1rem"
     onClick={() => handleEditClick("dob", dobRef)}
   />
+
 </div>
+{errors.dob && <div className="error-message">{errors.dob}</div>}
+
 
 
           <div className="profile-group">
             <label className="profile-label" htmlFor="age">Age</label>
             <input
-              className="profile-input"
-              type="number"
-              id="age"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              readOnly={!isEditing.age}
-              ref={ageRef}
-              autoComplete="bday"
-              placeholder="Age"
-            />
-            {/* <FiEdit3
-              className="edit-icon"
-              size="1rem"
-              onClick={() => handleEditClick("age", ageRef)}
-            /> */}
+  className="profile-input"
+  type="number"
+  id="age"
+  value={age}
+  onChange={(e) => handleFieldChange('age', e.target.value)}
+  onBlur={() => handleBlur('age')}
+  readOnly={!isEditing.age}
+  ref={ageRef}
+  autoComplete="bday"
+  placeholder="Age"
+/>
+
+
           </div>
+          {errors.age && <div className="error-message">{errors.age}</div>}
+
           <div className="profile-group">
             <label className="profile-label" htmlFor="gender">Gender</label>
             <select
-              className="profile-input"
-              id="gender"
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-              disabled={!isEditing.gender}
-              ref={genderRef}
-            >
-              <option value="" disabled>Select gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
+  className="profile-input"
+  id="gender"
+  value={gender}
+  onChange={(e) => handleFieldChange('gender', e.target.value)}
+  onBlur={() => handleBlur('gender')}
+  disabled={!isEditing.gender}
+  ref={genderRef}
+>
+  <option value="" disabled>Select gender</option>
+  <option value="Male">Male</option>
+  <option value="Female">Female</option>
+  <option value="Other">Other</option>
+</select>
+
             <FiEdit3
               className="edit-icon"
               size="1rem"
               onClick={() => handleEditClick("gender", genderRef)}
             />
+
           </div>
-          {/* <div className="profile-group">
-            <label className="profile-label" htmlFor="bloodGroup">Blood Group</label>
-            <input
-              className="profile-input"
-              type="text"
-              id="bloodGroup"
-              value={bloodGroup}
-              placeholder="Blood Group"
-              onChange={(e) => setBloodGroup(e.target.value)}
-              readOnly={!isEditing.bloodGroup}
-              ref={bloodGroupRef}
-              autoComplete="off"
-            />
-            <FiEdit3
-              className="edit-icon"
-              size="1rem"
-              onClick={() => handleEditClick("bloodGroup", bloodGroupRef)}
-            />
-          </div> */}
+          {errors.gender && <div className="error-message">{errors.gender}</div>}
+
+     
           <div className="profile-group">
             <label className="profile-label" htmlFor="bloodGroup">Blood Group</label>
             <select
-              className="profile-input"
-              id="bloodGroup"
-              value={bloodGroup}
-              onChange={(e) => setBloodGroup(e.target.value)}
-              readOnly={!isEditing.bloodGroup}
-              ref={bloodGroupRef}
-              autoComplete="off"
-              placeholder="Blood Group"
-            >
-              <option value="" disabled>Select Blood Group</option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
+  className="profile-input"
+  id="bloodGroup"
+  value={bloodGroup}
+  onChange={(e) => handleFieldChange('bloodGroup', e.target.value)}
+  onBlur={() => handleBlur('bloodGroup')}
+  readOnly={!isEditing.bloodGroup}
+  ref={bloodGroupRef}
+  autoComplete="off"
+>
+  <option value="" disabled>Select Blood Group</option>
+  <option value="A+">A+</option>
+  <option value="A-">A-</option>
+  <option value="B+">B+</option>
+  <option value="B-">B-</option>
+  <option value="AB+">AB+</option>
+  <option value="AB-">AB-</option>
+  <option value="O+">O+</option>
+  <option value="O-">O-</option>
+</select>
             <FiEdit3
               className="edit-icon"
               size="1rem"
               onClick={() => handleEditClick("bloodGroup", bloodGroupRef)}
             />
+
           </div>
+          {errors.bloodGroup && <div className="error-message">{errors.bloodGroup}</div>}
+
           <div className="profile-group">
             <label className="profile-label" htmlFor="insuranceProvider">Insurance Provider</label>
             <input
-              className="profile-input"
-              type="text"
-              id="insuranceProvider"
-              value={insuranceProvider}
-              placeholder="Insurance Provider"
-              onChange={(e) => setInsuranceProvider(e.target.value)}
-              readOnly={!isEditing.insuranceProvider}
-              ref={insuranceProviderRef}
-              autoComplete="off"
-            />
+  className="profile-input"
+  type="text"
+  id="insuranceProvider"
+  value={insuranceProvider}
+  placeholder="Insurance Provider"
+  onChange={(e) => handleFieldChange('insuranceProvider', e.target.value)}
+  onBlur={() => handleBlur('insuranceProvider')}
+  readOnly={!isEditing.insuranceProvider}
+  ref={insuranceProviderRef}
+  autoComplete="off"
+/>
+
             <FiEdit3
               className="edit-icon"
               size="1rem"
               onClick={() => handleEditClick("insuranceProvider", insuranceProviderRef)}
             />
+
           </div>
+          {errors.insuranceProvider && <div className="error-message">{errors.insuranceProvider}</div>}
+
           <div className="profile-group">
             <label className="profile-label" htmlFor="policyNumber">Policy Number</label>
-            <input
-              className="profile-input"
-              type="text"
-              id="policyNumber"
-              value={policyNumber}
-              placeholder="Change your Policy Number"
-              onChange={(e) => setPolicyNumber(e.target.value)}
-              readOnly={!isEditing.policyNumber}
-              ref={policyNumberRef}
-              autoComplete="current-policyNumber"
-            />
+           
+<input
+  className="profile-input"
+  type="text"
+  id="policyNumber"
+  value={policyNumber}
+  placeholder="Change your Policy Number"
+  onChange={(e) => handleFieldChange('policyNumber', e.target.value)}
+  onBlur={() => handleBlur('policyNumber')}
+  readOnly={!isEditing.policyNumber}
+  ref={policyNumberRef}
+  autoComplete="current-policyNumber"
+/>
+
             <FiEdit3
               className="edit-icon"
               size="1rem"
               onClick={() => handleEditClick("policyNumber", policyNumberRef)}
             />
+
           </div>
+          {errors.policyNumber && <div className="error-message">{errors.policyNumber}</div>}
+
         </div>
         <button className="savebutton" type="submit">
           <span className="savebutton-text">Save Changes</span>

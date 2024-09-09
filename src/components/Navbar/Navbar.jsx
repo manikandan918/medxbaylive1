@@ -254,8 +254,12 @@ const Navbar = () => {
                 
                     {trialCountdown && (
                   <li className="nav-item active ml-md-4">
+                    <div className='row'>
+                    <p className='free-trial-doctor'> Free Trial period: </p>
                     <div className="trial-countdown">
-                  {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s
+         
+                     {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s
+                    </div>
                     </div>
                   </li>
                 )}

@@ -1,35 +1,36 @@
-.about-us-container {
-    padding: 60px;
+.about-us-container11 {
+    padding: 70px;
     font-family: Arial, sans-serif;
     color: #333;
+    margin-bottom: 30px;
 }
 
-.top-section {
+.top-section11 {
     display: flex;
     margin-bottom: 40px;
 }
 
-.image-group {
+.image-group11 {
     flex: 1;
     display: flex;
     flex-direction: column;
     margin-right: 20px;
 }
 
-.top-image {
+.top-image11 {
     position: relative;
     margin-bottom: 20px;
 }
 
-.top-image img {
+.top-image11 img {
     width: 100%;
     border-radius: 8px;
 }
 
-.image-overlay {
+.image-overlay11 {
     position: absolute;
     top: 50px;
-    left:280px;
+    left:290px;
     background-color: #007bff;
     color: white;
     padding: 10px;
@@ -37,75 +38,79 @@
     font-weight: bold;
     font-size: 0.9em;
     width: 266px;
-    height: 60px;
+    height: 70px;
     text-align: center;
    
-    padding-top: 20px;
+   
 }
 
-.bottom-images {
+.bottom-images11 {
     display: flex;
     gap: 10px;
 }
 
-.bottom-images img {
+.bottom-images11 img {
     width: 48%;
     border-radius: 8px;
 }
 
-.content-section {
+.content-section11 {
     text-align: left;
     flex: 2;
     padding: 20px;
     padding-left: 30px;
     text-align: justify; /* Justify text in the last updated paragraph */
+   margin-top: 20px;
 }
 
-.content-section h2 {
+.content-section11 h2 {
     border-left: 4px solid #FF7F50;
-
+padding-left: 10px;
     font-size: 1.8em;
     margin-bottom: 20px;
     color: #333548;
 }
 
-.content-section p {
+.content-section11 p {
     font-size: 14px;
     margin-bottom: 20px;
     line-height: 1.6;
 }
 
-.bottom-section {
+.bottom-section11 {
     display: flex;
     align-items: center;
     
    
     padding: 20px;
     border-radius: 8px;
+    margin-top: 50px;
 }
 
-.mission-content {
+.mission-content11 {
     flex: 2;
     padding-right: 20px;
     text-align: left;
     text-align: justify;
+    margin-top: 70px !important;
 }
 
-.mission-content h2 {
+.mission-content11 h2 {
         border-left: 4px solid #FF7F50;
+        padding-left: 10px;
 
     font-size: 1.8em;
     margin-bottom: 20px;
     color: #333548;
 }
 
-.mission-content p {
+.mission-content11 p {
     font-size: 16px;
     margin-bottom: 20px;
     line-height: 1.6;
 }
 
-.goals {
+.goals11 {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Creates two equal-width columns */
     gap: 20px;
@@ -113,58 +118,67 @@
 }
 
 
-.goal {
+.goal11 {
     font-size: 12px;
     width: 300px;
     
-    background-color: #fff;
+
     padding: 5px;
     /* border-left: 4px solid #007bff; */
     border-radius: 4px;
     box-shadow: 1px  1px 1px 1px #c1d2ec;
 }
 
-.mission-image {
+.mission-image11 {
     flex: 1;
 }
 
-.mission-image img {
-    width: 641px;
+.mission-image11 img {
+    width: 601px;
     height: 434px;
     border-radius: 8px;
     margin-left:100px ;
+    margin-top: -30px;
 }
-.top-image1{
+.top-image111{
     width:276px !important;
     height:303px !important;
-    margin-left: -300px;
+    object-fit: cover;
+   
 }
 
-.top-image2{
+.top-image211{
     width:
     276px !important;
     height:218px !important;
+    object-fit: cover;
+
   
   
 }
 
 
-.top-image3{
+.top-image311{
     width:276px!important;
     height:318px !important;
     margin-top: -170px;
+    object-fit: cover;
+
+
 }
 
-.cards-section {
+.cards-section11 {
     padding: 50px 0;
     text-align: center;
+    margin-top: 50px !important;
 }
 
-.cards-section h1 {
+.cards-section11 h1 {
    
     font-size: 2.5rem;
     margin-bottom: 20px;
     color: #272848;
+    margin-top: 50px !important;
 
 }
 /* .borderlefts{
@@ -172,19 +186,19 @@
 
 } */
 
-.cards-section p {
+.cards-section11 p {
     font-size: 1.2rem;
     margin-bottom: 40px;
     color: #555;
 }
 
-.cards-row {
+.cards-row11 {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
-.card {
+.card11 {
     background-color:#F2F6FF;
     padding: 20px;
     border-radius: 2px;
@@ -194,20 +208,20 @@
     text-align: left;
 }
 
-.card .icon {
+.card11 .icon {
     font-size: 2.5rem;
     color: #007bff;
     margin-bottom: 15px;
 }
 
-.card h3 {
+.card11 h3 {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 15px;
     color: #272848;
 }
 
-.card p {
+.card11 p {
     font-size: 14px;
     font-weight: 400;
     color: #666;
@@ -217,37 +231,38 @@
 
 
 
-.key-problems-section {
+.key-problems-section11 {
     display: flex;
     justify-content: space-between;
+    margin-top: 40px;
    
-    background-color: #fff;
 }
 
-.problems-column {
+.problems-column11 {
     flex: 1;
     padding: 0 20px;
 }
 
-.problems-column h2 {
+.problems-column11 h2 {
     font-size: 24px;
     margin-bottom: 40px;
     text-align: left;
     margin-bottom: 50px;
+    margin-top: 20px;
 }
 
-.problems-column ul {
+.problems-column11 ul {
     list-style-type: none;
     padding: 0;
 }
 
-.problems-column li {
+.problems-column11 li {
     display: flex;
     align-items: flex-start;
     margin-bottom: 20px;
 }
 
-.problem-number {
+.problem-number11 {
     background-color: #007bff;
     color: #fff;
     border-radius: 50%;
@@ -261,7 +276,7 @@
     margin-right: 15px;
 }
 
-.problem-details h3 {
+.problem-details11 h3 {
     font-size: 18px;
     margin: 0 0 5px;
     text-align: left;
@@ -269,7 +284,7 @@
     padding-bottom: 20px;
 }
 
-.problem-details p {
+.problem-details11 p {
     font-size: 14px;
     margin: 0;
     text-align: left;
@@ -279,17 +294,20 @@
    
 }
 
-.problem-numbers{
-    width: 500px;
+.problem-numbers11{
+    width: 530px;
     border-bottom:2px solid #6c757d;;
+    margin-left: -50px;
 }
 
-.key-prob{
+.key-prob11{
     text-align: left;
     border-left: 4px solid #FF7F50;
     color: #272848;
     font-size: 28px;
     font-weight: 600;
+    margin-top: 70px;
+   padding-left: 10px;
 }
 
 
@@ -297,23 +315,25 @@
 
 
 
-.regions-section {
+.regions-section11 {
     background-color: #F4F7FC;
    
     text-align: center;
-    /* background-image: url('/path-to-your-world-map-image.png'); */
+    /* background-image: url('/Frame.png'); */
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     max-width: 1500px;
     width: 1280px ;
-    margin-left: -50px;
+    margin-left: -60px;
     margin-top: 50px;
+    padding: 60px;
     
    
-}
+} image is in public folder
 
-.regions-content {
+
+.regions-content11 {
     max-width: 1500px;
     margin: 0 auto;
     position: relative;
@@ -321,7 +341,7 @@
     padding: 50px;
 }
 
-.regions-title {
+.regions-title11 {
     font-size: 2rem;
     font-weight: 600;
     color: #002060;
@@ -331,7 +351,7 @@
     padding-left: 20px;
 }
 
-.title-bar {
+.title-bar11 {
     width: 5px;
     height: 100%;
     background-color: #ff7b54;
@@ -340,13 +360,50 @@
     top: 0;
 }
 
-.regions-description {
+.regions-description11 {
     font-size: 1rem;
     color: #666;
     line-height: 1.6;
 }
 
-.tick-icon {
+.tick-icon11 {
     color: #ff7a59;
     font-size: 20px;
+}
+
+.card11 {
+   
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: border 0.3s ease;
+}
+
+
+
+.selected-card {
+    border-color: #007bff; /* Change border color when selected */
+}
+
+
+
+
+
+.card11 {
+    /* Default styles for the cards */
+    padding: 16px;
+    margin: 20px;margin-left: 50px;
+    border: 1px solid transparent; /* Default border (invisible) */
+    border-radius: 8px;
+    cursor: pointer; /* Indicate that the card is clickable */
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+.selected-card {
+    border: 2px solid #007bff; /* Border color for the selected card */
+    /* Adjust color and width as needed */
+}
+
+.cardse23{
+    margin-left: 430px;
+    margin-top: 50px;
 }

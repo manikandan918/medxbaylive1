@@ -18,7 +18,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css'; 
 const SignupCard = ({ show, handleClose,openLoginModal }) => {
   useEffect(() => {
     import('./signup.css');
@@ -223,7 +224,7 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
     }
 
     if (!/^[a-zA-Z ]+$/.test(trimmedValue)) {
-      setNameError('Name should only contain alphabets and spaces.');
+      setNameError('Name should only contain alphabets.');
       return false;
     }
 
@@ -309,6 +310,11 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
     setMobile(value);
     validateMobile(value);
   };
+  const handlePhoneChange = (value) => {
+    setMobile(value);
+    // Additional validation can be added here if needed
+  };
+
 
   const handlePasswordChange = (event) => {
     const { value } = event.target;
@@ -431,17 +437,26 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
             />
             <Form.Control.Feedback type="invalid">{emailError}</Form.Control.Feedback>
           </Form.Group>
+          
 
           <Form.Group className="mb-3" controlId="formMobile">
             <Form.Label>Mobile</Form.Label>
-            <Form.Control
+            <PhoneInput
+  country={'us'}             
+  value={mobile}          
+  onChange={handlePhoneChange}  
+  containerClass="form-control-custom-phone"  // Use containerClass instead of className for custom styling
+  className="form-control-custom-phone"      // Apply input-specific styles
+  placeholder="Enter your Mobile Number"
+/>
+            {/* <Form.Control
               type="text"
               placeholder="Enter your Mobile Number"
               className="form-control-custom"
               value={mobile}
               onChange={handleMobileChange}
               isInvalid={!!mobileError}
-            />
+            /> */}
             <Form.Control.Feedback type="invalid">{mobileError}</Form.Control.Feedback>
           </Form.Group>
 

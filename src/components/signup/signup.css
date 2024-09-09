@@ -168,6 +168,44 @@ left: 46%;
 .radio-buttons{
   margin-left: 37.5%;
 }
+.form-control-custom-phone  .selected-flag{
+  border: none !important;    
+  box-shadow: none !important;
+  background-color: transparent !important;
+
+}
+.form-control-custom-phone input {
+  border: none !important;    
+  box-shadow: none !important;
+  background-color: transparent !important;
+ top:-15px !important;
+}
+
+.form-control-custom-phone .flag-dropdown {
+  border: none !important;    
+  box-shadow: none !important; 
+  background-color: transparent !important; 
+}
+
+.custom-modal  .form-control-custom-phone{
+
+
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: none;
+  transition: border-color 0.3s ease;
+  font-family: 'Matter', sans-serif;
+  width: 25% !important;
+height: 50px !important;
+  margin-left: 37.5%;
+  border: 1px solid #272848
+}
+.custom-modal .form-control-custom-phone:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  font-family: 'Matter', sans-serif;
+
+}
 .custom-modal .form-control-custom {
   border-radius: 10px;
   padding: 1.5rem;

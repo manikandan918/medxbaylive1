@@ -20,6 +20,11 @@
 .toast-center .Toastify__toast-icon {
   color:#0067FF; 
 }
+.error-message {
+  color: red;
+  font-size: 14px; 
+
+}
 
 .userprofile-card {
   width: 100%;
