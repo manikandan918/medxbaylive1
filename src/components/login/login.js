@@ -42,35 +42,35 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
   const [passwordError, setPasswordError] = useState('');
   const login = async (e) => {
     e.preventDefault();
+    
     if (validateForm()) {
       setIsSubmitDisabled(true); 
+      
       try {
-        const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, { email, password }, { withCredentials: true });
+        const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, 
+          { email, password }, 
+          { withCredentials: true }
+        );
+        
         if (res.data.success) {
           const { user } = res.data;
           const { role, _id: userId, email: userEmail, subscriptionType, subscriptionVerification, trialEndDate } = user;
-  
-          const userSubscriptionType = subscriptionType || 'none';
-          const userSubscriptionVerification = subscriptionVerification || 'not verified';
-  
+          
           sessionStorage.setItem('userId', userId);
           sessionStorage.setItem('userEmail', userEmail);
           sessionStorage.setItem('role', role);
           sessionStorage.setItem('loggedIn', 'true');
-          sessionStorage.setItem('subscriptionType', userSubscriptionType);
-          sessionStorage.setItem('subscriptionVerification', userSubscriptionVerification);
-          if (trialEndDate) {
-            sessionStorage.setItem('trialEndDate', trialEndDate);
-        } else {
-            sessionStorage.setItem('trialEndDate', 'not set'); 
-        }
+          sessionStorage.setItem('subscriptionType', subscriptionType || 'none');
+          sessionStorage.setItem('subscriptionVerification', subscriptionVerification || 'not verified');
+          sessionStorage.setItem('trialEndDate', trialEndDate || 'not set');
+          
           toast.info("Login successful!", {
-            position: "top-center" ,
+            position: "top-center",
             closeButton: true,
             progressBar: true,
             className: 'toast-sign toast-success',
           });
-  
+          
           setTimeout(() => {
             switch (role) {
               case 'doctor':
@@ -86,28 +86,53 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
                 alert('Unexpected role.');
                 break;
             }
-  
-      
+            
             setEmail('');
             setPassword('');
             handleClose();
-          }, 1000); 
+          }, 1000);
+        }
+        
+      } catch (err) {
+
+        if (err.response && err.response.data && err.response.data.message) {
+          if (err.response.data.message === 'User does not exist') {
+            toast.info("User does not exist.", {
+              position: "top-center",
+              closeButton: true,
+              progressBar: true,
+              className: 'toast-sign toast-error',
+            });
+          } else if (err.response.data.message === 'Password is incorrect') {
+            toast.info("Password is incorrect.", {
+              position: "top-center",
+              closeButton: true,
+              progressBar: true,
+              className: 'toast-sign toast-error',
+            });
+          } else if (err.response.data.message === 'Please verify your email before logging in.') {
+            toast.info("Please verify your email before logging in.", {
+              position: "top-center",
+              closeButton: true,
+              progressBar: true,
+              className: 'toast-sign toast-error',
+            });
+          } else {
+            toast.info("Login failed. Please try again.", {
+              position: "top-center",
+              closeButton: true,
+              progressBar: true,
+              className: 'toast-sign toast-error',
+            });
+          }
         } else {
           toast.info("Login failed. Please try again.", {
-            position: "top-center" ,
+            position: "top-center",
             closeButton: true,
             progressBar: true,
-            className: 'toast-sign toast-success',
+            className: 'toast-sign toast-error',
           });
         }
-      } catch (err) {
-        console.error('Error during login:', err);
-        toast.info("Login failed. Please try again.", {
-          position: "top-center" ,
-          closeButton: true,
-          progressBar: true,
-          className: 'toast-sign toast-success',
-        });
       } finally {
         setIsSubmitDisabled(false); 
       }
@@ -132,7 +157,7 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
           });
           setIsForgotPassword(false);
         } else {
-          toast.error(res.data.message || 'Failed to send reset email. Please try again.', { position: "top-center" });
+          toast.info(res.data.message || 'Failed to send reset email. Please try again.', { position: "top-center" });
         }
       } catch (err) {
         console.error('Error during password reset:', err);
@@ -180,7 +205,6 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
       sessionStorage.setItem('subscriptionType', userSubscriptionType);
       sessionStorage.setItem('subscriptionVerification', userSubscriptionVerification);
       
-      // Optionally, you might want to remove the parameters from the URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
@@ -337,8 +361,8 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
 <div className='account-sign-up'>Don't have an account?</div>
 
 <Link className='login-link-signup-login' to="#" onClick={() => {
-              handleClose(); // Close the login modal
-              openRegisterModal(); // Open the registration modal
+              handleClose(); 
+              openRegisterModal(); 
             }}>
                 Sign Up
                 </Link>

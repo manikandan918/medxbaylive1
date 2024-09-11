@@ -1,14 +1,14 @@
 /* General Styles */
 .subscription-plans {
  
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     text-align: center;
     margin-bottom: 20px;
 }
 
 .title {
-    font-size: 2rem;
+    font-size: 2rem;font-weight: 600;
     margin-bottom: 10px;
     color: #272848;
     padding-top:10px ;
@@ -28,12 +28,13 @@
     padding: 5px;
     border-radius: 18px;
     width: 270px;
+    height: 50px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .toggle-btn {
-    padding: 10px 35px;
+    padding: 5px 35px;
     margin: 0 5px;
     border: 2px solid #007bff;
     background-color: transparent;
@@ -60,7 +61,7 @@
     justify-content: center;
     background-color: #ff7a59;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 10px;
     border-radius: 5px;
     margin-bottom: 20px;
     font-size: 1.0rem;
@@ -79,7 +80,7 @@
 
 /* Plans Table */
 .plans-table {
-    width: 100%;
+    width: 120%;
     margin-top: 20px;
     border-collapse: collapse;
 }
@@ -104,6 +105,7 @@
     position: relative;
     transition: border-color 0.3s ease;
 }
+
 
 /* Overlay Effect for Selected Column */
 .plan-column-selected {
@@ -130,21 +132,26 @@
 }
 
 .feature-space {
+    background-color: #DDE9FF;
     padding: 30px 10px;
-    background-color: #f7faff !important;
+    /* background-color: #f7faff !important; */
 }
 
 .plan-name {
     font-size: 1.1rem;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #1F2937;
+    color: hsl(215, 28%, 17%);
+    width: 170px;
 }
 
 .plan-price {
-    font-size: 1.8rem;
+
+    font-size: 1.3rem;
     margin-bottom: 10px;
     color: #1F2937;
+    width: 170px;
+
 }
 
 /* Buttons */
@@ -176,9 +183,21 @@
     max-width: 200px;
     font-size: 14px;
     font-weight: bold;
+    margin-left: 80px;
+    background-color: #DDE9FF ;
+
+    text-align: left;
+    vertical-align: top;
+}
+
+/* Feature Titles */
+.feature-titlee {
+    max-width: 200px;
+    font-size: 14px;
+    font-weight: bold;
     margin-left: 10px;
-    background-color: #f7faff;
-    text-align: center;
+    background-color:  #DDE9FF;
+    text-align: left;
     vertical-align: top;
 }
 
@@ -187,9 +206,12 @@
     font-size: 14px;
     font-weight: bold;
     padding-left: 25px !important;
-    background-color: #f7faff;
+    background-color: #DDE9FF ;
     text-align: left !important;
     vertical-align: top;
+    border: 1px solid white !important;
+    
+
 }
 
 .special-note {
@@ -231,7 +253,8 @@
     font-size: 12px;
     color: #656565;
     margin-top: 5px;
-    text-align: center;
+    text-align: left;
+    margin-left: 10px;
 }
 
 /* Ensure the content inside the column is not affected by the border */
@@ -268,8 +291,9 @@
 
 .plan-column-selected {
     position: relative;
+
     border: 2px solid #ff7a59; /* Adjust the color and width as needed */
-   
+   background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
     transition: all 0.3s ease; /* Smooth transition */
 }
@@ -295,7 +319,7 @@
   /* Add border to the table columns */
   .plans-table th,
   .plans-table td {
-    border: 2px solid #ddd; /* Border color and style */
+    border: 1px solid #DDE9FF; /* Border color and style */
   }
   
   .plans-table th {
@@ -309,7 +333,8 @@
   /* Optional: Add border to selected plan column */
   .plan-header.plan-column-selected {
     border-top: 3px solid #007bff; /* Highlighted border color */
-border-top-left-radius: 4px !important;  }
+border-top-left-radius: 4px !important;
+/* height: 50px;  } */}
   
 
   
@@ -331,14 +356,31 @@ border-top-left-radius: 4px !important;  }
   .plans-table td.feature-1-free-article.plan-column-selected {
     border-bottom: 3px solid #007bff; /* Border color and style for this column */
     border-radius: 10px;
+    background-color: white;
+    border-bottom: 1px solid white !important;
+
   }
   
   .plans-table td {
     text-align: center; /* Optional: Center align text in cells */
+    
+  }
+  .plan-feature{
+    background-color: white;
   }
   
 
 
+.bg-color{
+    border-radius: 10px !important;
+    border-top: 20px solid #DDE9FF; /* Border color and style */
+    border-bottom: 20px solid #DDE9FF; /* Border color and style */
+    border-right: 20px solid #DDE9FF; /* Border color and style */
+    
+}
 
+.plans-table th,
+.plans-table td.plan-column-selected {
+  border: none  #DDE9FF; /* Border color and style */
+}
 
-  

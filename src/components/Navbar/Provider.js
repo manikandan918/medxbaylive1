@@ -56,7 +56,7 @@ const Provider = ({ show, handleClose,openRegisterModal }) => {
         toast.success('Submission failed. Please try again.');
       }
       finally {
-        setIsSubmitDisabled(false); // Re-enable the submit button
+        setIsSubmitDisabled(false); 
       }
     }
   };
@@ -131,22 +131,26 @@ const Provider = ({ show, handleClose,openRegisterModal }) => {
       setNameError('Name should not start with a space.');
       return false;
     }
-
-    if (!/^[a-zA-Z ]+$/.test(trimmedValue)) {
-      setNameError('Name should only contain alphabets and spaces.');
-      return false;
-    }
-
     if (trimmedValue.includes('  ')) {
       setNameError('Name should not have more than 2 consecutive spaces.');
       return false;
     }
+    if (/\d/.test(trimmedValue)) {
+      setNameError('Name should not contain numbers.');
+      return false;
+    }
+    if (/[^a-zA-Z\s]/.test(trimmedValue)) {
+      setNameError('Name should not contain special characters.');
+      return false;
+    }
+
+  
 
     if (trimmedValue.length < 3 || trimmedValue.length > 50) {
       setNameError('Name should be between 3 to 50 characters.');
       return false;
     }
-
+  
     setNameError('');
     return true;
   };

@@ -16,12 +16,14 @@ const ManageAppointments = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [reviewModalIsOpen, setReviewModalIsOpen] = useState(false);
   const [reviewForm, setReviewForm] = useState({ rating: 0, reviewText: '' });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/bookings`, { withCredentials: true });
-        console.log('Fetched bookings response:', response.data);  // Log the entire response data
+        console.log('Fetched bookings response:', response.data); 
         if (Array.isArray(response.data.bookings)) {
           setBookings(response.data.bookings);
         } else {
@@ -35,7 +37,7 @@ const ManageAppointments = () => {
     fetchAppointments();
   }, []);
 
-  // console.log(bookings.map(booking => booking.status))
+ 
   const getStatusClass = (status) => {
     switch (status.toLowerCase()) {
       case 'accepted':
@@ -47,7 +49,7 @@ const ManageAppointments = () => {
       case 'completed':
         return 'blue';
       default:
-        return 'gray'; // default or unknown status
+        return 'gray'; 
     }
   };
 
@@ -153,7 +155,32 @@ const ManageAppointments = () => {
     const handleClick = (index) => {
       onChange(index + 1);
     };
+    useEffect(() => {
+      validateForm();
+    }, [reviewForm]);
+  
+    const validateForm = () => {
+      const { reviewText } = reviewForm;
+  
 
+      if (/\d/.test(reviewText)) {
+        setErrorMessage('Comments cannot contain numbers');
+        setIsSubmitDisabled(true);
+        return;
+      }
+  
+
+      if (!reviewText.trim()) {
+        setErrorMessage('Comments cannot be empty');
+        setIsSubmitDisabled(true);
+        return;
+      }
+  
+
+      setErrorMessage('');
+      setIsSubmitDisabled(false);
+    };
+  
 
     return (
       <div className="star-rating">
@@ -304,12 +331,22 @@ const ManageAppointments = () => {
                       id="reviewText"
                       value={reviewForm.reviewText}
                       onChange={handleReviewChange}
-                      required
+          
                     />
+                                      {errorMessage && <p className="error-message">{errorMessage}</p>}
+
                   </label>
                 </div>
-                <button type="submit" className="submit-review-button">Submit Review</button>
-                <button type="button" onClick={closeReviewModal} className="close-modal-button">Close</button>
+                <button
+                  type="submit"
+                  className="submit-review-button"
+                  disabled={isSubmitDisabled} 
+                >
+                  Submit Review
+                </button>              
+                <button type="button" onClick={closeReviewModal} className="close-modal-button">
+                Close
+                </button>
               </form>
             </>
           ) : (

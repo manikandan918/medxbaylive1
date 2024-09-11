@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./SubscriptionPlans.css";
-import { SiTicktick } from "react-icons/si";
 import axios from "axios"; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -271,7 +270,7 @@ const SubscriptionPlans = () => {
                       : ""
                   }`}
                 >
-                  <div className="feature-title">{feature.title}</div>
+                  <div className="feature-titlee">{feature.title}</div>
                   {feature.subtitle && (
                     <div className="feature-subtitle">{feature.subtitle}</div>
                   )}
@@ -288,8 +287,8 @@ const SubscriptionPlans = () => {
                     }`}
                   >
                     {plan.features[feature.title] === true && (
-                      <SiTicktick className="tick-icon" />
-                    )}
+                        <img src="../tee.png " alt="Team of Doctors" style={{ width: '30px' ,height:"30px",marginBottom:"20px",marginTop:"20px"}} />
+                      )}
                     {plan.features[feature.title] === false ? "" : (typeof plan.features[feature.title] === "string" && plan.features[feature.title])}
                   </td>
                 ))}

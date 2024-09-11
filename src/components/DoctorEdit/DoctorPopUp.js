@@ -89,7 +89,7 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
   const [profilePicturePreview, setProfilePicturePreview] = useState(null);
   const [allInsurances, setAllInsurances] = useState([]);
 
-
+  const [allConditions, setAllConditions] = useState([]);
   
 
   const handleAddItem = (field) => {
@@ -129,11 +129,28 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
     }
   };
 
+
   const handleRemoveInsurance = (index) => {
     setFormData((prevData) => ({
       ...prevData,
       insurances: prevData.insurances.filter((_, i) => i !== index),
     }));
+
+  };
+  const handleRemoveConditions = (index) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      conditions: prevData.conditions.filter((_, i) => i !== index),
+    }));
+  };
+  const handleConditionsChange = (e) => {
+    const selectedCondition = e.target.value;
+    if (!formData.conditions.includes(selectedCondition)) {
+      setFormData((prevData) => ({
+        ...prevData,
+        conditions: [...prevData.conditions, selectedCondition],
+      }));
+    }
   };
 
   const handleFileChange = (e) => {
@@ -206,7 +223,7 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
           `${process.env.REACT_APP_BASE_URL}/doctor/profile/update`,
           { withCredentials: true }
         );
-        const { doctor, allInsurances } = response.data;
+        const { doctor, allInsurances, allConditions} = response.data;
 
         if (doctor.dateOfBirth) {
           doctor.dateOfBirth = formatDateForInput(doctor.dateOfBirth);
@@ -219,6 +236,7 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
         setProfilePicturePreview(profileImageData);
         setFormData(doctor);
         setAllInsurances(allInsurances);
+        setAllConditions(allConditions);
       } catch (error) {
         console.error("Error fetching doctor details:", error);
       }
@@ -299,6 +317,9 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
       } else if (name === "aboutMe") {
         validateAboutMe(newValue);
       }
+      else if (name === "dateOfBirth") {
+        validateDateOfBirth(newValue);
+      }
   
       return newData;
     });
@@ -313,9 +334,15 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
       error = 'Name must be at least 2 characters';
     } else if (name.length > 50) {
       error = 'Name must not exceed 50 characters';
-    } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-      error = 'Name must contain only letters and spaces';
+    }  else if (/ {2,}/.test(name)) {
+      error = 'Name should not contain consecutive spaces';
+    } else if (/\d/.test(name)) {
+      error = 'Name should not contain numbers';
     }
+    else if (/[^a-zA-Z\s]/.test(name)) {
+      error = 'Name should not contain special characters';
+    }
+  
 
     setErrors((prevErrors) => ({ ...prevErrors, name: error }));
   };
@@ -328,17 +355,22 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
       error = 'Title must be at least 2 characters';
     } else if (title.length > 100) {
       error = 'Title must not exceed 100 characters';
-    } else if (!/^[a-zA-Z\s]+$/.test(title)) {
-      error = 'Title must contain only letters and spaces';
+    } 
+    else if (/ {2,}/.test(title)) {
+      error = 'Title should not contain consecutive spaces';
+    } else if (/\d/.test(title)) {
+      error = 'Title should not contain numbers';
+    }
+    else if (/[^a-zA-Z\s]/.test(title)) {
+      error = 'Title should not contain special characters';
     }
   
     setErrors((prevErrors) => ({ ...prevErrors, title: error }));
     return error === '';  
   };
+
   const validateAboutMe = (aboutMe) => {
     let error = '';
-  
-
     if (!aboutMe) {
       error = 'About section is required';
     } else if (aboutMe.length < 10) {
@@ -346,28 +378,54 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
     } else if (aboutMe.length > 500) {
       error = 'About section must not exceed 500 characters';
     }
-  
+    else if (/ {2,}/.test(aboutMe)) {
+      error = 'About should not contain consecutive spaces';
+    } else if (/\d/.test(aboutMe)) {
+      error = 'About should not contain numbers';
+    }
+    else if (/[^a-zA-Z\s]/.test(aboutMe)) {
+      error = 'About should not contain special characters';
+    }
     setErrors((prevErrors) => ({ ...prevErrors, aboutMe: error }));
     return error === ''; 
   };
+  const validateDateOfBirth = (dob) => {
+    let error = '';
+    
+    const today = new Date();
+    const inputDate = new Date(dob);
+    
+    if (!dob) {
+      error = 'Date of Birth is required';
+    } else if (inputDate > today) {
+      error = 'Date of Birth cannot be in the future';
+    } else if (inputDate < new Date(today.getFullYear() - 120, today.getMonth(), today.getDate())) {
+      error = 'Date of Birth cannot be more than 120 years ago';
+    } else if (inputDate > new Date(today.getFullYear() - 20, today.getMonth(), today.getDate())) {
+      error = 'You must be at least 20 years old';
+    }
+  
+    setErrors((prevErrors) => ({ ...prevErrors, dateOfBirth: error }));
+  };
+  
   
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const isNameValid = validateName(formData.name);
-    const isTitleValid = validateTitle(formData.title);
-    const isAboutMeValid = validateAboutMe(formData.aboutMe);
+    // const isNameValid = validateName(formData.name);
+    // const isTitleValid = validateTitle(formData.title);
+    // const isAboutMeValid = validateAboutMe(formData.aboutMe);
 
-    if (!isNameValid || !isTitleValid || !isAboutMeValid){
-      toast.info("Please fix the errors before submitting.",{
-        className: 'toast-center toast-success',
-        closeButton: true,
-        progressBar: true,      } );
+    // if (!isNameValid || !isTitleValid || !isAboutMeValid){
+    //   toast.info("Please fix the errors before submitting.",{
+    //     className: 'toast-center toast-success',
+    //     closeButton: true,
+    //     progressBar: true,      } );
 
-      setLoading(false);
-      return;
-    }
+    //   setLoading(false);
+    //   return;
+    // }
     const formPayload = { ...formData };
 
 
@@ -496,11 +554,10 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
                   onChange={handleChange}
                   placeholder="Enter the About"
 
-                  className={`form-control-custom ${errors.aboutMe ? 'is-invalid' : ''}`}
+                  className="form-control-custom"
                   />
-                  {errors.aboutMe && (
-                    <div className="invalid-feedback">{errors.aboutMe}</div>
-                  )}
+                     {errors.aboutMe && <Form.Text className="text-danger">{errors.aboutMe}</Form.Text>}
+
                 </Form.Group>
             </div>
               <div className="col-md-6">
@@ -513,6 +570,8 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
                     onChange={handleChange}
                     className="form-control-custom"
                   />
+                    {errors.dateOfBirth && <Form.Text className="text-danger">{errors.dateOfBirth}</Form.Text>}
+
                 </Form.Group>
               </div>
           </div>
@@ -641,70 +700,53 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
           </div>
 
           <div className="row mb-3">
-            <div className="col-md-6">
-              <Form.Group className="mb-3" controlId="formConditions">
-                <Form.Label>Conditions</Form.Label>
-                {formData.conditions.length === 0 && (
-    <div className="row row-container" style={{ marginBottom: "10px" }}>
-      <Form.Control
-        type="text"
-          name="conditions"
-        value={formData.conditions}
-        onChange={(e) => handleChange(e, 0, "conditions")}
-        placeholder="Enter conditions"
-        className="form-control-custom adjust-form"
-      />
-      <InputGroup.Text
-        className="form-control-custom adjust-form-icon-one"
-        onClick={() => handleAddItem("conditions")}
-        aria-label="Add language"
-      >
-        <FontAwesomeIcon
-          icon={faPlus}
-          className="plus-edit-doctor"
-        />
-      </InputGroup.Text>
-    </div>
-  )}
-                {formData.conditions.map((condition, index) => (
-                  <div
-                    className="row row-container"
-                    key={index}
-                    style={{ marginBottom: "10px" }}
-                  >
-                    <Form.Control
-                      type="text"
-                               name="conditions"
-                      value={condition}
-                      onChange={(e) => handleChange(e, index, "conditions")}
-                      placeholder="Heart Diseases"
-                      className="form-control-custom adjust-form"
-                    />
-                    <InputGroup.Text
-                      className="form-control-custom adjust-form-icon-one"
-                      onClick={() => handleAddItem("conditions")}
-                    >
-                      <FontAwesomeIcon
-                        icon={faPlus}
-                        className="plus-edit-doctor"
-                      />
-                    </InputGroup.Text>
-                    {formData.conditions.length > 1 && (
-                      <InputGroup.Text
-                        className="form-control-custom adjust-form-icon-two"
-                        onClick={() => handleRemoveItem(index, "conditions")}
-                      >
-                        <FontAwesomeIcon
-                          icon={faTrash}
-                          className="delete-edit-profile"
-                        />
-                      </InputGroup.Text>
-                    )}
-                  </div>
+          <div className="col-md-6">
+          <Form.Group className="mb-3" controlId="formConditions">
+            <Form.Label>Conditions</Form.Label>
+            <div className="row row-container" style={{ marginBottom: "10px" }}>
+              <Form.Control
+                as="select"
+                value=""
+                onChange={handleConditionsChange}
+                className="form-control-custom adjust-form"
+              >
+                <option value="" disabled>Select a Condition</option>
+                {allConditions.map((condition) => (
+                  <option key={condition._id} value={condition.name}>
+                    {condition.name}
+                  </option>
                 ))}
-              </Form.Group>
+              </Form.Control>
             </div>
-
+            {formData.conditions.map((condition, index) => (
+              <div
+                className="row row-container"
+                key={index}
+                style={{ marginBottom: "10px" }}
+              >
+                <Form.Control
+                  type="text"
+                  name="conditions"
+                  value={condition}
+                  placeholder="Heart Diseases"
+                  className="form-control-custom adjust-form"
+             
+                />
+                {formData.conditions.length > 1 && (
+                  <InputGroup.Text
+                    className="form-control-custom adjust-form-icon-two"
+                    onClick={() => handleRemoveConditions(index)}
+                  >
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      className="delete-edit-profile"
+                    />
+                  </InputGroup.Text>
+                )}
+              </div>
+            ))}
+          </Form.Group>
+        </div>
   <div className="col-md-6">
             <Form.Group className="mb-3" controlId="formLanguages">
   <Form.Label>Languages</Form.Label>

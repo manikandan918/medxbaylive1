@@ -12,7 +12,6 @@ const center = {
   lng: -0.09,
 };
 
-
 const LocationPicker = ({ show, handleClose, handleLocationSelect }) => {
   const [position, setPosition] = useState(center);
   const [map, setMap] = useState(null);
@@ -57,6 +56,11 @@ const LocationPicker = ({ show, handleClose, handleLocationSelect }) => {
 
   if (!isLoaded) return <div>Loading...</div>;
 
+  const handleSelectLocation = () => {
+    handleLocationSelect(position.lat, position.lng);
+    handleClose();
+  };
+
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
       <Modal.Header closeButton>
@@ -98,7 +102,7 @@ const LocationPicker = ({ show, handleClose, handleLocationSelect }) => {
         </Button>
         <Button
           variant="primary"
-          onClick={() => handleLocationSelect(position.lat, position.lng)}
+          onClick={handleSelectLocation}
         >
           Select Location
         </Button>
