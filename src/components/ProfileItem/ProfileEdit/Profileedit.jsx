@@ -141,10 +141,14 @@ const ProfileEdit = () => {
         if (!value) return "Name is required";
         if (!nameRegex.test(value)) {
           if (/^\s/.test(value)) return "Name should not start with a space";
+          if (/\d/.test(value)) return "Name should not contain numbers";
+
+          if (/[^\w\s]/.test(value)) return "Name should not contain special characters";
+
           if (/^[\d!@#$%^&*()_+=\[\]{};:'",.<>/?\\|`~]/.test(value)) return "Name should not start with a number or special character";
           if (/\s{3,}/.test(value)) return "Name should not have more than 2 consecutive spaces";
-          if (/[^\w\s]/.test(value)) return "Name should only contain letters, numbers, and spaces";
           if (value.length < 3 || value.length > 50) return "Name must be between 3 and 50 characters long";
+
         }
         return '';
       case 'email':
@@ -155,11 +159,33 @@ const ProfileEdit = () => {
         if (!value) return "Mobile number is required";
         return '';
       case 'address':
+
         if (!value) return "Address is required";
+        if (/^\s/.test(value)) return "Address should not start with a space";
+        if (/[^\w\s]/.test(value)) return "Address should not contain special characters";
+
+        if (/^[\d!@#$%^&*()_+=\[\]{};:'",.<>/?\\|`~]/.test(value)) return "Name should not start with a number or special character";
+        if (/\s{3,}/.test(value)) return "Address should not have more than 2 consecutive spaces";
         return '';
       case 'dob':
         if (!value) return "Date of birth is required";
-        return '';
+
+        const today = new Date();
+        const dob = new Date(value);
+    
+        const age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+        const dayDiff = today.getDate() - dob.getDate();
+    
+        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+            age--;
+        }
+    
+        if (dob > today) return "Date of birth cannot be in the future";
+        if (age < 5) return "Age must be at least 5 years";
+    
+        return ''; 
+    
       case 'age':
         if (!value || isNaN(value) || value <= 0) return "Valid age is required";
         return '';
@@ -171,9 +197,20 @@ const ProfileEdit = () => {
         return '';
       case 'insuranceProvider':
         if (!value) return "Insurance provider is required";
+        if (/^\s/.test(value)) return "Insurance should not start with a space";
+        if (/[^\w\s]/.test(value)) return "Insurance should not contain special characters";
+
+        if (/^[\d!@#$%^&*()_+=\[\]{};:'",.<>/?\\|`~]/.test(value)) return "Insurance should not start with a number or special character";
+        if (/\s{3,}/.test(value)) return "Insurance should not have more than 2 consecutive spaces";
         return '';
       case 'policyNumber':
         if (!value) return "Policy number is required";
+        if (/^\s/.test(value)) return "Policy should not start with a space";
+        if (/[A-Za-z]/.test(value)) return "Policy number should not contain alphabets";
+
+        if (/[^\w\s]/.test(value)) return "Policy should not contain special characters";
+
+        if (/\s{3,}/.test(value)) return "Policy should not have more than 2 consecutive spaces";
         return '';
       default:
         return '';

@@ -22,6 +22,7 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  FormHelperText,
 } from '@mui/material';
 import axios from 'axios';
 import './patient.css';
@@ -40,7 +41,7 @@ const PatientTable = () => {
   });
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(10);
-
+  const [errors, setErrors] = useState({});
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BASE_URL}/doctor/completed-bookings`, { withCredentials: true })
       .then(response => {
@@ -79,32 +80,106 @@ const PatientTable = () => {
     setSelectedBooking(null);
   };
 
+
+  const validateField = (value) => {
+    return value && value.trim() !== '';
+  };
+  const validateAge = (age) => {
+  
+    const trimmedAge = age.trim();
+  
+
+    if (trimmedAge === '') {
+      return 'Patient Age cannot be empty';
+    }
+    
+
+    const agePattern = /^[0-9]+$/;
+    if (!agePattern.test(trimmedAge)) {
+      return 'Age should only contain digits';
+    }
+
+    if (trimmedAge.includes(' ')) {
+      return 'Age should not contain spaces';
+    }
+    
+
+    const numericAge = parseInt(trimmedAge, 10);
+    if (isNaN(numericAge) || numericAge < 0 || numericAge > 999) {
+      return 'Age must be a valid number between 0 and 999';
+    }
+    
+    return null; 
+  };
+  
+  const validatePrescription = () => {
+    const errors = {};
+    
+
+    const ageError = validateAge(prescriptionData.patientAge);
+    if (ageError) {
+      errors.patientAge = ageError;
+    }
+  
+
+    prescriptionData.medicines.forEach((medicine, index) => {
+      if (!validateField(medicine.name)) {
+        errors[`name_${index}`] = 'Medicine Name cannot be empty';
+      }
+      if (!validateField(medicine.dosage)) {
+        errors[`dosage_${index}`] = 'Dosage cannot be empty';
+      }
+  
+      if (!medicine.timing || !Object.values(medicine.timing).includes(true)) {
+        errors[`timing_${index}`] = 'At least one timing must be selected';
+      }
+    });
+  
+    return errors;
+  };
+  
+  
   const handleAddMedicine = () => {
     setPrescriptionData({
       ...prescriptionData,
       medicines: [...prescriptionData.medicines, { name: '', dosage: '', beforeFood: false, afterFood: false, timing: { morning: false, afternoon: false, night: false } }]
     });
   };
-
   const handleChange = (index, event) => {
-    const values = [...prescriptionData.medicines];
-    if (event.target.name === 'beforeFood' || event.target.name === 'afterFood') {
-      values[index][event.target.name] = event.target.checked;
-    } else if (event.target.name.includes('timing')) {
-      const timingKey = event.target.name.split('.')[1];
-      values[index].timing[timingKey] = event.target.checked;
+    const { name, value, checked, type } = event.target;
+    const updatedMedicines = [...prescriptionData.medicines];
+  
+    if (type === 'checkbox') {
+      if (name === 'beforeFood' || name === 'afterFood') {
+        updatedMedicines[index][name] = checked;
+      } else if (name.includes('timing')) {
+        const timingKey = name.split('.')[1];
+        updatedMedicines[index].timing = {
+          ...updatedMedicines[index].timing,
+          [timingKey]: checked
+        };
+      }
     } else {
-      values[index][event.target.name] = event.target.value;
+      updatedMedicines[index][name] = value;
     }
-    setPrescriptionData({ ...prescriptionData, medicines: values });
-  };
+  
+    setPrescriptionData({ ...prescriptionData, medicines: updatedMedicines });
+  
 
+    const validationErrors = validatePrescription();
+    setErrors(validationErrors);
+  };
+  
   const handleSubmit = () => {
     if (!selectedBooking) {
       console.error('Booking ID is missing');
       return;
     }
+    const validationErrors = validatePrescription();
   
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+  } 
     const { patient, doctor, date, time } = selectedBooking;
     if (!doctor) {
       console.error('Doctor information is missing');
@@ -131,7 +206,6 @@ const PatientTable = () => {
         console.log('Prescription submitted successfully:', response.data);
         setOpen(false);
         setSelectedBooking(null);
-        // Optionally, refresh bookings or show a success message
       })
       .catch(error => {
         console.error('There was an error submitting the prescription!', error.message);
@@ -242,6 +316,8 @@ const PatientTable = () => {
               onChange={(e) => setPrescriptionData({ ...prescriptionData, patientAge: e.target.value })}
               margin="normal"
               variant="outlined"
+              error={!!errors.patientAge}
+              helperText={errors.patientAge}
             />
             {prescriptionData.medicines.map((medicine, index) => (
               <Grid container spacing={2} key={index} className="medicine-grid">
@@ -254,6 +330,9 @@ const PatientTable = () => {
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    error={!!errors[`name_${index}`]}
+                    helperText={errors[`name_${index}`]}
+                    
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -265,6 +344,8 @@ const PatientTable = () => {
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    error={!!errors[`dosage_${index}`]}
+                    helperText={errors[`dosage_${index}`]}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -327,6 +408,9 @@ const PatientTable = () => {
                       label="Night"
                     />
                   </FormGroup>
+                  {errors[`timing_${index}`] && (
+              <FormHelperText error>{errors[`timing_${index}`]}</FormHelperText>
+            )}
                 </Grid>
               </Grid>
             ))}

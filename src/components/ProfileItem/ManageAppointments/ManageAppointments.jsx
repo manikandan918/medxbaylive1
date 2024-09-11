@@ -113,33 +113,31 @@ const ManageAppointments = () => {
     e.preventDefault();
     try {
       console.log(reviewForm);
+  
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/patient/review/${selectedAppointment.doctor._id}/${selectedAppointment._id}`, 
-        reviewForm, 
+        `${process.env.REACT_APP_BASE_URL}/patient/review/${selectedAppointment.doctor._id}/${selectedAppointment._id}`,
+        reviewForm,
         { withCredentials: true }
       );
+  
       console.log('Review submitted:', response.data);
-      
-
+  
       toast.info('Review submitted successfully!', {
-        className: 'toast-center ',
-        autoClose: 5000,
+        className: 'toast-center',
+        autoClose: 5000, 
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
+        onClose: () => closeReviewModal() 
       });
       
-
-      setTimeout(() => {
-        closeReviewModal();
-      }, 5000); 
-  
     } catch (error) {
       console.error('Error submitting review:', error);
+  
       toast.info('Failed to submit review. Please try again.', {
-        className: 'toast-center ',
+        className: 'toast-center',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -149,6 +147,7 @@ const ManageAppointments = () => {
       });
     }
   };
+  
   
 
   const StarRating = ({ rating, onChange, starCount }) => {
@@ -160,11 +159,22 @@ const ManageAppointments = () => {
     }, [reviewForm]);
   
     const validateForm = () => {
-      const { reviewText } = reviewForm;
+      const { reviewText, rating } = reviewForm;
+      const specialCharRegex = /[^A-Za-z0-9\s,."()]/;
+      const consecutiveSpacesRegex = /\s{3,}/;
   
-
       if (/\d/.test(reviewText)) {
         setErrorMessage('Comments cannot contain numbers');
+        setIsSubmitDisabled(true);
+        return;
+      }
+      if (specialCharRegex.test(reviewText)) {
+        setErrorMessage('Comments cannot contain special characters');
+        setIsSubmitDisabled(true);
+        return;
+      }
+      if (consecutiveSpacesRegex.test(reviewText)) {
+        setErrorMessage('Comments cannot contain more than 2 consecutive spaces');
         setIsSubmitDisabled(true);
         return;
       }
@@ -175,7 +185,11 @@ const ManageAppointments = () => {
         setIsSubmitDisabled(true);
         return;
       }
-  
+      if (!rating || rating === 0) {
+        setErrorMessage('Please select a rating before submitting.');
+        setIsSubmitDisabled(true);
+        return;
+      }
 
       setErrorMessage('');
       setIsSubmitDisabled(false);

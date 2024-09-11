@@ -88,22 +88,52 @@ const VerifyLogin = ({ show, handleClose,openRegisterModal }) => {
                     setPassword('');
 
                   }, 1000); 
-                } else {
-                    console.error('Login failed response:', res.data);
-                    console.log('Login failed:', res.data.message);
+                }
+                } catch (err) {
+
+                  if (err.response && err.response.data && err.response.data.message) {
+                    if (err.response.data.message === 'User does not exist') {
+                      toast.info("User does not exist.", {
+                        position: "top-center",
+                        closeButton: true,
+                        progressBar: true,
+                        className: 'toast-sign toast-error',
+                      });
+                    } else if (err.response.data.message === 'Password is incorrect') {
+                      toast.info("Password is incorrect.", {
+                        position: "top-center",
+                        closeButton: true,
+                        progressBar: true,
+                        className: 'toast-sign toast-error',
+                      });
+                    } else if (err.response.data.message === 'Please verify your email before logging in.') {
+                      toast.info("Please verify your email before logging in.", {
+                        position: "top-center",
+                        closeButton: true,
+                        progressBar: true,
+                        className: 'toast-sign toast-error',
+                      });
+                    } else {
+                      toast.info("Login failed. Please try again.", {
+                        position: "top-center",
+                        closeButton: true,
+                        progressBar: true,
+                        className: 'toast-sign toast-error',
+                      });
+                    }
+                  } else {
                     toast.info("Login failed. Please try again.", {
                       position: "top-center",
                       closeButton: true,
                       progressBar: true,
-                      className: 'toast-sign toast-success',
-                    });                }
-            } catch (err) {
-                console.error('Error during login:', err);
-            }
-        }
-    };
-    
-    
+                      className: 'toast-sign toast-error',
+                    });
+                  }
+                } finally {
+                  setIsSubmitDisabled(false); 
+                }
+              }
+            };
       
       
     const forgetPassword = async (e) => {
