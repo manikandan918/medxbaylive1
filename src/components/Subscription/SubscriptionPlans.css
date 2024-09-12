@@ -1,4 +1,8 @@
 /* General Styles */
+.subscription-background{
+    background-color: white;
+
+}
 .subscription-plans {
  
     width: 90%;
@@ -132,9 +136,14 @@
 }
 
 .feature-space {
-    background-color: #DDE9FF;
+    /* background-color: #DDE9FF; */
     padding: 30px 10px;
-    /* background-color: #f7faff !important; */
+    position: relative;
+    background: #F7FAFF !important;
+    left: -13px;
+    border-radius: 8px !important;
+
+
 }
 
 .plan-name {
@@ -181,10 +190,10 @@
 /* Feature Titles */
 .feature-title {
     max-width: 200px;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 600 ;
     margin-left: 80px;
-    background-color: #DDE9FF ;
+    /* background-color: #DDE9FF ; */
 
     text-align: left;
     vertical-align: top;
@@ -194,19 +203,21 @@
 .feature-titlee {
     max-width: 200px;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 400;
     margin-left: 10px;
-    background-color:  #DDE9FF;
+    /* background-color:  #DDE9FF; */
     text-align: left;
     vertical-align: top;
 }
 
 .feature-titles {
     max-width: 260px;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 300;
     padding-left: 25px !important;
-    background-color: #DDE9FF ;
+    /* background-color: #DDE9FF ; */
+    background: #F1F6FF;
+
     text-align: left !important;
     vertical-align: top;
     border: 1px solid white !important;
@@ -215,9 +226,11 @@
 }
 
 .special-note {
-    font-size: 0.8rem;
-    font-weight: bold;
+    width: 219px;
+    font-size: 12px;
+    font-weight: 400;
     margin-top: 15px;
+    text-align: center;
     margin-bottom: 15px;
 }
 
@@ -251,7 +264,9 @@
 
 .feature-subtitle {
     font-size: 12px;
-    color: #656565;
+    /* color: #656565; */
+    color: #5A6675;
+
     margin-top: 5px;
     text-align: left;
     margin-left: 10px;
@@ -283,7 +298,8 @@
 
 /* Enterprise Notice */
 .enterprise-notice {
-    font-size: 1rem;
+    font-size: 18px;
+    font-weight:500;
     margin-bottom: 20px;
     color: #1F2937;
 }
@@ -313,7 +329,7 @@
   
   .plans-table {
     width: 100%;
-    border-collapse: collapse; /* Ensures borders between cells are merged */
+
   }
   
   /* Add border to the table columns */
@@ -373,9 +389,9 @@ border-top-left-radius: 4px !important;
 
 .bg-color{
     border-radius: 10px !important;
-    border-top: 20px solid #DDE9FF; /* Border color and style */
-    border-bottom: 20px solid #DDE9FF; /* Border color and style */
-    border-right: 20px solid #DDE9FF; /* Border color and style */
+    border-top: 20px solid #F1F6FF; /* Border color and style */
+    border-bottom: 20px solid #F1F6FF; /* Border color and style */
+    border-right: 20px solid #F1F6FF; /* Border color and style */
     
 }
 

@@ -80,7 +80,7 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
                 navigate('/profile/userprofile/');
                 break;
               case 'admin':
-                navigate('/admin/admin-home');
+                navigate('/admin/dashboardpage/');
                 break;
               default:
                 alert('Unexpected role.');

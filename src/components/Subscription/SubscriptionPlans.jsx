@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./SubscriptionPlans.css";
 import axios from "axios"; 
 import { ToastContainer, toast } from 'react-toastify';
+import tee from '../../assests/tee.svg'
 import 'react-toastify/dist/ReactToastify.css';
 const SubscriptionPlans = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("Monthly");
@@ -203,6 +204,7 @@ const SubscriptionPlans = () => {
   
 
   return (
+    <div className="subscription-background">
     <div className="subscription-plans">
       <h2 className="title">Choose the best plan for you</h2>
       {/* <p className="subtitle">Choose the best plan for you</p> */}
@@ -287,7 +289,7 @@ const SubscriptionPlans = () => {
                     }`}
                   >
                     {plan.features[feature.title] === true && (
-                        <img src="../tee.png " alt="Team of Doctors" style={{ width: '30px' ,height:"30px",marginBottom:"20px",marginTop:"20px"}} />
+                        <img src={tee} alt="Team of Doctors" style={{ width: '30px' ,height:"30px",marginBottom:"20px",marginTop:"20px"}} />
                       )}
                     {plan.features[feature.title] === false ? "" : (typeof plan.features[feature.title] === "string" && plan.features[feature.title])}
                   </td>
@@ -297,6 +299,7 @@ const SubscriptionPlans = () => {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 };

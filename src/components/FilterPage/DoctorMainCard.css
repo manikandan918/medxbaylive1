@@ -61,7 +61,7 @@
   position: relative;
   display: flex;
   /* align-items: end; */
-  width: 65%;
+  width: 75%;
 }
 
 .sort-by .form-group {
@@ -158,7 +158,7 @@
 
   .doctor-card {
     background-color: #fff;
-    padding: 20px;
+    padding: 20px 5px 20px 5px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;

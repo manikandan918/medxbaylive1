@@ -234,7 +234,7 @@ const MapContainer = ({
                     )}
                     {expanded ? (
                         <div className="searchInputContainer">
-                            <input
+                            {/* <input
                                 type="text"
                                 className="searchInput"
                                 placeholder="Enter search term"
@@ -243,13 +243,13 @@ const MapContainer = ({
                             />
                             <button className="searchButton" onClick={onSearchButtonClick}>
                                 <IoSearch />
-                            </button>
+                            </button> */}
                         </div>
                     ) : (
                         <div className="searchButtonContainer">
-                            <button className="searchButton" onClick={onExpandToggle}>
+                            {/* <button className="searchButton" onClick={onExpandToggle}>
                                 Search on Map <IoSearch />
-                            </button>
+                            </button> */}
                         </div>
                     )}
                 </div>

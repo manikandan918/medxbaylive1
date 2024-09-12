@@ -4,15 +4,14 @@ import videoCall from '../../assests/img/video_call.svg';
 import MedicalService from '../../assests/img/medical_services.svg';
 import thumbsUp from '../../assests/img/ThumbsUp.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons'; // Filled star
+import { faLocationDot, faStar as fasStar } from '@fortawesome/free-solid-svg-icons'; // Filled star
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'; // Not filled star
 import { faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'; // Half-filled star
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'; // Filled star
 // import { fetchFromPatient } from '../../actions/api';
 // import api from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchFromPatient } from '../../actions/api.js';
+// import { fetchFromPatient } from '../../actions/api.js';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment/moment.js';
 import { RiArrowDownSLine } from 'react-icons/ri';
@@ -55,10 +54,12 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
     const [profilePicture, setProfilePicture] = useState(doctorProfile);
     const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
     const [consultationType, setConsultationType] = useState(''); // Default consultation type
-    const [showAllHospitals, setShowAllHospitals] = useState(false); // State to show all hospitals
+    // const [showAllHospitals, setShowAllHospitals] = useState(false); // State to show all hospitals
     const [selectedHospital, setSelectedHospital] = useState(''); // State for selected hospital
     const [userLocation, setUserLocation] = useState({ lat: 0, lng: 0 });
-    const [hospitalDistance, setHospitalDistance] = useState(null); 
+    const [hospitalDistance, setHospitalDistance] = useState(null);
+    const [hospitalLocationLat, setHospitalLocationLat] = useState(null);
+    const [hospitalLocationLng, setHospitalLocationLng] = useState(null); 
     const [hospitalCity, setHospitalCity] = useState(null); 
     const [userLoggedin,setUserLogged] = useState();
     const [showPopup, setShowPopup] = useState(false);
@@ -101,6 +102,8 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
             const hospital = doctor.hospitals.find(h => h.name === selectedHospital);
             // console.log(hospital.city)
             setHospitalCity(hospital.city)
+            setHospitalLocationLat(hospital.lat);
+            setHospitalLocationLng(hospital.lng);
             if (hospital && hospital.lat && hospital.lng && userLocation.lat && userLocation.lng) {
                 const distance = calculateDistance(userLocation.lat, userLocation.lng, hospital.lat, hospital.lng);
                 setHospitalDistance(distance);
@@ -165,11 +168,8 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
     };
 
 
-    const handleCloseRegister = () => setShowPopup(false);
-    const handleShowRegister = () => setShowPopup(true);
 
     const handleShowLogin = () => setShowLoginPopup(true);
-    const handleCloseLogin = () => setShowLoginPopup(false);
 
     const handleShowPopup = () => setShowPopup(true);
     const handleClosePopup = () => setShowPopup(false);
@@ -397,8 +397,8 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                             </div>
                             <div className={`distance-div ${isMapExpanded ? 'mapExpanded-sponsor-distance-div' : 'd-none'}`}>
                                 <div className='d-flex flex-row'>
-                                    <FontAwesomeIcon icon={faPaperPlane} style={{ fontSize: "10px", marginTop: "4.8px", marginRight: "3px" }} />
-                                    <p className='distance'>{hospitalDistance ? `${hospitalDistance} km Away` : 'Calculating distance...'}</p>
+                                    <FontAwesomeIcon icon={faLocationDot} style={{ fontSize: "10px", marginTop: "4.8px", marginRight: "3px" }} />
+                                    <p className='distance'>{hospitalDistance ? `${hospitalDistance} km Away` : 'xyz km away'}</p>
                                 </div>
                             </div>
                         </div>
@@ -436,15 +436,28 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                     </div>
                     <div>
                         <div className={`distance-div ${isMapExpanded ? 'd-none' : ''}`}>
-                            <div className='d-flex flex-row'>
-                                <FontAwesomeIcon icon={faPaperPlane} style={{ fontSize: "10px", marginTop: "4.8px", marginRight: "3px" }} />
-                                <p className='distance'>{hospitalDistance ? `${hospitalDistance} km Away` : 'Calculating distance...'}</p>
+                            <div className={` ${selectedHospital ? "d-flex flex-row" : "d-none"}`}>
+                                <FontAwesomeIcon icon={faLocationDot} style={{ fontSize: "10px", marginTop: "4.8px", marginRight: "3px" }} />
+                                <p className='distance'>{hospitalDistance ? `${hospitalDistance} km Away` : 'xyz km Away'}</p>
                             </div>
                             <p className="availability">{doctor.availability ? "Available" : "Not Available"}</p>
                         </div>
                         <div className='d-flex flex-row'>
                             <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`} onClick={handleShowCard}>Book Appointment</button>
-                            <button className={`book-button ${isMapExpanded ? 'mapExpanded-button' : ''}`}><FontAwesomeIcon icon={faPaperPlane} /></button>
+                            <button
+                                className={`book-button ${isMapExpanded ? 'mapExpanded-button' : ''} ${selectedHospital ? "" :"d-none"}`}
+                                onClick={() => {
+                                    const lat = hospitalLocationLat;  // Replace slot.lat with the actual latitude value
+                                    const lng = hospitalLocationLng;  // Replace slot.lng with the actual longitude value
+                                    console.log(hospitalLocationLat)
+                                    console.log(hospitalLocationLng)
+                                    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+                                    window.open(googleMapsUrl, '_blank');
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faLocationDot} />
+                                {/* <p style={{fontSize : "10px"}}>Map</p> */}
+                            </button>
                         </div>
                     </div>
                 </div>
