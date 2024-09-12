@@ -4,9 +4,14 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import tee from '../../assests/tee.svg'
 import 'react-toastify/dist/ReactToastify.css';
+import { SubTitle } from "chart.js";
+import SubscriptionContact from "./SubscriptionContact";
 const SubscriptionPlans = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("Monthly");
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+
+  const toggleSubscriptionModal = () => setShowSubscriptionModal(!showSubscriptionModal);
 
   const monthlyPlans = [
     {
@@ -53,7 +58,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Enterprise",
-      price: "Contact Support",
+      price: "--",
       features: {
         "Basic Profile": false,
         "Premium Profile": true,
@@ -112,7 +117,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Enterprise",
-      price: "Contact Support",
+      price: "--",
       features: {
         "Basic Profile": false,
         "Premium Profile": true,
@@ -162,15 +167,20 @@ const SubscriptionPlans = () => {
 
   const currentPlans = selectedPeriod === "Monthly" ? monthlyPlans : yearlyPlans;
 
-  const handleSubscribe = async () => {
-    if (!selectedPlan) {
-       toast.info("Please select a subscription plan");
+  const handleSubscribe = async (planName) => {
+    if (!selectedPlan && !planName) {
+      toast.info("Please select a subscription plan");
       return;
     }
   
-    const selectedPlanDetails = currentPlans.find((plan) => plan.name === selectedPlan);
+    const selectedPlanDetails = currentPlans.find((plan) => plan.name === (planName || selectedPlan));
   
-    if (selectedPlan === "Enterprise") {
+    // If no plan is selected, fall back to the one being passed via button click
+    if (!selectedPlan) {
+      setSelectedPlan(planName);
+    }
+  
+    if (planName === "Enterprise") {
       window.location.href = `${process.env.REACT_APP_BASE_URL}/doctor/subscribe`;
       return;
     }
@@ -179,7 +189,7 @@ const SubscriptionPlans = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/doctor/subscribe`,
         {
-          subscriptionType: selectedPlan,
+          subscriptionType: planName || selectedPlan,
           subscriptionDuration: selectedPeriod,
           paymentDetails: {
             amount: parseInt(
@@ -194,16 +204,18 @@ const SubscriptionPlans = () => {
       window.location.href = response.data;
     } catch (error) {
       if (error.response && error.response.status === 403) {
-         toast.info(error.response.data); 
+        toast.info(error.response.data);
       } else {
         console.error("Subscription error:", error);
-         toast.info("Failed to initiate subscription. Please try again.");
+        toast.info("Failed to initiate subscription. Please try again.");
       }
     }
   };
   
+  
 
   return (
+    <>
     <div className="subscription-background">
     <div className="subscription-plans">
       <h2 className="title">Choose the best plan for you</h2>
@@ -244,20 +256,21 @@ const SubscriptionPlans = () => {
                   <div className="plan-name">{plan.name}</div>
                   <div className="plan-price">{plan.price}</div>
                   {plan.name === "Enterprise" ? (
-                    <button
-                      className={`add-contact-btn ${selectedPlan === plan.name ? "active" : ""}`}
-                      // onClick={handleSubscribe}
-                    >
-                      Contact Sales
-                    </button>
-                  ) : (
-                    <button
-                      className={`add-contact-btn ${selectedPlan === plan.name ? "active" : ""}`}
-                      onClick={handleSubscribe}
-                    >
-                      Subscribe
-                    </button>
-                  )}
+  <button
+    className={`add-contact-btn ${selectedPlan === plan.name ? "active" : ""}`}
+    onClick={toggleSubscriptionModal}
+  >
+    Contact Sales
+  </button>
+) : (
+  <button
+    className={`add-contact-btn ${selectedPlan === plan.name ? "active" : ""}`}
+    onClick={() => handleSubscribe(plan.name)}  // Pass the plan name to handleSubscribe
+  >
+    Subscribe
+  </button>
+)}
+
                 </th>
               ))}
             </tr>
@@ -300,7 +313,10 @@ const SubscriptionPlans = () => {
         </table>
       </div>
     </div>
+    
     </div>
+    <SubscriptionContact  show={showSubscriptionModal} handleClose={() => setShowSubscriptionModal(false)}/>
+    </>
   );
 };
 

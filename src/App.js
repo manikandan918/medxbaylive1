@@ -31,7 +31,7 @@ import Message from './components/Subscription/Message';
 import FaqSection from './components/Footerpage/FaqSection';
 import About from './components/Footerpage/About';
 import TermsAndConditions from './components/Footerpage/TermsAndConditions';
-import Adminroute from './components/Admin/Admindashboard/Adminroute/Adminroute';
+// import Adminroute from './components/Admin/Admindashboard/Adminroute/Adminroute';
 
 
 function App() {
@@ -59,7 +59,7 @@ function App() {
           <Route path="/faq/section" element={[<Navbar/>,<FaqSection />,<Footer/>]} />
           <Route path="/about/section" element={[<Navbar/>,<About />,<Footer/>]} />
           <Route path="/terms" element={[<Navbar/>,<TermsAndConditions />,<Footer/>]} />
-          <Route path="/admin/dashboardpage/*" element={<Adminroute/>} />
+          {/* <Route path="/admin/dashboardpage/*" element={<Adminroute/>} /> */}
         </Routes>
       </Router>
       </SearchProvider>

@@ -123,8 +123,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border-left: 3px solid #0167FF;
-    border-right:3px solid #0167FF ;
+    border-left: 3px solid #c5cbd3;
+    border-right:3px solid #c5cbd3 ;
    
     /* border-radius: 10px; */
     pointer-events: none; /* Ensures clicks pass through to the content */
@@ -155,7 +155,7 @@
 }
 
 .plan-price {
-
+/* margin-left: 20px; */
     font-size: 1.3rem;
     margin-bottom: 10px;
     color: #1F2937;
@@ -348,7 +348,7 @@
   
   /* Optional: Add border to selected plan column */
   .plan-header.plan-column-selected {
-    border-top: 3px solid #007bff; /* Highlighted border color */
+    border-top: 3px solid #c5cbd3; /* Highlighted border color */
 border-top-left-radius: 4px !important;
 /* height: 50px;  } */}
   
@@ -370,10 +370,10 @@ border-top-left-radius: 4px !important;
   /* Optional: Border for the selected column */
   
   .plans-table td.feature-1-free-article.plan-column-selected {
-    border-bottom: 3px solid #007bff; /* Border color and style for this column */
-    border-radius: 10px;
+    border-bottom: 3px solid #c5cbd3; /* Border color and style for this column */
+
     background-color: white;
-    border-bottom: 1px solid white !important;
+
 
   }
   
@@ -387,16 +387,4 @@ border-top-left-radius: 4px !important;
   
 
 
-.bg-color{
-    border-radius: 10px !important;
-    border-top: 20px solid #F1F6FF; /* Border color and style */
-    border-bottom: 20px solid #F1F6FF; /* Border color and style */
-    border-right: 20px solid #F1F6FF; /* Border color and style */
-    
-}
-
-.plans-table th,
-.plans-table td.plan-column-selected {
-  border: none  #DDE9FF; /* Border color and style */
-}
 

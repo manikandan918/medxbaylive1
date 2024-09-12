@@ -200,7 +200,7 @@ const Navbar = () => {
               )}
 
               <li className="nav-item active ml-md-4">
-                <Link className="about-nav nav-link nav-link-style" to="#">About</Link>
+                <Link className="about-nav nav-link nav-link-style" to="/about/section">About</Link>
               </li>
               <li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
                 <Link 
