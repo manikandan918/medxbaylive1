@@ -263,6 +263,8 @@ function DoctorEdit() {
                 {doctor ? doctor.consultation : "Loading..."}
               </div>
             </div>
+
+{/*             
             <div className="social-links-container">
               <div className="faEnvelope">
                 <a
@@ -312,7 +314,7 @@ function DoctorEdit() {
                   />
                 </a>
               </div>
-            </div>
+            </div> */}
             <div className="row edit-doctor-btns">
             <button
               className="edit-doctor-button"
