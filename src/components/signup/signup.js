@@ -377,9 +377,9 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
           <div className='end-line-sign-up'></div>
           <div className='end-line-sign-up-two'>
             <div className='button-sign-up-container'>
-            <button className='google-button-sign-up'>                 
+            {/* <button className='google-button-sign-up'>                 
                <img src={google} alt="Google" onClick={() => handleGoogleSignIn(isProvider ? 'doctor' : 'patient')} className="social-sign-up" />
-            </button>
+            </button> */}
             {/* <button className='apple-button-sign-up'><img src={apple} alt='Apple' className='apple-sign-up-image'></img></button> */}
             </div>
 
