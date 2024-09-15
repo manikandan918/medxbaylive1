@@ -117,7 +117,7 @@ const Editdoctorprofile = () => {
         },
       }));
       
-      toast.success(`${fileType.replace("Proof", "")} selected for upload.`);
+      toast.info(`${fileType.replace("Proof", "")} selected for upload.`);
     };
   
     // Validate and read the file
