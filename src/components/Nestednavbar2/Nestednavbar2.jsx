@@ -119,7 +119,7 @@ const Nestednavbar = () => {
       <ul className="dropdown-list what-dropdown">
         {filteredSpecialities.length > 0 && (
           <>
-            <li className="dropdown-item disabled" style={{color:"orange"}}>Specialities :</li>
+            <li className="dropdown-item disabled" >Specialities</li>
             {filteredSpecialities.map((speciality, index) => (
               <li key={index} className="dropdown-item" onClick={() => handleWhatSelect(speciality)}>
                 {speciality}
@@ -130,7 +130,7 @@ const Nestednavbar = () => {
         )}
         {filteredConditions.length > 0 && (
           <>
-            <li className="dropdown-item disabled"  style={{color:"orange"}}>Conditions :</li>
+            <li className="dropdown-item disabled">Conditions</li>
             {filteredConditions.map((condition, index) => (
               <li key={index} className="dropdown-item" onClick={() => handleWhatSelect(condition)}>
                 {condition}
@@ -141,7 +141,7 @@ const Nestednavbar = () => {
         )}
         {filteredDoctors.length > 0 && (
           <>
-            <li className="dropdown-item disabled"  style={{color:"orange"}}>Doctors :</li>
+            <li className="dropdown-item disabled" >Doctors</li>
             {filteredDoctors.map((doctor, index) => (
               <li key={index} className="dropdown-item" onClick={() => handleWhatSelect(doctor.name)}>
                 {doctor.name}

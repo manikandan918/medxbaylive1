@@ -212,7 +212,7 @@ const Navbar = () => {
               )}
 
               <li className="nav-item active ml-md-4">
-                <Link className="about-nav nav-link nav-link-style" to="/about/section">About</Link>
+                <Link className="about-nav nav-link nav-link-style" to="/About/Section">About</Link>
               </li>
               <li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
                 <Link 
@@ -266,8 +266,13 @@ const Navbar = () => {
                 
                 {trialCountdown && (
                   <li className="nav-item active ml-md-4">
+                    <div className='row'>
+                    <p className='free-trial-doctor'> Free Trial period: </p>
                     <div className="trial-countdown">
-                      {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s
+
+                     {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s
+                    </div>
+                      {/* {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s */}
                     </div>
                   </li>
                 )}

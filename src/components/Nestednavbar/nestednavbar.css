@@ -164,7 +164,10 @@ border-bottom: 1px solid #C3CFE0
   color: orange;
   pointer-events: none;
 } */
-
+.dropdown-item.disabled{
+  color: #FF7F50 !important;
+  opacity: 1 !important;
+}
 @media (min-width: 1000px) and (max-width: 1022px) {
 .navbar-back {
   overflow: hidden;

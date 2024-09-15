@@ -99,6 +99,10 @@ border-bottom: 1px solid #C3CFE0
     cursor: pointer;
     flex-shrink: 0;
 }
+.dropdown-item.disabled{
+  color: #FF7F50 !important;
+  opacity: 1 !important;
+}
 @media (min-width: 1000px) and (max-width: 1022px) {
   .navbar-back {
     overflow: hidden;

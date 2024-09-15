@@ -10,7 +10,10 @@
   align-items: center;
   z-index: 9999; 
 }
-
+.dropdown-item.disabled{
+  color: #FF7F50 !important;
+  opacity: 1 !important;
+}
 .popup {
   background-color: #ffffff; /* White background */
   padding: 30px;

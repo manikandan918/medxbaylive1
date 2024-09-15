@@ -22,7 +22,8 @@
   font-weight: 400px;
   white-space: nowrap; 
   position: relative; 
-  top: 10px;
+  top: 20px;
+  left: -58px;
 }
 .nav-item.active {
   position: relative; 
@@ -199,4 +200,11 @@
 
 .find-doctor.nav-link.nav-link-style:hover {
   color: #007bff; /* Optionally, add a hover effect */
+}
+.free-trial-doctor{
+  position: relative;
+  left: 80px;
+
+  font-size: 16px;
+  font-weight: 400px;
 }
