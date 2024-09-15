@@ -44,7 +44,7 @@ const Footer = () => {
 
              <Link to="/about/section"><li>About Us</li></Link> 
             <Link to="/faq/section"> <li>FAQs</li></Link> 
-              <li>Contact</li>
+              
             </ul>
           </div>
           <div className="custom-footer-column">
@@ -52,8 +52,8 @@ const Footer = () => {
             <ul>
               <li>Privacy Policy</li>
             <Link to="/terms">  <li>Terms of Service</li></Link>
-              <li>Documentation</li>
-              <li>Site Map</li>
+            <li>Contact</li>
+              
             </ul>
           </div>
           <div className="custom-footer-column">
