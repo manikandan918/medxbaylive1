@@ -11,6 +11,7 @@ import LoginCard from '../login/login';
 import brand from '../Assets/medbrand.png';
 import Provider from './Provider';
 import axios from 'axios';
+import BlogPopup from '../patientBlog/BlogPopup';
 
 const Navbar = () => {
   const [isSignInClicked, setIsSignInClicked] = useState(false);
@@ -21,27 +22,25 @@ const Navbar = () => {
   const [userRole, setUserRole] = useState('');
   const [profileImage, setProfileImage] = useState(profilePlaceholder); 
   const [verified, setVerified] = useState(false); 
+  const [trialCountdown, setTrialCountdown] = useState(null); 
+  const [trialEndDate, setTrialEndDate] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showBlogPopup, setShowBlogPopup] = useState(false); // Add state for Blog Popup
   const navigate = useNavigate();
   const corporateDropdownRef = useRef(null);
   const providersDropdownRef = useRef(null);
-  const [trialCountdown, setTrialCountdown] = useState(null); 
-  const [trialEndDate, setTrialEndDate] = useState(null);
+
   const toggleCorporateDropdown = () => setCorporateDropdownOpen(!isCorporateDropdownOpen);
   const toggleProvidersDropdown = () => setProvidersDropdownOpen(!isProvidersDropdownOpen);
-
-  const [showPopup, setShowPopup] = useState(false);
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   const handleShowLoginPopup = () => setShowLoginPopup(true);
   const handleCloseLoginPopup = () => setShowLoginPopup(false);
   const handleShowPopup = () => setShowPopup(true);
   const handleClosePopup = () => setShowPopup(false);
 
-  const handleCloseRegister = () => setShowPopup(false);
-  const handleShowRegister = () => setShowPopup(true);
-
-  const handleShowLogin = () => setShowLoginPopup(true);
-  const handleCloseLogin = () => setShowLoginPopup(false);
+  const handleShowBlogPopup = () => setShowBlogPopup(true); // Handler to show Blog Popup
+  const handleCloseBlogPopup = () => setShowBlogPopup(false); // Handler to close Blog Popup
 
   const handleClickOutside = (event) => {
     if (corporateDropdownRef.current && !corporateDropdownRef.current.contains(event.target)) {
@@ -74,8 +73,6 @@ const Navbar = () => {
     setIsRegisterClicked(false);
   };
 
-
-
   const handleLogout = () => {
     sessionStorage.removeItem('loggedIn');
     sessionStorage.removeItem('userId');
@@ -104,6 +101,22 @@ const Navbar = () => {
     handleClosePopup(); 
   };
 
+  const handleCloseLogin = () => {
+    setShowLoginPopup(false);
+  };
+  
+  const handleCloseRegister = () => {
+    setShowPopup(false);
+  };
+  
+  const handleShowLogin = () => {
+    setShowLoginPopup(true);
+  };
+  
+  const handleShowRegister = () => {
+    setShowPopup(true);
+  };
+  
   useEffect(() => {
     const fetchProfileDetails = async () => {
       try {
@@ -149,7 +162,6 @@ const Navbar = () => {
               return () => clearInterval(intervalId);
             }
           } else {
-      
             if (userData.patient.profilePicture) {
               const profileImageData = `data:${userData.patient.profilePicture.contentType};base64,${userData.patient.profilePicture.data}`;
               setProfileImage(profileImageData);
@@ -210,7 +222,7 @@ const Navbar = () => {
                   onClick={toggleProviderModal}
                 >
                   For Corporates
-                  <FontAwesomeIcon icon={faChevronDown} className="ml-2" />
+                  {/* <FontAwesomeIcon icon={faChevronDown} className="ml-2" /> */}
                 </Link>
               </li>
               <li className="nav-item dropdown active ml-md-4" ref={providersDropdownRef}>
@@ -221,11 +233,11 @@ const Navbar = () => {
                   onClick={toggleProvidersDropdown}
                 >
                   For Providers
-                  <FontAwesomeIcon icon={faChevronDown} className="ml-2"/>
+                  {/* <FontAwesomeIcon icon={faChevronDown} className="ml-2"/> */}
                 </Link>
               </li>
               <li className="nav-item active ml-md-1">
-                <Link className="find-doctor nav-link nav-link-style" to="/blogs">Blog</Link>
+                <button className="find-doctor nav-link nav-link-style" onClick={handleShowBlogPopup}>Condition Libraries</button> {/* Update Blog link */}
               </li>
             </ul>
 
@@ -252,14 +264,10 @@ const Navbar = () => {
                   </li>
                 )}
                 
-                    {trialCountdown && (
+                {trialCountdown && (
                   <li className="nav-item active ml-md-4">
-                    <div className='row'>
-                    <p className='free-trial-doctor'> Free Trial period: </p>
                     <div className="trial-countdown">
-         
-                     {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s
-                    </div>
+                      {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s
                     </div>
                   </li>
                 )}
@@ -328,15 +336,16 @@ const Navbar = () => {
             />
           </div>
         )}
+        <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin}/>
+        <LoginCard 
+          show={showLoginPopup} 
+          handleClose={handleCloseLoginPopup} 
+          openRegisterModal={handleShowRegister} 
+          handleLogin={handleLogin}
+        />
+        <Provider show={showProviderModal} handleClose={() => setShowProviderModal(false)} />
+        <BlogPopup show={showBlogPopup} handleClose={handleCloseBlogPopup} /> {/* Add BlogPopup component */}
       </header>
-      <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin}/>
-      <LoginCard 
-        show={showLoginPopup} 
-        handleClose={handleCloseLoginPopup} 
-        openRegisterModal={handleShowRegister} 
-        handleLogin={handleLogin}
-      />
-      <Provider show={showProviderModal} handleClose={() => setShowProviderModal(false)} />
     </>
   );
 };

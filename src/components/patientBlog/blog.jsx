@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./blog.css";
 import { IoSearch } from "react-icons/io5";
 
-import {
-  FaTag,
-} from "react-icons/fa";
+import { FaTag } from "react-icons/fa";
 import axios from "axios";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -50,7 +48,7 @@ const Blog = () => {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/patient/blogs`
     );
-    console.log(response.data)
+    console.log(response.data);
     if (response.data) {
       var data = response.data;
       setHastags(data.hashtags);
@@ -75,88 +73,316 @@ const Blog = () => {
     loadBlogs();
   }, []);
 
-
-  
   return (
-    <div className="blog-page">
-      <div className="main-content-blog">
-        {/* Featured Section */}
-        <h1>Featured</h1>
-        <div className="featured-section">
-          <div className="featured-post">
-            <img
-              src={getProfileImage(featuredBlog?.image)}
-              alt="Image Loading"
-              className="featured-img"
-            />
-            <div className="featured-details">
-              <h2>{featuredBlog?.title}</h2>
-              {/* <p>{featuredBlog?.description?.slice(0,350)+"....."}</p> */}
-              <p dangerouslySetInnerHTML={{ __html:featuredBlog.description?.slice(0,350)+"....."}} />
+    <div>
+      <div className="heading-blog">BLOGS</div>
+      <div className="blog-page">
+        <div className="main-content-blog">
+          {/* Featured Section */}
+          <h1>Featured</h1>
+          <div className="featured-section">
+            <div className="featured-post">
+              <img
+                src={getProfileImage(featuredBlog?.image)}
+                alt="Image Loading"
+                className="featured-img"
+              />
+              <div className="featured-details">
+                <h2>{featuredBlog?.title}</h2>
+                {/* <p>{featuredBlog?.description?.slice(0,350)+"....."}</p> */}
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: featuredBlog.description?.slice(0, 350) + ".....",
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Featured Side Posts */}
+            <div className="featured-side-posts">
+              {sideFeatureBlog.map((post, index) => (
+                <div key={index} className="side-post-card">
+                  <img
+                    src={getProfileImage(post.image)}
+                    alt={post.title}
+                    className="side-post-img"
+                    style={{ width: "131px" }}
+                  />
+                  <div className="side-post-details">
+                    <h5>{post.title}</h5>
+                    <span>{moment(post.date).format("MMMM DD, YYYY")}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Featured Side Posts */}
-          <div className="featured-side-posts">
-            {sideFeatureBlog.map((post, index) => (
-              <div key={index} className="side-post-card">
-                <img
-                  src={getProfileImage(post.image)}
-                  alt={post.title}
-                  className="side-post-img"
-                />
-                <div className="side-post-details">
-                  <h5>{post.title}</h5>
-                  <span>{moment(post.date).format("MMMM DD, YYYY")}</span>
-                </div>
-              </div>
-            ))}
+          {/* Blog Content Sections */}
+          {Object.entries(categories).map(([name, value], index) => (
+            <BlogPostList key={index} title={name} posts={value} />
+          ))}
+        </div>
+
+        {/* Sidebar */}
+        <div>
+          <input
+            type="text"
+            placeholder="Search..."
+            style={{
+              padding: "10px",
+              width: "400px",
+              borderRadius: "10px",
+              border: "1px solid #EEEEEE",
+              backgroundColor: "#EEEEEE",
+              fontSize: "16px",
+              marginTop: "30px",
+              marginLeft: "170px",
+              marginBottom: "20px",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "18px",
+              marginTop: "-20px",
+              top: "-40px",
+              left: "530px",
+              marginLeft: "-30px",
+            }}
+          >
+            <IoSearch />
+          </span>
+
+          <div className="card card-blog ">
+            <SidebarSection title="Categories" items={categoryData} />
+            <NewRecentBlog recent={recentBlog} heading={"Recent Blog"} />
+            <NewRecentBlog recent={mostReadBlog} heading={"Most Reads"} />
+            <NewRecentBlogcategories
+              recent={mostReadBlog}
+              heading={"Most Reads"}
+            />
+            <h5 className="tags">Tags</h5>
+            <div className="tag-head">
+              <span className="tag-child"># Endodontics (10)</span>
+              <span className="tag-child"># Endodontics (15)</span>
+              <span className="tag-child"># Neurology (70)</span>
+              <span className="tag-child"># Insurance (16)</span>
+              <span className="tag-child"># Dental (60)</span>
+              <span className="tag-child"># Neurology (70)</span>
+              <span className="tag-child"># Diabetes (10)</span>
+              <span className="tag-child"># Dermatology (15)</span>
+              <span className="tag-child"># Stress (10)</span>
+              <span className="tag-child"># Blood pressure (25)</span>
+            </div>
           </div>
         </div>
-
-        {/* Blog Content Sections */}
-        {Object.entries(categories).map(([name, value], index) => (
-          <BlogPostList key={index} title={name} posts={value} />
-        ))}
-       
-        
       </div>
 
-      {/* Sidebar */}
-      <div>
-        <input
-          type="text"
-          placeholder="Search..."
-          style={{
-            padding: "10px",
-            width: "400px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
-            marginTop: "30px",
-            marginLeft: "170px",
-            marginBottom: "20px",
+      <div className="parent">
+        <div className="head1">
+          <div className="blog-section">
+            <h2>
+              <span style={{ color: "#0167FF", paddingRight: "5px" }}>|</span>
+              {"Treatment"}
+            </h2>
+            <br></br>
+            <ul>
+              {recentBlog?.slice(0, 4)?.map((post, index) => (
+                <li key={index}>
+                  <div className="post-meta">
+                    <img src={getProfileImage(post.image)} alt={post.title} />
+                    <span className="post-author">
+                      <b>{post.author}</b>
+                    </span>
+                    <span className="post-time">5 min read</span>
+                  </div>
+                  <div className="post-content">
+                    <h4>{post.title}</h4>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: post.description?.slice(0, 350) + ".....",
+                      }}
+                    ></p>
+                    {/* <a href="#" className="read-more">
+                Read more in 5 min <FaLongArrowAltRight />
+              </a> */}
 
-          }}
-        />
-        <span
-          style={{
-            fontSize: "18px",
-            marginTop: "-20px",
-            top: "-40px",
-            left: "530px",
-            marginLeft: "-30px"
-          }}
-        >
-          <IoSearch />
-        </span>
+                    <Link
+                      to={`/blogPost/${post._id}`}
+                      className="recentBlog-card-readmore"
+                    >
+                      Read more in 8 mins ⟶
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="head1">
+          <div className="blog-section">
+            <h2>
+              <span style={{ color: "#0167FF", marginRight: "5px" }}></span>
+              {""}
+            </h2>
+            <br></br>
+            <ul>
+              {recentBlog?.slice(0, 4)?.map((post, index) => (
+                <li key={index}>
+                  <div className="post-meta">
+                    <img src={getProfileImage(post.image)} alt={post.title} />
+                    <span className="post-author">
+                      <b>{post.author}</b>
+                    </span>
+                    <span className="post-time">5 min read</span>
+                  </div>
+                  <div className="post-content">
+                    <h4>{post.title}</h4>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: post.description?.slice(0, 350) + ".....",
+                      }}
+                    ></p>
+                    {/* <a href="#" className="read-more">
+                Read more in 5 min <FaLongArrowAltRight />
+              </a> */}
 
-        <div className="card card-blog ">
-          <SidebarSection title="Categories" items={categoryData} />
-          <NewRecentBlog recent={recentBlog} heading={"Recent Blog"} />
-          <NewRecentBlog recent={mostReadBlog} heading={"Most Reads"} />
+                    <Link
+                      to={`/blogPost/${post._id}`}
+                      className="recentBlog-card-readmore"
+                    >
+                      Read more in 8 mins ⟶
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
+
+      <div className="parent">
+        <div className="head1">
+          <div className="blog-section">
+            <h2>
+              <span style={{ color: "#0167FF", paddingRight: "5px" }}>|</span>
+              {"High Blood Pressure"}
+            </h2>
+            <br></br>
+            <ul>
+              {mostReadBlog?.slice(0, 4)?.map((post, index) => (
+                <li key={index}>
+                  <div className="post-meta">
+                    <img src={getProfileImage(post.image)} alt={post.title} />
+                    <span className="post-author">
+                      <b>{post.author}</b>
+                    </span>
+                    <span className="post-time">5 min read</span>
+                  </div>
+                  <div className="post-content">
+                    <h4>{post.title}</h4>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: post.description?.slice(0, 350) + ".....",
+                      }}
+                    ></p>
+                    {/* <a href="#" className="read-more">
+                Read more in 5 min <FaLongArrowAltRight />
+              </a> */}
+
+                    <Link
+                      to={`/blogPost/${post._id}`}
+                      className="recentBlog-card-readmore"
+                    >
+                      Read more in 8 mins ⟶
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="head1">
+          <div className="blog-section">
+            <h2>
+              <span style={{ color: "#0167FF", marginRight: "5px" }}></span>
+              {""}
+            </h2>
+            <br></br>
+            <ul>
+              {recentBlog?.slice(0, 4)?.map((post, index) => (
+                <li key={index}>
+                  <div className="post-meta">
+                    <img src={getProfileImage(post.image)} alt={post.title} />
+                    <span className="post-author">
+                      <b>{post.author}</b>
+                    </span>
+                    <span className="post-time">5 min read</span>
+                  </div>
+                  <div className="post-content">
+                    <h4>{post.title}</h4>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: post.description?.slice(0, 350) + ".....",
+                      }}
+                    ></p>
+                    {/* <a href="#" className="read-more">
+                Read more in 5 min <FaLongArrowAltRight />
+              </a> */}
+
+                    <Link
+                      to={`/blogPost/${post._id}`}
+                      className="recentBlog-card-readmore"
+                    >
+                      Read more in 8 mins ⟶
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="blog-section-last">
+        <h2>
+          <span style={{ color: "#0167FF", paddingRight: "5px" }}>|</span>
+          {"Treatment"}
+        </h2>
+        <br></br>
+        <ul>
+          {mostReadBlog.map((post, index) => (
+            <li key={index}>
+              <div className="post-meta-last">
+                <img src={getProfileImage(post.image)} alt={post.title} />
+              </div>
+              <div className="post-content-last">
+                <h4>{post.title}</h4>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: post.description?.slice(0, 350) + ".....",
+                  }}
+                ></p>
+                <span className="post-author-last">
+                  <b>By {post.author}</b>
+                </span>
+
+                {/* <span className="post-time-last">5 min read</span> */}
+                {/* <a href="#" className="read-more">
+                Read more in 5 min <FaLongArrowAltRight />
+              </a> */}
+                <br></br>
+                <Link
+                  to={`/blogPost/${post._id}`}
+                  className="recentBlog-card-readmore-last"
+                >
+                  Read more in 10 mins ⟶
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
     </div>
   );
 };
@@ -164,7 +390,11 @@ const Blog = () => {
 const BlogPostList = ({ title, posts }) => {
   return (
     <div className="blog-section">
-      <h3>{title}</h3>
+      <h2>
+        <span style={{ color: "#0167FF", paddingRight: "5px" }}>|</span>
+        {title}
+      </h2>
+      <br></br>
       <ul>
         {posts.map((post, index) => (
           <li key={index}>
@@ -177,16 +407,16 @@ const BlogPostList = ({ title, posts }) => {
             </div>
             <div className="post-content">
               <h4>{post.title}</h4>
-              <p               dangerouslySetInnerHTML={{ __html:post.description?.slice(0,350)+"....."}}>
-
-                </p>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: post.description?.slice(0, 350) + ".....",
+                }}
+              ></p>
               {/* <a href="#" className="read-more">
                 Read more in 5 min <FaLongArrowAltRight />
               </a> */}
 
-              
-
-<Link
+              <Link
                 to={`/blogPost/${post._id}`}
                 className="recentBlog-card-readmore"
               >
@@ -220,17 +450,14 @@ const SidebarSection = ({ title, items }) => {
   );
 };
 
-
-
-
-
-
 const NewRecentBlog = ({ recent, heading }) => {
   return (
     <div className="recentBlog-card-container">
       <div className="recentBlog-section-header">
         <div className="recentBlog-section-title">{heading}</div>
-        {/* <div className="recentBlog-section-showAll">Show All</div>{" "} */}
+        <Link to={`/blogs/showAll`}>
+          <div className="recentBlog-section-showAll">Show All</div>{" "}
+        </Link>
       </div>
 
       <div className="recentBlog-card-grid">
@@ -254,7 +481,6 @@ const NewRecentBlog = ({ recent, heading }) => {
               </div>
               <div className="recentBlog-card-title">{card.title}</div>
 
-             
               <Link
                 to={`/blogPost/${card._id}`}
                 className="recentBlog-card-readmore"
@@ -269,8 +495,49 @@ const NewRecentBlog = ({ recent, heading }) => {
   );
 };
 
+const NewRecentBlogcategories = ({ recent, heading }) => {
+  return (
+    <div className="recentBlog-card-container">
+      <div className="recentBlog-section-header">
+        <div className="recentBlog-section-title">{"Recommended Reading"}</div>
+        <Link to={`/blogs/showAll`}>
+          <div className="recentBlog-section-showAll">Show All</div>{" "}
+        </Link>
+      </div>
 
+      <div className="recentBlog-card-grid">
+        {recent?.slice(0, 2).map((card, index) => (
+          <div key={index} className="recentBlog-card">
+            <div className="recentBlog-card-left">
+              <img
+                src={getProfileImage(card.image)}
+                alt="Card thumbnail"
+                className="recentBlog-card-image"
+              />
+            </div>
+            <div className="recentBlog-card-right">
+              <div className="recentBlog-card-flex">
+                <div className="recentBlog-card-chips">
+                  {card.categories[0]}
+                </div>
+                <div className="recentBlog-card-date">
+                  {moment(card.date).format("MMM DD, YYYY")}
+                </div>
+              </div>
+              <div className="recentBlog-card-title">{card.title}</div>
 
-
+              <Link
+                to={`/blogPost/${card._id}`}
+                className="recentBlog-card-readmore"
+              >
+                Read more in 8 mins ⟶
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default Blog;

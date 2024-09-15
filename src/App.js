@@ -31,6 +31,7 @@ import Message from './components/Subscription/Message';
 import FaqSection from './components/Footerpage/FaqSection';
 import About from './components/Footerpage/About';
 import TermsAndConditions from './components/Footerpage/TermsAndConditions';
+import Editdoctorprofile from './components/Editdoctorprofile/Editdoctorprofile';
 // import Adminroute from './components/Admin/Admindashboard/Adminroute/Adminroute';
 
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="/" element={[<Navbar/>,<Section />,<Footer/>]} />
           <Route path="/reset-password" element={<ChangePassword />} />
           <Route path="/Doctor/profile/Edit" element={[<Navbar/>,<DoctorEdit />,<Footer/>]} />     
+          <Route path="/edit/profile/doctor" element={[<Navbar/>,<Editdoctorprofile />,<Footer/>]}  />
           <Route path="/doctor/:id" element={[<Nestednavbar/>,<DoctorProfile />,<Footer/>]}/>
           <Route path="/profile/*" element={<ProfileRoutes />} />
           <Route path="/doctorprofile/dashboardpage/*" element={<ConnectedRoutes />} />

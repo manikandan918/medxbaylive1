@@ -1,3 +1,9 @@
+.heading-blog {
+  text-align: center;
+  margin-top: 40px;
+  font-weight: 700;
+  font-size: 30px;
+}
 .blog-page {
   display: flex;
   padding: 20px;
@@ -8,7 +14,6 @@
   flex: 3;
   margin-right: 20px;
 }
-
 
 .featured-section {
   display: flex;
@@ -51,37 +56,40 @@
 .featured-side-posts {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   height: 395px;
-  width: 301px;
+  /* width: 301px; */
   overflow-y: auto;
   margin-left: 0px;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .side-post-card {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-  height: 90px;
+  /* margin-bottom: 10px; */
+  /* padding: 10px; */
+  border-bottom: 1px solid #ddd;
+  /* border-radius: 8px; */
+  /* background-color: #fff; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+  /* transition: transform 0.2s ease-in-out; */
+  height: 95px;
   overflow: hidden;
 }
 
-.side-post-card:hover {
+/* .side-post-card:hover {
   transform: translateY(-5px);
-}
+} */
 
 .side-post-img {
   width: 70px;
   height: 70px;
   object-fit: cover;
   margin-right: 10px;
-  border-radius: 8px;
+  /* border-radius: 8px; */
 }
 
 .side-post-details {
@@ -103,7 +111,6 @@
   color: #777;
 }
 
-
 .card-blog {
   flex: 2;
   margin: 5px;
@@ -112,14 +119,14 @@
   border: 1px solid gainsboro;
   border-radius: 8px;
   width: 400px;
-  height: 780px;
+  /* height: 780px; */
   margin-left: 160px;
   position: relative;
   left: 10px;
-  
+
   /* Add overflow properties */
   overflow: auto; /* Allows scrolling if content exceeds card size */
-  
+
   /* Hide the scrollbar */
   scrollbar-width: none; /* For Firefox */
 }
@@ -167,8 +174,8 @@
 }
 
 .blog-section {
-  width: 700px;
-  margin-bottom: 40px;
+  width: 600px;
+  margin-bottom: 20px;
 }
 
 .blog-section h3 {
@@ -186,12 +193,12 @@
 .blog-section li {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #ddd;
+  /* border-radius: 8px; */
+  /* background-color: #fff; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 }
 
 .blog-section img {
@@ -199,8 +206,7 @@
   height: 120px;
   object-fit: cover;
   margin-right: 20px;
-  border-radius: 8px;
-
+  /* border-radius: 8px; */
 }
 
 .post-meta {
@@ -227,9 +233,9 @@
   color: #777;
 }
 
-.post-content {
+/* .post-content {
   flex: 1;
-}
+} */
 
 .post-content h4 {
   font-size: 18px;
@@ -408,7 +414,7 @@
   cursor: default;
   display: flex;
   gap: 20px;
-  padding:  10px;
+  padding: 10px;
   padding-left: 10px !important;
   text-align: start;
   flex-direction: column;
@@ -620,7 +626,10 @@
 
 .bloodPrSp-card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 3 cards per row, adjusts with screen size */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* 3 cards per row, adjusts with screen size */
   gap: 27.075px; /* Decreased by 5% from 28.5px */
   width: 100%; /* Full width */
 }
@@ -1028,6 +1037,115 @@
   /* justify-content: center; */
 }
 
+/* treatment */
+.parent {
+  /* border: 1px solid black; */
+
+  height: max-content;
+  display: flex;
+  flex-direction: row;
+}
+.head1 {
+  /* border: 1px solid rgb(164, 60, 60); */
+  margin: 40px;
+}
+
+.blog-section-last {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.blog-section-last h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.blog-section-last ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.blog-section-last li {
+  display: flex;
+  align-items: flex-start;
+  /* margin-bottom: 20px; */
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  /* border-radius: 8px; */
+  /* background-color: #fff; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.blog-section-last img {
+  width: 150px;
+  height: 300px;
+  object-fit: cover;
+  margin-right: 20px;
+  /* border-radius: 8px; */
+}
+
+.post-meta-last {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+  width: 578px;
+}
+
+.post-meta-last img {
+  width: 578px;
+  height: 270px;
+}
+
+.post-author-last {
+  margin: 5px 0;
+  color: #000000;
+  text-align: center;
+}
+
+.post-time-last {
+  margin: 5px 0;
+  color: #777;
+}
+
+.post-content-last {
+  flex: 1;
+}
+
+.post-content-last h4 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+
+.post-content-last p {
+  color: #666;
+  margin-bottom: 10px;
+}
+.tags {
+  border-bottom: 1px solid rgb(223, 221, 221);
+  padding-bottom: 20px;
+}
+/* CSS */
+.tag-head {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping of tags if they don't fit in one line */
+  gap: 10px; /* Space between items */
+}
+
+.tag-child {
+  background-color: #f0f0f0; /* Light background color for tags */
+  border: 1px solid #ccc; /* Border for tags */
+  border-radius: 8px; /* Rounded corners */
+  padding: 5px 10px; /* Padding around text */
+  font-size: 14px; /* Font size of the text */
+}
 
 
-/* New Footer End */
+
