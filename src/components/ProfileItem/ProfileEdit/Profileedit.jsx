@@ -155,63 +155,63 @@ const ProfileEdit = () => {
         if (!value) return "Email is required";
         if (!/\S+@\S+\.\S+/.test(value)) return "Valid email is required";
         return '';
-      case 'mobileNumber':
-        if (!value) return "Mobile number is required";
-        return '';
-      case 'address':
+      // case 'mobileNumber':
+      //   if (!value) return "Mobile number is required";
+      //   return '';
+      // case 'address':
 
-        if (!value) return "Address is required";
-        if (/^\s/.test(value)) return "Address should not start with a space";
-        if (/[^\w\s]/.test(value)) return "Address should not contain special characters";
+      //   if (!value) return "Address is required";
+      //   if (/^\s/.test(value)) return "Address should not start with a space";
+      //   if (/[^\w\s]/.test(value)) return "Address should not contain special characters";
 
-        if (/^[\d!@#$%^&*()_+=\[\]{};:'",.<>/?\\|`~]/.test(value)) return "Name should not start with a number or special character";
-        if (/\s{3,}/.test(value)) return "Address should not have more than 2 consecutive spaces";
-        return '';
-      case 'dob':
-        if (!value) return "Date of birth is required";
+      //   if (/^[\d!@#$%^&*()_+=\[\]{};:'",.<>/?\\|`~]/.test(value)) return "Name should not start with a number or special character";
+      //   if (/\s{3,}/.test(value)) return "Address should not have more than 2 consecutive spaces";
+      //   return '';
+      // case 'dob':
+      //   if (!value) return "Date of birth is required";
 
-        const today = new Date();
-        const dob = new Date(value);
+      //   const today = new Date();
+      //   const dob = new Date(value);
     
-        const age = today.getFullYear() - dob.getFullYear();
-        const monthDiff = today.getMonth() - dob.getMonth();
-        const dayDiff = today.getDate() - dob.getDate();
+      //   const age = today.getFullYear() - dob.getFullYear();
+      //   const monthDiff = today.getMonth() - dob.getMonth();
+      //   const dayDiff = today.getDate() - dob.getDate();
     
-        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-            age--;
-        }
+      //   if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      //       age--;
+      //   }
     
-        if (dob > today) return "Date of birth cannot be in the future";
-        if (age < 5) return "Age must be at least 5 years";
+      //   if (dob > today) return "Date of birth cannot be in the future";
+      //   if (age < 5) return "Age must be at least 5 years";
     
-        return ''; 
+      //   return ''; 
     
-      case 'age':
-        if (!value || isNaN(value) || value <= 0) return "Valid age is required";
-        return '';
-      case 'gender':
-        if (!value) return "Gender is required";
-        return '';
-      case 'bloodGroup':
-        if (!value) return "Blood group is required";
-        return '';
-      case 'insuranceProvider':
-        if (!value) return "Insurance provider is required";
-        if (/^\s/.test(value)) return "Insurance should not start with a space";
-        if (/[^\w\s]/.test(value)) return "Insurance should not contain special characters";
+      // case 'age':
+      //   if (!value || isNaN(value) || value <= 0) return "Valid age is required";
+      //   return '';
+      // case 'gender':
+      //   if (!value) return "Gender is required";
+      //   return '';
+      // case 'bloodGroup':
+      //   if (!value) return "Blood group is required";
+      //   return '';
+      // case 'insuranceProvider':
+      //   if (!value) return "Insurance provider is required";
+      //   if (/^\s/.test(value)) return "Insurance should not start with a space";
+      //   if (/[^\w\s]/.test(value)) return "Insurance should not contain special characters";
 
-        if (/^[\d!@#$%^&*()_+=\[\]{};:'",.<>/?\\|`~]/.test(value)) return "Insurance should not start with a number or special character";
-        if (/\s{3,}/.test(value)) return "Insurance should not have more than 2 consecutive spaces";
-        return '';
-      case 'policyNumber':
-        if (!value) return "Policy number is required";
-        if (/^\s/.test(value)) return "Policy should not start with a space";
-        if (/[A-Za-z]/.test(value)) return "Policy number should not contain alphabets";
+      //   if (/^[\d!@#$%^&*()_+=\[\]{};:'",.<>/?\\|`~]/.test(value)) return "Insurance should not start with a number or special character";
+      //   if (/\s{3,}/.test(value)) return "Insurance should not have more than 2 consecutive spaces";
+      //   return '';
+      // case 'policyNumber':
+      //   if (!value) return "Policy number is required";
+      //   if (/^\s/.test(value)) return "Policy should not start with a space";
+      //   if (/[A-Za-z]/.test(value)) return "Policy number should not contain alphabets";
 
-        if (/[^\w\s]/.test(value)) return "Policy should not contain special characters";
+      //   if (/[^\w\s]/.test(value)) return "Policy should not contain special characters";
 
-        if (/\s{3,}/.test(value)) return "Policy should not have more than 2 consecutive spaces";
-        return '';
+      //   if (/\s{3,}/.test(value)) return "Policy should not have more than 2 consecutive spaces";
+      //   return '';
       default:
         return '';
     }
@@ -263,26 +263,23 @@ const ProfileEdit = () => {
   
 
   const handleSave = async (event) => {
-    event.preventDefault();
-  
-    if (!validateField()) return;
+    event.preventDefault();  // Prevent the form from reloading the page
 
     let formattedDob = '';
     if (dob) {
       const dateObj = new Date(dob);
       if (!isNaN(dateObj.getTime())) {
-        formattedDob = dateObj.toISOString().split('T')[0];
+        formattedDob = dateObj.toISOString().split('T')[0];  // Format date to the correct format
       } else {
         console.error('Invalid date:', dob);
       }
     }
 
-    const formData = new FormData();
-  
+    const formData = new FormData();  // Prepare the form data to be sent
+
     if (profileImage && profileImage.startsWith('data:image')) {
-      const [, base64Data] = profileImage.split(',');
       const blob = await fetch(profileImage).then(r => r.blob());
-      formData.append("profilePicture", blob, "profile.jpg");
+      formData.append("profilePicture", blob, "profile.jpg");  // Add the profile picture if available
     }
     formData.append("name", name);
     formData.append("email", email);
@@ -294,13 +291,13 @@ const ProfileEdit = () => {
     formData.append("bloodGroup", bloodGroup);
     formData.append("insuranceProvider", insuranceProvider);
     formData.append("policyNumber", policyNumber);
-  
+
     try {
       await axios.post(`${process.env.REACT_APP_BASE_URL}/patient/profile/update`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",  // Ensure the headers are set correctly
         },
-        withCredentials: true
+        withCredentials: true  // Send cookies along with the request
       });
 
       toast.info("Profile updated successfully!", {
@@ -310,7 +307,7 @@ const ProfileEdit = () => {
       });
     } catch (error) {
       console.error("There was an error updating the profile!", error);
-      toast.info("Error updating profile. Please try again.", {
+      toast.error("Error updating profile. Please try again.", {
         closeButton: true,
         progressBar: true,
         className: 'toast-center toast-error',
@@ -591,7 +588,7 @@ const ProfileEdit = () => {
           {errors.policyNumber && <div className="error-message">{errors.policyNumber}</div>}
 
         </div>
-        <button className="savebutton" type="submit">
+        <button className="savebutton" type="submit" onClick={handleSave}>
           <span className="savebutton-text">Save Changes</span>
         </button>
       </form>

@@ -266,7 +266,7 @@ const About = () => {
 
 <div className="cards-section11">
             <h2 className="regions-title11">
-                    <span className="title-bar11"></span>Meet Our Board Members
+                    <span className="title-bar11"></span>Meet Our Board Advisors.
                 </h2>
     {/* <h1 className='borderlefts'>Meet Our Team</h1> */}
     <p>Our dedicated team of experts in healthcare, technology,<br/> and marketing drives MedxBay's mission forward</p>
@@ -317,7 +317,7 @@ const About = () => {
   <div>
     <h4 style={{ color: 'orange', fontSize: '20px', marginTop: '20px' }}>Dr. Dawnna Walton
     </h4>
-    <h5>Anesthesiologis</h5>
+    <h5>Anesthesiologist</h5>
     <p style={{ fontSize: '14px' }}>Texas, USA</p>
   </div>
 </div>

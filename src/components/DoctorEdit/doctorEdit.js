@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-
+import Faq from '../Assets/faqImage.jpg'
 import "./doctoredit.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAward, faPlus, faUserMd } from "@fortawesome/free-solid-svg-icons";
@@ -429,7 +429,7 @@ function DoctorEdit() {
           <h2 className="heading">Frequently Asked Questions</h2>
           <div className="faq-container">
             <div className="faq-left">
-              <img src={faqimage} alt="faq" className="faq-image-doctor"></img>
+              <img src={Faq} alt="faq" className="faq-image-doctor"></img>
               <div className="smile-emoji-container">
                 <img src={smilee} alt="smile" className="smile-emoji-faq-edit"></img>
                 <p className="people-count-faq">84k+</p>
