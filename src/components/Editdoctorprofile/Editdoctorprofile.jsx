@@ -800,7 +800,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
             {doctorData && doctorData.documents && doctorData.documents.certificationProof && (
               <p className="edit-doctor-profile-doc-Proof-file-name">
                 {typeof doctorData.documents.certificationProof === 'object'
-                  ? doctorData.documents.certificationProof.name || 'File available'
+                  ? doctorData.documents.certificationProof.name || 'File Uploaded'
                   : doctorData.documents.certificationProof}
               </p>
             )}
@@ -827,7 +827,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
             {doctorData && doctorData.documents && doctorData.documents.businessProof && (
               <p className="edit-doctor-profile-doc-Proof-file-name">
                 {typeof doctorData.documents.businessProof === 'object'
-                  ? doctorData.documents.businessProof.name || 'File available'
+                  ? doctorData.documents.businessProof.name || 'File Uploaded'
                   : doctorData.documents.businessProof}
               </p>
             )}
@@ -855,7 +855,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
           {doctorData && doctorData.documents && doctorData.documents.licenseProof && (
             <p className="edit-doctor-profile-doc-Proof-file-name">
               {typeof doctorData.documents.licenseProof === 'object'
-                ? doctorData.documents.licenseProof.name || 'File available'
+                ? doctorData.documents.licenseProof.name || 'File Uploaded'
                 : doctorData.documents.licenseProof}
             </p>
           )}

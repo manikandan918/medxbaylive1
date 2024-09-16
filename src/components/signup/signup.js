@@ -31,7 +31,7 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [mobile, setMobile] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false); 
   const [nameError, setNameError] = useState('');
@@ -118,7 +118,7 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
   const register = async (e) => {
     e.preventDefault();
     setIsSubmitting(true); 
-    const user = { name, email, mobile, password };
+    const user = { name, email, phoneNumber, password };
     const endpoint = isProvider 
       ? `${process.env.REACT_APP_BASE_URL}/auth/signup/doctor`
       : `${process.env.REACT_APP_BASE_URL}/auth/signup/patient`;
@@ -139,7 +139,7 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
 
         setName('');
         setEmail('');
-        setMobile('');
+        setPhoneNumber('');
         setPassword('');
         handleClose(); 
       } catch (err) {
@@ -190,7 +190,7 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
   const [isProvider, setIsProvider] = useState(false);
 
   const validateForm = () => {
-    return validateName(name) && validateEmail(email) && validateMobile(mobile) && validatePassword(password);
+    return validateName(name) && validateEmail(email) && validateMobile(phoneNumber) && validatePassword(password);
   };
 
   const handleProviderClick = () => {
@@ -307,11 +307,11 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
 
   const handleMobileChange = (event) => {
     const { value } = event.target;
-    setMobile(value);
+    setPhoneNumber(value);
     validateMobile(value);
   };
   const handlePhoneChange = (value) => {
-    setMobile(value);
+    setPhoneNumber(value);
  
   };
 
@@ -412,7 +412,7 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
             <Form.Label>Mobile</Form.Label>
             <PhoneInput
   country={'us'}             
-  value={mobile}          
+  value={phoneNumber}          
   onChange={handlePhoneChange}  
   containerClass="form-control-custom-phone"  
   className="form-control-custom-phone"      
