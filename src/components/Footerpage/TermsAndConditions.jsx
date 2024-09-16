@@ -1,6 +1,6 @@
 import React from 'react';
 import './TermsAndConditions.css';
-
+import terms  from '../../assests/terms.jpeg'
 const TermsAndConditions = () => {
   return (
     <div className="terms-container">
@@ -17,8 +17,7 @@ const TermsAndConditions = () => {
           </div>
         </div>
         <div className="terms-image">
-          <img
-            src="https://s3-alpha-sig.figma.com/img/2cc8/7629/63cc0119bf7cb9ee5bc369f6e44915ae?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=f5MtCZYg9OshI9px0WJlXW3-UGI8w7aokYt9fQ9CwzikTJWK0csd8a39y9s68zoPY44iUui7GEWJXybMPEnB~hPbVghnSieHKlgzjPFWirYmiGshv7-hgz0njn03vGlk-hyGETaxq7ClzMboMcomb4dA35TIFSlUEY4b2xNaWK1yiHm0Hq30u1r0G3CGBptK9jVqMqxuRwDsJK0ugGZPiAu4sRtI6i1pR6Ut6tN~9KHmoKwMWx7uzEVrLRCpxJvJdDj5rJ1ecm4LlZRc43rx8bdLVr6rXO2jnOKVJZRJ72bhakizF1O0SYt1N7Zit~rAblnPZLzPfpyWzvPmgL4aeg__"
+          <img src={terms}
             alt="Doctors"
           />
         </div>
