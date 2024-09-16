@@ -12,7 +12,7 @@ display: flex;
 margin-top: 00px;
 overflow-x: hidden; 
 z-index: 4 !important;
-border-bottom: 1px solid #908f8f3e;
+/* border-bottom: 1px solid #908f8f3e; */
 }
 .frame{
 max-width: 414px;
@@ -323,11 +323,12 @@ margin-top: 30px;
      opacity: 1;
       border-radius: 50%;
 
-    background: url('/public/insightpersonone.png') no-repeat;
-   
-    background-size: 150% 150%;
-    background-position: 130% top; 
+      background: url('/public/insightpersonone.png') no-repeat center center;
+      background-size: cover; 
+
+
 }
+
 .text-box-person-one-name{
     width: 140px;
 height: 10px;
@@ -421,9 +422,8 @@ border-radius: 50%;
      opacity: 1;
     border-radius: 50%;
 
-    background: url('/public/insightpersontwo.jpeg') no-repeat;
-    background-size: 230% 230%; 
-    background-position: 35% top; 
+    background: url('/public/insightpersontwo.jpeg') center no-repeat;
+    background-size: cover; 
 }
 .text-box-person-two-name{
     width: 140px;
@@ -2193,10 +2193,8 @@ opacity: 1;;
      opacity: 1;
       border-radius: 50%;
 
-    background: url('/public/insightpersonone.png') no-repeat;
-   
-    background-size: 150% 150%;
-    background-position: 130% top; 
+   background: url('/public/insightpersonone.png') no-repeat center center;
+      background-size: cover; 
 }
 .text-box-person-two-image-back {
     width: 44px;

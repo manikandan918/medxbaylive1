@@ -226,15 +226,17 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item dropdown active ml-md-4" ref={providersDropdownRef}>
-                <Link 
-                  className="for-providers nav-link nav-link-style dropdown-toggle" 
-                  to="https://mxb-providerslaunch.zoholandingpage.com/zoho-marketing-automation-workspace/Prelaunch%20-%20Providers/" 
-                  role="button" 
-                  onClick={toggleProvidersDropdown}
-                >
-                  For Providers
-                  {/* <FontAwesomeIcon icon={faChevronDown} className="ml-2"/> */}
-                </Link>
+              <a 
+  className="for-providers nav-link nav-link-style dropdown-toggle" 
+  href="https://mxb-providerslaunch.zoholandingpage.com/zoho-marketing-automation-workspace/Prelaunch%20-%20Providers/" 
+  role="button" 
+  target="_blank" 
+  rel="noopener noreferrer" // Optional for security reasons
+  onClick={toggleProvidersDropdown}
+>
+  For Providers
+</a>
+
               </li>
               <li className="nav-item active ml-md-1">
                 <button className="find-doctor nav-link nav-link-style" onClick={handleShowBlogPopup}>Condition Libraries</button> {/* Update Blog link */}
@@ -356,3 +358,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+

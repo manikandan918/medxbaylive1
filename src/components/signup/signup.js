@@ -312,7 +312,7 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
   };
   const handlePhoneChange = (value) => {
     setMobile(value);
-    // Additional validation can be added here if needed
+ 
   };
 
 
@@ -332,7 +332,12 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
    />
       <Modal.Title>
         <span className="model-header">Sign up</span>{' '}
-        <span className="model-header-sub"> Sign up as {isProvider ? 'Provider' : 'Patient'}</span>
+        <span className="model-header-sub">
+  Sign up as {  ' '}
+  <span style={{ color: '#0167FF', marginLeft: '8px' }}>
+  {isProvider ? 'Provider' : 'Patient'}
+</span>
+</span>
       </Modal.Title>
       <button type="button" className="btn-close-custom" aria-label="Close" onClick={handleClose}>
         x
@@ -371,43 +376,7 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
         </div>
       ) : (
         <>
-        <div className='or-sign-up-container'>
-       
-       <div className='or-sign-up'>OR</div>
-          <div className='end-line-sign-up'></div>
-          <div className='end-line-sign-up-two'>
-            <div className='button-sign-up-container'>
-            {/* <button className='google-button-sign-up'>                 
-               <img src={google} alt="Google" onClick={() => handleGoogleSignIn(isProvider ? 'doctor' : 'patient')} className="social-sign-up" />
-            </button> */}
-            {/* <button className='apple-button-sign-up'><img src={apple} alt='Apple' className='apple-sign-up-image'></img></button> */}
-            </div>
-
-          </div>
-          <div className='login-option-container'>
-<div className='account-sign-up'>Have an account?</div>
-
-<Link className='login-link-signup' to="#" onClick={() => {
-              handleClose(); // Close the login modal
-              openLoginModal(); // Open the registration modal
-            }}>
-                Sign In
-                </Link>
-
-            </div>
-            <div className='provider-option-container'>
-              
-              <div className="account-sign-up-provider">
-                {isProvider ? 'Are you a patient?' : 'Are you a provider?'}
-              </div>
-              <button
-                className="provider-link-signup"
-                onClick={isProvider ? handlePatientClick : handleProviderClick}
-              >
-                {isProvider ? 'Sign Up Here' : 'Sign Up here'}
-              </button>
-            </div>
-          </div>
+     
 
 
      <div className='sign-up-button-container'></div>
@@ -445,8 +414,8 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
   country={'us'}             
   value={mobile}          
   onChange={handlePhoneChange}  
-  containerClass="form-control-custom-phone"  // Use containerClass instead of className for custom styling
-  className="form-control-custom-phone"      // Apply input-specific styles
+  containerClass="form-control-custom-phone"  
+  className="form-control-custom-phone"      
   placeholder="Enter your Mobile Number"
 />
             {/* <Form.Control
@@ -481,6 +450,43 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
             >
               {isSubmitting ? 'Signing Up...' : 'Sign Up'}
             </Button>
+            <div className='or-sign-up-container'>
+       
+       <div className='or-sign-up'>OR</div>
+          <div className='end-line-sign-up'></div>
+          <div className='end-line-sign-up-two'>
+            <div className='button-sign-up-container'>
+            {/* <button className='google-button-sign-up'>                 
+               <img src={google} alt="Google" onClick={() => handleGoogleSignIn(isProvider ? 'doctor' : 'patient')} className="social-sign-up" />
+            </button> */}
+            {/* <button className='apple-button-sign-up'><img src={apple} alt='Apple' className='apple-sign-up-image'></img></button> */}
+            </div>
+
+          </div>
+          <div className='login-option-container'>
+<div className='account-sign-up'>Have an account?</div>
+
+<Link className='login-link-signup' to="#" onClick={() => {
+              handleClose(); // Close the login modal
+              openLoginModal(); // Open the registration modal
+            }}>
+                Sign In
+                </Link>
+
+            </div>
+            <div className='provider-option-container'>
+              
+              <div className="account-sign-up-provider">
+                {isProvider ? 'Are you a patient?' : 'Are you a provider?'}
+              </div>
+              <button
+                className="provider-link-signup"
+                onClick={isProvider ? handlePatientClick : handleProviderClick}
+              >
+                {isProvider ? 'Sign Up Here' : 'Sign Up here'}
+              </button>
+            </div>
+          </div>
           </Form>
         </>
       )}

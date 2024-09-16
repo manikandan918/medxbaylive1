@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './editdoctorprofile.css';
 import { TbSquareArrowLeft } from "react-icons/tb";
 import { RiArrowUpSLine, RiArrowDownSLine } from "react-icons/ri";
-
+import { useNavigate } from 'react-router-dom';
 import profileImage from '../../assests/doctorprofile.png';
 import currencyCodes from 'currency-codes';
 import { TiPlus } from "react-icons/ti";
@@ -47,7 +47,10 @@ const Editdoctorprofile = () => {
       businessProof: { data: null, contentType: "" },
     },
   });
+  const [dob, setDob] = useState('');
+  const [error, setError] = useState('');
 
+  const navigate = useNavigate(); 
   const [allInsurances, setAllInsurances] = useState([]);
   const [allSpecialties, setAllSpecialties] = useState([]);
   const [allConditions, setAllConditions] = useState([]);
@@ -83,6 +86,11 @@ const Editdoctorprofile = () => {
   };
   const toggleDocumentProofSection = () => setIsDocumentProof(!isOpenDocumentProof);
   const toggleOthersSection = () => setIsOpenOthers(!isOpenOthers);
+  
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setDoctorData({ ...doctorData, [id]: value });
+  };
 
   const handleFileChange = (e, fileType) => {
     const file = e.target.files[0];
@@ -105,7 +113,7 @@ const Editdoctorprofile = () => {
       console.log(base64String);
       
   
-      // Update state with selected document data
+      
       setDoctorData((prevData) => ({
         ...prevData,
         documents: {
@@ -199,20 +207,30 @@ const Editdoctorprofile = () => {
       ...prevData,
       profilePicture: null
     }));
-    setProfilePicturePreview(null); // Clear preview
+    setProfilePicturePreview(null); 
   };
   
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setDoctorData({ ...doctorData, [id]: value });
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value);
+    const today = new Date();
+
+
+    if (selectedDate > today) {
+      setError('Date of birth cannot be in the future');
+    } else {
+      setError('');
+      setDob(e.target.value);
+
+
+      setDoctorData({ ...doctorData, dateOfBirth: e.target.value });
+    }
   };
 
-  //specialities
-// Function to handle adding a selected speciality from the dropdown
-const handleSpecialitiesChange = (event) => {
-  const selectedSpeciality = event.target.value;  // Get selected speciality name
 
-  // Ensure the speciality is not already in the state
+const handleSpecialitiesChange = (event) => {
+  const selectedSpeciality = event.target.value;  
+
+
   if (!doctorData.speciality.includes(selectedSpeciality)) {
     setDoctorData({
       ...doctorData,
@@ -359,10 +377,19 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    const selectedDate = new Date(dob);
+    const today = new Date();
+        if (selectedDate > today) {
+          setError('Date of birth cannot be in the future');
+          return;
+        }
+        if (error) {
+          toast.info('Please fix the errors before submitting');
+          return; 
+        }
     const formPayload = { ...doctorData };
   
-    // Debugging: Log the document data
+
   
     const transformedDocuments = {};
     for (const key in formPayload.documents) {
@@ -390,7 +417,13 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
         }
       );
   
-      toast.success('Profile updated successfully!');
+      if (!error) {
+        toast.info('Form submitted successfully');
+        navigate('/Doctor/profile/Edit'); 
+        window.scrollTo(0, 0); 
+            }
+
+   
     } catch (error) {
       toast.error('Failed to update profile. Please try again.');
     }
@@ -466,7 +499,9 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                   <div className="edop-form-row">
                     <div className="edop-form-group">
                       <label htmlFor="dob">Date of Birth</label>
-                      <input type="date" id="dateOfBirth" placeholder='mm-dd-yyyy' value={doctorData.dateOfBirth} onChange={handleInputChange} />
+                      <input type="date" id="dateOfBirth" placeholder='mm-dd-yyyy' value={doctorData.dateOfBirth}   onChange={handleDateChange} />
+                      {error && <p style={{ color: 'red' }}>{error}</p>}
+
                     </div>
 
                     <div className="edop-form-group edop-select-box-header">
@@ -746,95 +781,104 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
         </div>
       ))}
 
+{/* Document verification Details Section */}
+<div className={`edit-your-profile-details-section ${isOpenDocumentProof ? 'open' : 'closed'}`}>
+  <div className="edit-your-profile-section-header">
+    <h3>Document verification details</h3>
+    <span onClick={toggleDocumentProofSection}>
+      {isOpenDocumentProof ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
+    </span>
+  </div>
 
-            {/* Document verification Details Section */}
-            <div className={`edit-your-profile-details-section ${isOpenDocumentProof ? 'open' : 'closed'}`}>
-              <div className="edit-your-profile-section-header">
-                <h3>Document verification details</h3>
-                <span onClick={toggleDocumentProofSection}>
-                  {isOpenDocumentProof ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
-                </span>
-              </div>
+  {isOpenDocumentProof && (
+    <div>
+      <div className="edop-form-row">
+        {/* Certification Proof */}
+        <div className='edop-form-group'>
+          <label>Certification Proof</label>
+          <div className="edit-doctor-profile-doc-Proof-file">
+            {doctorData && doctorData.documents && doctorData.documents.certificationProof && (
+              <p className="edit-doctor-profile-doc-Proof-file-name">
+                {typeof doctorData.documents.certificationProof === 'object'
+                  ? doctorData.documents.certificationProof.name || 'File available'
+                  : doctorData.documents.certificationProof}
+              </p>
+            )}
 
-              {isOpenDocumentProof && (
-                <div>
-                  <div className="edop-form-row">
-
-                    {/* Certification Proof */}
-                    <div className='edop-form-group'>
-                      <label>Certification Proof</label>
-                      <div className="edit-doctor-profile-doc-Proof-file">
-                        <input
-                          type="file"
-                          id="certificationProof"
-                          ref={certificationProofInputRef}
-                          className="edit-doctor-profile-doc-Proof-input"
-                          onChange={(e) => handleFileChange(e, "certificationProof")}
-                        />
-                        <p className="edit-doctor-profile-doc-Proof-file-name">
-                          {doctorData.documents.certificationProof
-                            ? (typeof doctorData.documents.certificationProof === 'object'
-                              ? doctorData.documents.certificationProof.name || 'File available'
-                              : doctorData.documents.certificationProof)
-                            : "No file chosen"}
-                        </p>
-                        <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => certificationProofInputRef.current.click()}>
-                          <span>Choose File</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Business Proof */}
-                    <div className='edop-form-group'>
-                      <label>Business Proof</label>
-                      <div className="edit-doctor-profile-doc-Proof-file">
-                        <input
-                          type="file"
-                          id="businessProof"
-                          ref={businessProofInputRef}
-                          className="edit-doctor-profile-doc-Proof-input"
-                          onChange={(e) => handleFileChange(e, "businessProof")}
-                        />
-                        <p className="edit-doctor-profile-doc-Proof-file-name">
-                          {doctorData.documents.businessProof
-                            ? (typeof doctorData.documents.businessProof === 'object'
-                              ? doctorData.documents.businessProof.name || 'File available'
-                              : doctorData.documents.businessProof)
-                            : "No file chosen"}
-                        </p>
-                        <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => businessProofInputRef.current.click()}>
-                          <span>Choose File</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* License Proof */}
-                  <div className="edop-form-group edop-form-padding-or-magin">
-                    <label>License Proof</label>
-                    <div className="edit-doctor-profile-doc-Proof-file">
-                      <input
-                        type="file"
-                        id="licenseProof"
-                        ref={licenseProofInputRef}
-                        className="edit-doctor-profile-doc-Proof-input"
-                        onChange={(e) => handleFileChange(e, "licenseProof")}
-                      />
-                      <p className="edit-doctor-profile-doc-Proof-file-name">
-                        {doctorData.documents.licenseProof
-                          ? (typeof doctorData.documents.licenseProof === 'object'
-                            ? doctorData.documents.licenseProof.name || 'File available'
-                            : doctorData.documents.licenseProof)
-                          : "No file chosen"}
-                      </p>
-                      <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => licenseProofInputRef.current.click()}>
-                        <span>Choose File</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+          
+            <input
+              type="file"
+              id="certificationProof"
+              ref={certificationProofInputRef}
+              className="edit-doctor-profile-doc-Proof-input"
+              onChange={(e) => handleFileChange(e, "certificationProof")}
+            />
+            <p className="edit-doctor-profile-doc-Proof-file-name"></p>
+            <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => certificationProofInputRef.current.click()}>
+              <span>Choose File</span>
             </div>
+          </div>
+        </div>
+
+        {/* Business Proof */}
+        <div className='edop-form-group'>
+          <label>Business Proof</label>
+          <div className="edit-doctor-profile-doc-Proof-file">
+            {doctorData && doctorData.documents && doctorData.documents.businessProof && (
+              <p className="edit-doctor-profile-doc-Proof-file-name">
+                {typeof doctorData.documents.businessProof === 'object'
+                  ? doctorData.documents.businessProof.name || 'File available'
+                  : doctorData.documents.businessProof}
+              </p>
+            )}
+
+
+            <input
+              type="file"
+              id="businessProof"
+              ref={businessProofInputRef}
+              className="edit-doctor-profile-doc-Proof-input"
+              onChange={(e) => handleFileChange(e, "businessProof")}
+            />
+            <p className="edit-doctor-profile-doc-Proof-file-name"></p>
+            <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => businessProofInputRef.current.click()}>
+              <span>Choose File</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* License Proof */}
+      <div className="edop-form-group edop-form-padding-or-magin">
+        <label>License Proof</label>
+        <div className="edit-doctor-profile-doc-Proof-file">
+          {doctorData && doctorData.documents && doctorData.documents.licenseProof && (
+            <p className="edit-doctor-profile-doc-Proof-file-name">
+              {typeof doctorData.documents.licenseProof === 'object'
+                ? doctorData.documents.licenseProof.name || 'File available'
+                : doctorData.documents.licenseProof}
+            </p>
+          )}
+
+         
+          <input
+            type="file"
+            id="licenseProof"
+            ref={licenseProofInputRef}
+            className="edit-doctor-profile-doc-Proof-input"
+            onChange={(e) => handleFileChange(e, "licenseProof")}
+          />
+          <p className="edit-doctor-profile-doc-Proof-file-name">  </p>
+          <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => licenseProofInputRef.current.click()}>
+            <span>Choose File</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
+
 
 
             {/* Fees details Section */}

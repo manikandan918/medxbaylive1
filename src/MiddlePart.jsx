@@ -102,7 +102,7 @@ const MiddlePart = () => {
             </div>
             <div className=" reveal reveal-card">
               <Card className="reveal-profile-card card-1">
-                <Card.Body>
+                <Card.Body >
                   <Card.Title className="card-title">
                     <img src={doctorProfile3} alt="Doctor Profile" className="doctor-profile-img" />
                     <span className="profile-name">Dr. Mehmet Akinci</span>

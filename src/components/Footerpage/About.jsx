@@ -70,7 +70,7 @@ const About = () => {
             <div className="top-section11">
                 <div className="image-group11">
                     <div className="top-image11">
-                        <img className="top-image111" src="https://s3-alpha-sig.figma.com/img/efc2/af7a/0b726ca08fe8175c75225ee90b6efa4a?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=m~7jf91no6zHaDfssBpFE6YdkE8npuHZp1JwJoyRpJcDYrnbGFyxP5P6ndYrfkfkBytS9O7nrhaNq~SQV0Sqadlhh-jiSI1wgpe49Rj6rE9JfqD-0WnxSi8bG5ap45oktkLA4od53mkqpXxkC4GMQvTPtHAKF3pPorZ0SLOs0TIDqp9DxIPZnU7J2vh1czK~IEiSNItakq30L-~DiXnYeldV7pIvBT6qpOlrlAsDiu0uzsK1MGoB8LEcwdjGovbU81qFOVqNHl5ATHIaVB2Qxp1sjRmrNZVFylP2ozg5v4RfeNdxJB50gJMf0NR-TB5nLHF8vAbksKJTbOMrojzXYQ__" alt="Group of Doctors" />
+                        <img className="top-image111" src="../Frame67.png" alt="Group of Doctors" />
                         <div className="image-overlay11">WE FOUNDED IN 2023 AS 
                             <br/>GLOBAL WELLNESS ALLIANCE</div>
                     </div>
@@ -98,7 +98,7 @@ const About = () => {
                     <p>
                         At MedxBay, our mission is to empower healthcare professionals and enhance patient care by leveraging advanced technology and innovative solutions that help support SDG#3 - Good Health & Well-being for all.
                     </p>
-                    <p style={{color:"#272848",marginBottom:"30px",marginTop:"10px" }}><b>Our goals include</b></p>
+                    <p style={{color:"#272848",marginBottom:"30px",marginTop:"10px" }}><b>Our goals include,</b></p>
                     <div className="goals11">
                     
                         <div className="goal11">
@@ -169,7 +169,7 @@ const About = () => {
             </div>
        
         </div>
-
+           <div className='markey'>
             <h1 className="key-prob11">Key problems we solve</h1>
 
             <div className="key-problems-section11">
@@ -203,6 +203,7 @@ const About = () => {
                         </li>
                     ))}
                 </ul>
+            </div>
             </div>
             </div>
             <div  className="regions-section11   ">

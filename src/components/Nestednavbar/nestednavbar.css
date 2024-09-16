@@ -5,11 +5,13 @@
   align-items: center;
   height: 30vh;
   background-color: white;
+
 }
 
 .down-arrow .image-arrow {
   width: 100px;
   height: 100px;
+  margin-top: -20px;
 }
 
 .color-style {

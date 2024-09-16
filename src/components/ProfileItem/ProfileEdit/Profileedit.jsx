@@ -410,7 +410,7 @@ const ProfileEdit = () => {
           {errors.mobileNumber && <div className="error-message">{errors.mobileNumber}</div>}
 
           <div className="profile-group">
-            <label className="profile-label" htmlFor="location">Location</label>
+            <label className="profile-label" htmlFor="location">Country</label>
             <input
   className="profile-input"
   type="text"

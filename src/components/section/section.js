@@ -10,7 +10,7 @@ import Nestednavbar from '../Nestednavbar/Nestednavbar'
 import Hero from '../Hero/Hero'
 
 import Siri from '../siri/Siri';
-
+import TestimonialSlider from '../section5/TestimonialSlider'
 // import Insights from '../section.6/Appp';
 
 function Section() {
@@ -26,7 +26,7 @@ function Section() {
       <MiddlePart />
       <Siri/>
       <Insights />
-      {/* <TestimonialSlider/> */}
+      <TestimonialSlider/>
 
 
   

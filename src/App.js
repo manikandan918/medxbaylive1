@@ -33,7 +33,7 @@ import About from './components/Footerpage/About';
 import TermsAndConditions from './components/Footerpage/TermsAndConditions';
 import Editdoctorprofile from './components/Editdoctorprofile/Editdoctorprofile';
 // import Adminroute from './components/Admin/Admindashboard/Adminroute/Adminroute';
-
+import SignupCard from './components/signup/signup';
 
 function App() {
   useEffect(() => {
@@ -61,6 +61,8 @@ function App() {
           <Route path="/faq/section" element={[<Navbar/>,<FaqSection />,<Footer/>]} />
           <Route path="/about/section" element={[<Navbar/>,<About />,<Footer/>]} />
           <Route path="/terms" element={[<Navbar/>,<TermsAndConditions />,<Footer/>]} />
+          <Route path="/signup" element={[<Navbar/>,<SignupCard />,<Footer/>]} />
+
           {/* <Route path="/admin/dashboardpage/*" element={<Adminroute/>} /> */}
         </Routes>
       </Router>

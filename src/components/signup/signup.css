@@ -129,7 +129,7 @@ color: #272848;
 }
 .form-overall-container{
   position: relative;
-  top: -170px;
+  top: -140px;
 
 
 }
@@ -164,6 +164,7 @@ left: 46%;
   display: block;
   margin-bottom: 0.5rem;
   margin-left: 37.5%;
+  margin-top: 5px;
 }
 .radio-buttons{
   margin-left: 37.5%;
@@ -214,7 +215,9 @@ height: 50px !important;
   font-family: 'Matter', sans-serif;
   width: 25%;
   margin-left: 37.5%;
+  margin-top: 10px;
   border: 1px solid #272848
+  
 }
 
 .custom-modal .form-control-custom:focus {
@@ -233,11 +236,6 @@ height: 50px !important;
   border-radius: 22px;
 
   background: #0067FF;
-
-  
-
-
-
   position: relative;
 
 
@@ -478,7 +476,7 @@ position: relative;
 .or-sign-up-container{
   display: flex;
   position: relative;
-  top: -30px;
+  top: -310px;
 }
 .end-line-sign-up{
 width: 116px;
@@ -757,6 +755,7 @@ align-items: center;
     width: 90%;
     margin-left: 5%;
     box-sizing: border-box;
+ 
   }
 
   .custom-modal .form-label {
@@ -765,6 +764,7 @@ align-items: center;
     display: block;
     margin-bottom: 0.5rem;
     margin-left: 5%;
+
   }
 
   .radio-buttons {
@@ -1415,6 +1415,7 @@ height: auto;
     width: 70%;
     margin-left: 13%;
     box-sizing: border-box;
+    z-index: 999;
   }
 
   .custom-modal .form-label {

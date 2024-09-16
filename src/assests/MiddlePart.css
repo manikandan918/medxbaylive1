@@ -289,7 +289,7 @@ body{
 
 .profile-name-2 {
     margin-left: 10px;
-    margin-top: -40px;
+    margin-top: -55px;
 }
 
 .reveal-profile-card .bar-image-1,
@@ -393,8 +393,9 @@ body{
 }
 
 .bar-image-1 {
+    position: absolute;
     margin-left: 70px;
-    margin-top: -47px;
+    margin-top: -67px;
 }
 .bar-image-alt{
     margin-left: 15px;
@@ -411,7 +412,7 @@ body{
 
 .bar-image-2 {
     margin-left: 70px;
-    margin-top: -25px;
+    margin-top: -50px;
 }
 
 .bar-image-2 img {
@@ -481,17 +482,18 @@ margin-top: 20px;
     top: -15px;
     margin-top: 10px;
     margin-right: 0px;
-    width: 52px;
-    height: 50px;
+    width: 62px;
+    height: 60px;
     border-radius: 50%;
     gap: 20px;
 }
 
 .reveal-profile-card .card-title .profile-name {
-    margin-top: -40px;
+    margin-top: -55px;
     width: 120px;
     /* height: 9px; */
     margin-left: 10px;
+    position: relative;
 }
     @media (max-width : 412px) {
         .mid-container{

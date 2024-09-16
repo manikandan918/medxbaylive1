@@ -1,26 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaFacebookF, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { RiSendPlaneFill } from "react-icons/ri";
 import brand from '../Assets/medbrand.png';
 import './footerrs.css';
 import './UserFooter.css'
 
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+
 const UserFooter = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleNavigation = () => {
+    window.scrollTo(0, 0);  
+    navigate('/');
+  };
+
+  const handleLinkClick = () => {
+    window.scrollTo(0, 0);  
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/submit-email`,
+        { email },
+        { withCredentials: true }  
+      );
+      setMessage('Details saved successfully');
+      setEmail('');
+    } catch (error) {
+      setMessage('Error saving lead');
+    }
+  };
+  
   return (
-    <footer className="custom-footer user-footer">
+    <footer className="custom-footer">
       <div className="custom-footer-container">
         <div className="custom-footer-logo">
-        <img className='gwaimage' src={brand} alt="Description of the image"/>
-
-        <div className="custom-footer-socials">
-          <div className="custom-social-icon">
+        <a className="" href="/">     <img className='gwaimage' src={brand}  alt="Description of the image" /></a>
+  <div className="custom-footer-socials">
+            <div className="custom-social-icon">
               <a href="https://www.facebook.com/profile.php?id=61558154772271&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer">
                 <FaFacebookF />
               </a>
             </div>
             <div className="custom-social-icon">
               <a href="https://www.linkedin.com/company/medxbay/" target="_blank" rel="noopener noreferrer">
-              <FaLinkedin />
+                <FaLinkedin />
               </a>
             </div>
             <div className="custom-social-icon">
@@ -34,32 +64,36 @@ const UserFooter = () => {
           <div className="custom-footer-column">
             <h4 className='explore'>Explore</h4>
             <ul>
-              <li>Home Page</li>
-              <li>About Us</li>
-              <li>FAQs</li>
-              <li>Contact</li>
+              <li onClick={handleNavigation} style={{ cursor: 'pointer' }}>Home Page</li>
+              <Link to="/about/section" onClick={handleLinkClick}><li>About Us</li></Link>
+              <Link to="/faq/section" onClick={handleLinkClick}><li>FAQs</li></Link>
             </ul>
           </div>
           <div className="custom-footer-column">
             <h4>Legal</h4>
             <ul>
               <li>Privacy Policy</li>
-              <li>Terms of Service</li>
-              <li>Documentation</li>
-              <li>Site Map</li>
-       
+              <Link to="/terms" onClick={handleLinkClick}><li>Terms of Service</li></Link>
+              <li>Contact</li>
             </ul>
           </div>
           <div className="custom-footer-column">
             <h4>Subscribe</h4>
-            <p className='para'>Subscribe to get the latest news  from us</p>
-            <div className="custom-subscribe-form">
-              <input type="email" placeholder="Email Address" />
+            <p className='para'>Subscribe to get the latest news from us</p>
+            <form className="custom-subscribe-form" onSubmit={handleSubmit}>
+              <input
+                type="email"
+                placeholder="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
               <button type="submit">
-              <RiSendPlaneFill />
-  
+                <RiSendPlaneFill />
               </button>
-            </div>
+            </form>
+            {message && <p style={{ color: 'red' }}>{message}</p>}
+
           </div>
         </div>
       </div>

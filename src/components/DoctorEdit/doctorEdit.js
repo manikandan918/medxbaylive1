@@ -337,7 +337,7 @@ function DoctorEdit() {
       : 'Subscribe' 
     : doctor.verified === 'Pending'
     ? 'Pending' 
-    : 'Verify'} 
+    : 'Request To Verify'} 
 </button>
 
 
