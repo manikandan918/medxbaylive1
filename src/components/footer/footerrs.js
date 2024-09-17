@@ -28,7 +28,7 @@ const Footer = () => {
         { email },
         { withCredentials: true }  
       );
-      setMessage('Details saved successfully');
+      setMessage('Thank you for your subscription');
       setEmail('');
     } catch (error) {
       setMessage('Error saving lead');
