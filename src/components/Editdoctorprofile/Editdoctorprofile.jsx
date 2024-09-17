@@ -35,6 +35,7 @@ const Editdoctorprofile = () => {
     instagram: "",
     phoneNumber: "",
     doctorFee: "",
+    zip:"",
     hospitals: [
       { name: "", street: "", city: "", state: "", country: "", zip: "", lat: "", lng: "" },
     ],
@@ -46,6 +47,7 @@ const Editdoctorprofile = () => {
       certificationProof: { data: null, contentType: "" },
       businessProof: { data: null, contentType: "" },
     },
+  
   });
   const [dob, setDob] = useState('');
   const [error, setError] = useState('');
@@ -546,8 +548,8 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                     </div>
 
                     <div className="edop-form-group">
-                      <label htmlFor="zipcode">Zip code</label>
-                      <input type="text" id="zipcode" placeholder='Enter your zipcode' value={doctorData.zipcode} onChange={handleInputChange} />
+                      <label htmlFor="zip">Zip code</label>
+                      <input type="text" id="zip" placeholder='Enter your zipcode' value={doctorData.zip} onChange={handleInputChange} />
                     </div>
                   </div>
                 </div>

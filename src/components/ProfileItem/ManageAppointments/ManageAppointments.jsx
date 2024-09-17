@@ -242,7 +242,7 @@ const ManageAppointments = () => {
           <tbody>
             {Array.isArray(filteredBookings) && filteredBookings.slice(0, visibleAppointments).map(({ _id, doctor, date, time, status, consultationType,hospital, meetingLink }) => (
               <tr key={_id}>
-                <td>{doctor.name}</td>
+                <td>{doctor?.name }</td>
                 <td>{new Date(date).toLocaleDateString()}</td>
                 <td>{time}</td>
                 <td><span className={`status-dot ${getStatusClass(status)}`}>
