@@ -194,17 +194,19 @@ const Provider = ({ show, handleClose,openRegisterModal }) => {
           <img src={medicalexamsvg} alt="meds" className="medicalexam-emoji" />
           <div className="hand-emoji">👋</div>
           <img src={heartbeat} alt="meds" className="heartbeat-emoji" />
-          <div>
+          <div className='running-container-two'>
             <img src={curvedsigntwo} alt="meds" className="curvedsigntwo" />
             <p className="running-text-two">
               <span ref={typedElement}></span>
             </p>
           </div>
+          <div className='running-container'>
+
           <img src={curvedesign} alt="meds" className="curvedesign" />
           <p className="running-text">
             <span ref={typedElementTwo}></span>
           </p>
-      
+          </div>
         </div>
     
      
