@@ -12,7 +12,7 @@ import { ImBlogger2 } from 'react-icons/im';
 import { RiLogoutCircleRLine } from 'react-icons/ri';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import brandLogo from '../Assets/brand-logo-2.png';
+import logobrand from '../../../Assets/logobrand.png';
 import Verifypopup from './Verifypopup';
 
 const Sidebar = () => {
@@ -113,7 +113,7 @@ const Sidebar = () => {
       <div className="logo-container">
         {isSidebarOpen ? (
           <>
-            <img src={brandLogo} alt="Logo" className="logo" />
+                   <a className="" href="/">  <img src={logobrand} alt="Logo" className="logo" o/></a> 
             <button className="toggle-button" onClick={toggleSidebar}>
               <FaBars />
             </button>

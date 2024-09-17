@@ -8,7 +8,7 @@ import scheduletwo from '../../assests/img/schedule-two.svg';
 import doctorconsultation from '../Assets/doctorconsultation .svg';
 import medicalexamsvg from '../Assets/medicalexamsvg.svg';
 import heartbeat from '../Assets/heartbeat.svg';
-import brand from '../Assets/medbrand.png'
+import logobrand from '../Assets/logobrand.png'
 import curvedesign from '../../assests/img/curvedesign.svg'
 import curvedsigntwo from '../../assests/img/curvedsigntwo.svg';
 import google from '../../assests/img/google.png'
@@ -345,7 +345,7 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
       <Modal.Body>
         <div className="smile-emoji">
    
-          <img src={brand} alt="logo" className="brand-image-logo" />
+          <img src={logobrand} alt="logo" className="brand-image-logo" />
           <div className="emoji-ring">😇</div>
           <div className="calender-emoji-container">
             <img src={schedule} alt="meds" className="calender-emoji" />
