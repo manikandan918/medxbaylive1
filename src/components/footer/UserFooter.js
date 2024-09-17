@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaFacebookF, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { RiSendPlaneFill } from "react-icons/ri";
-import brand from '../Assets/medbrand.png';
+import logobrand from '../Assets/logobrand.png';
 import './footerrs.css';
 import './UserFooter.css'
 
@@ -38,10 +38,10 @@ const UserFooter = () => {
   };
   
   return (
-    <footer className="custom-footer">
+    <footer className="user-footer">
       <div className="custom-footer-container">
         <div className="custom-footer-logo">
-        <a className="" href="/">     <img className='gwaimage' src={brand}  alt="Description of the image" /></a>
+        <a className="" href="/">     <img className='gwaimage' src={logobrand}  alt="Description of the image" /></a>
   <div className="custom-footer-socials">
             <div className="custom-social-icon">
               <a href="https://www.facebook.com/profile.php?id=61558154772271&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer">

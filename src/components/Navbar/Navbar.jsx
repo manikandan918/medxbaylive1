@@ -8,7 +8,7 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 import profilePlaceholder from '../Assets/profileimg.png'; 
 import SignupCard from '../signup/signup';
 import LoginCard from '../login/login';
-import brand from '../Assets/medbrand.png';
+import logobrand from '../Assets/logobrand.png';
 import Provider from './Provider';
 import axios from 'axios';
 import BlogPopup from '../patientBlog/BlogPopup';
@@ -199,7 +199,7 @@ const Navbar = () => {
     <>
       <header>
         <nav className={navbarClass}>
-          <a className="navbar-brand" href="/"><img src={brand} alt="Brand Logo" className='brand-img' /></a>
+          <a className="navbar-brand" href="/"><img src={logobrand} alt="Brand Logo" className='brand-img' /></a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>

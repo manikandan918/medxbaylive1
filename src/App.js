@@ -34,6 +34,7 @@ import TermsAndConditions from './components/Footerpage/TermsAndConditions';
 import Editdoctorprofile from './components/Editdoctorprofile/Editdoctorprofile';
 // import Adminroute from './components/Admin/Admindashboard/Adminroute/Adminroute';
 import SignupCard from './components/signup/signup';
+import PrivacyPolicy from './components/Footerpage/PrivacyPolicy';
 
 function App() {
   useEffect(() => {
@@ -62,6 +63,7 @@ function App() {
           <Route path="/about/section" element={[<Navbar/>,<About />,<Footer/>]} />
           <Route path="/terms" element={[<Navbar/>,<TermsAndConditions />,<Footer/>]} />
           <Route path="/signup" element={[<Navbar/>,<SignupCard />,<Footer/>]} />
+          <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
 
           {/* <Route path="/admin/dashboardpage/*" element={<Adminroute/>} /> */}
         </Routes>

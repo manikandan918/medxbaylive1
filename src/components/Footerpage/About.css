@@ -412,7 +412,7 @@ padding-left: 10px;
 
 
 
-.selected-card {
+.selected-card45 {
     border-color: #007bff; /* Change border color when selected */
 }
 
@@ -430,7 +430,7 @@ padding-left: 10px;
     transition: border-color 0.3s ease; /* Smooth transition for border color */
 }
 
-.selected-card {
+.selected-card45 {
     border: 2px solid #007bff; /* Border color for the selected card */
     /* Adjust color and width as needed */
 }

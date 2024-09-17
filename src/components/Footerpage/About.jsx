@@ -136,7 +136,7 @@ const About = () => {
             <div className="cards-row11">
                 {/* Card 1 */}
                 <div
-                    className={`card11 ${selectedCard === 1 ? 'selected-card' : ''}`}
+                    className={`card11 ${selectedCard === 1 ? 'selected-card45' : ''}`}
                     onClick={() => handleCardClick(1)}
                 > <img src="../Frame1.png" alt="Team of Doctors" style={{ width: '40px' ,height:"40px",marginBottom:"20px"}} />
 
@@ -146,7 +146,7 @@ const About = () => {
 
                 {/* Card 2 */}
                 <div
-                    className={`card11 ${selectedCard === 2 ? 'selected-card' : ''}`}
+                    className={`card11 ${selectedCard === 2 ? 'selected-card45' : ''}`}
                     onClick={() => handleCardClick(2)}
                 >
                                             <img src="../Frame2.png" alt="Team of Doctors" style={{ width: '40px' ,height:"40px",marginBottom:"20px"}} />
@@ -157,7 +157,7 @@ const About = () => {
 
                 {/* Card 3 */}
                 <div
-                    className={`card11 ${selectedCard === 3 ? 'selected-card' : ''}`}
+                    className={`card11 ${selectedCard === 3 ? 'selected-card45' : ''}`}
                     onClick={() => handleCardClick(3)}
                 >
                     

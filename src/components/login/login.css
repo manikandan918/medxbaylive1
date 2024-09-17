@@ -341,7 +341,7 @@ cursor: pointer;
 @media (min-width:1024px) and (max-width: 1439px) {
   .form-overall-container-login{
     position: relative;
-    top: -100px;
+    top: -120px;
     left: 20%;
   }
   .model-header-login{
@@ -376,18 +376,18 @@ cursor: pointer;
 
     width: 100%;
     position: relative;
-    top: -180px;
+    top: -150px;
     flex-direction: column;
     justify-content: center; 
-    left: 180px;
+    left: 200px;
     margin-left: auto; 
     margin-right: auto;
   }
   .login-link-signup-login{
     width: 40px;
     height: 15px;
-    top: 26px;
-    left: 0px;
+    top: 0px;
+    left: -12px;
     font-family: 'Matter', sans-serif;
     font-size: 9.5px;
     font-weight: 600;
@@ -395,6 +395,24 @@ cursor: pointer;
     text-align: left;
     color: #0067FF;
     position: relative;
+  }
+  .forgot-password-login {
+    width: 113px;
+  height: 22px;
+  top: -60px;
+  left: 50%;
+  font-family: 'Matter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14.4px;
+  text-align: left;
+  color: #272848;
+  position: relative;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  
   }
 }
 @media (min-width: 1500px) {
@@ -438,15 +456,15 @@ cursor: pointer;
 
     width: 100%;
     position: relative;
-    top: -15px;
+    top: 5px;
     flex-direction: column;
     justify-content: center; 
   }
   .login-link-signup-login{
     width: 40px;
     height: 15px;
-    top: 26px;
-    left: 0px;
+    top: 2px;
+    left: -12px;
     font-family: 'Matter', sans-serif;
     font-size: 9.5px;
     font-weight: 600;
@@ -454,5 +472,24 @@ cursor: pointer;
     text-align: left;
     color: #0067FF;
     position: relative;
+
+  }
+  .forgot-password-login {
+    width: 113px;
+  height: 22px;
+  top: -25px;
+  left: -8%;
+  font-family: 'Matter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14.4px;
+  text-align: left;
+  color: #272848;
+  position: relative;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  
   }
 }

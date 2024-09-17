@@ -28,7 +28,7 @@
   display: flex;
   gap: 20px;
   margin-top:10px;
-  margin-left: 10px;
+  margin-left: 3px;
 }
 
 .custom-social-icon {
@@ -52,8 +52,8 @@
 }
 
 .gwaimage {
-  width: 160px;
-  height: 50px;
+  width: 150px;
+  height: 35px;
 }
 
 .custom-footer-links {

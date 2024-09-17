@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import "./blog.css";
 import { IoSearch } from "react-icons/io5";
+import { FaTag, FaStar, FaMapMarkerAlt } from "react-icons/fa";
 
-import { FaTag } from "react-icons/fa";
 import axios from "axios";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -73,6 +73,53 @@ const Blog = () => {
     loadBlogs();
   }, []);
 
+  const newBloodPressureSpecialist = [
+    {
+      name: "Dr. Donald Hopkins, MD",
+      specialist: "Cardio",
+      rating: 3,
+      address: "49 mi, 795 El Camino Real Palo Alto, CA 94301",
+      instruction: [
+        "Appt wasn't rushed",
+        "Listened/answered questions",
+        "Explains conditions well",
+        "Found trustworthy",
+        "Felt respected",
+      ],
+      imageUrl:
+        "https://imgv3.fotor.com/images/slider-image/A-clear-close-up-photo-of-a-woman.jpg",
+    },
+    {
+      name: "Dr. Donald Hopkins, MD",
+      specialist: "Cardio",
+      rating: 3,
+      address: "49 mi, 795 El Camino Real Palo Alto, CA 94301",
+      instruction: [
+        "Appt wasn't rushed",
+        "Listened/answered questions",
+        "Explains conditions well",
+        "Found trustworthy",
+        "Felt respected",
+      ],
+      imageUrl:
+        "https://imgv3.fotor.com/images/slider-image/A-clear-close-up-photo-of-a-woman.jpg",
+    },
+    {
+      name: "Dr. Donald Hopkins, MD",
+      specialist: "Cardio",
+      rating: 3,
+      address: "49 mi, 795 El Camino Real Palo Alto, CA 94301",
+      instruction: [
+        "Appt wasn't rushed",
+        "Listened/answered questions",
+        "Explains conditions well",
+        "Found trustworthy",
+        "Felt respected",
+      ],
+      imageUrl:
+        "https://imgv3.fotor.com/images/slider-image/A-clear-close-up-photo-of-a-woman.jpg",
+    },
+  ];
   return (
     <div>
       <div className="heading-blog">BLOGS</div>
@@ -106,7 +153,7 @@ const Blog = () => {
                     src={getProfileImage(post.image)}
                     alt={post.title}
                     className="side-post-img"
-                    style={{ width: "131px" }}
+                    style={{ width: "100px" }}
                   />
                   <div className="side-post-details">
                     <h5>{post.title}</h5>
@@ -125,32 +172,8 @@ const Blog = () => {
 
         {/* Sidebar */}
         <div>
-          <input
-            type="text"
-            placeholder="Search..."
-            style={{
-              padding: "10px",
-              width: "400px",
-              borderRadius: "10px",
-              border: "1px solid #EEEEEE",
-              backgroundColor: "#EEEEEE",
-              fontSize: "16px",
-              marginTop: "30px",
-              marginLeft: "170px",
-              marginBottom: "20px",
-            }}
-          />
-          <span
-            style={{
-              fontSize: "18px",
-              marginTop: "-20px",
-              top: "-40px",
-              left: "530px",
-              marginLeft: "-30px",
-            }}
-          >
-            <IoSearch />
-          </span>
+          
+          
 
           <div className="card card-blog ">
             <SidebarSection title="Categories" items={categoryData} />
@@ -257,6 +280,50 @@ const Blog = () => {
               ))}
             </ul>
           </div>
+        </div>
+      </div>
+
+      <div
+        className="bloodPrSp-card-container"
+        style={{ width: "90%", marginLeft: "5%" }}
+      >
+        <div className="bloodPrSp-section-title">
+          Top high blood pressure specialists
+        </div>
+        <div className="bloodPrSp-card-grid">
+          {topRatedDoctors?.slice(0,3)?.map((card, index) => (
+            <div key={index} className="bloodPrSp-card">
+              <div className="bloodPrSp-card-content">
+                <div className="bloodPrSp-card-content-heading">
+                  <img
+                    src={getProfileImage(card.profilePicture)}
+                    alt="Card thumbnail"
+                    className="bloodPrSp-card-image"
+                  />
+                  <div className="bloodPrSp-card-title">{card.name}</div>
+                  <div className="bloodPrSp-card-rating">
+                    <FaStar className="starr" />
+                    {card.rating}
+                  </div>
+                </div>
+                <div className="bloodPrSp-card-specialist">{card.title}</div>
+                <div className="bloodPrSp-card-address">
+                  <FaMapMarkerAlt className="bloodPrSp-card-location" />
+                  {card.country}
+                </div>
+                <div className="bloodPrSp-card-instruction">
+                  <span>Specialist In:</span>{" "}
+                  {card.conditions.map((point, index) => (
+                  <div key={index}>
+                    <FaStar className="str" />
+                    {point}
+                  </div>
+                ))}
+                </div>
+                <button className="bloodPrSp-card-btn">View Profile</button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -382,7 +449,6 @@ const Blog = () => {
           ))}
         </ul>
       </div>
-      
     </div>
   );
 };
@@ -540,4 +606,49 @@ const NewRecentBlogcategories = ({ recent, heading }) => {
   );
 };
 
+// const HighBloodPressureSpecialist = ({ newBloodPressureSpecialist }) => {
+//   return (
+//     <div className="bloodPrSp-card-container" style={{width:"90%", marginLeft:"5%"}}>
+//       <div className="bloodPrSp-section-title">
+//         Top high blood pressure specialists
+//       </div>
+//       <div className="bloodPrSp-card-grid">
+//         {topRatedDoctors.map((card, index) => (
+//           <div key={index} className="bloodPrSp-card">
+
+//             <div className="bloodPrSp-card-content">
+//               <div className="bloodPrSp-card-content-heading">
+//               <img
+//               src={card.getProfileImage(profilePicture)}
+//               alt="Card thumbnail"
+//               className="bloodPrSp-card-image"
+//             />
+//                 {/* <div className="bloodPrSp-card-title">{card.name}</div> */}
+//                 <div className="bloodPrSp-card-rating">
+//                   <FaStar className="starr" />
+//                   {/* {card.rating} */}
+//                 </div>
+//               </div>
+//               {/* <div className="bloodPrSp-card-specialist">{card.specialist}</div> */}
+//               <div className="bloodPrSp-card-address">
+//                 <FaMapMarkerAlt className="bloodPrSp-card-location" />
+//                 {/* {card.address} */}
+//               </div>
+//               <div className="bloodPrSp-card-instruction">
+//                 <span>Patient Tell Us:</span>{" "}
+//                 {/* {card.instruction.map((point, index) => (
+//                   <div key={index}>
+//                     <FaStar className="str" />
+//                     {point}
+//                   </div>
+//                 ))} */}
+//               </div>
+//               <button className="bloodPrSp-card-btn">View Profile</button>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
 export default Blog;

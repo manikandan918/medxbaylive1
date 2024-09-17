@@ -357,15 +357,18 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
           <img src={medicalexamsvg} alt="meds" className="medicalexam-emoji" />
           <div className="hand-emoji">👋</div>
           <img src={heartbeat} alt="meds" className="heartbeat-emoji" />
-          <div>
+          <div className='running-container-two'>
+            
             <img src={curvedsigntwo} alt="meds" className="curvedsigntwo" />
             <p className="running-text-two">
               <span ref={typedElement}></span>
             </p>
           </div>
+          <div className='running-container'>
           <img src={curvedesign} alt="meds" className="curvedesign" />
           <div className="running-text">
             <span ref={typedElementTwo}></span>
+          </div>
           </div>
       
         </div>

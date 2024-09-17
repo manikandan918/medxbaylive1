@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaFacebookF, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { RiSendPlaneFill } from "react-icons/ri";
-import brand from '../Assets/medbrand.png';
+import logobrand from '../Assets/logobrand.png';
 import './footerrs.css';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -39,7 +39,7 @@ const Footer = () => {
     <footer className="custom-footer">
       <div className="custom-footer-container">
         <div className="custom-footer-logo">
-        <a className="" href="/">     <img className='gwaimage' src={brand}  alt="Description of the image" /></a>
+        <a className="" href="/">     <img className='gwaimage' src={logobrand}  alt="Description of the image" /></a>
   <div className="custom-footer-socials">
             <div className="custom-social-icon">
               <a href="https://www.facebook.com/profile.php?id=61558154772271&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer">
@@ -70,7 +70,9 @@ const Footer = () => {
           <div className="custom-footer-column">
             <h4>Legal</h4>
             <ul>
-              <li>Privacy Policy</li>
+            <Link to="/privacy" onClick={handleLinkClick}><li>Privacy Policy</li></Link>
+
+
               <Link to="/terms" onClick={handleLinkClick}><li>Terms of Service</li></Link>
               <li>Contact</li>
             </ul>
