@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './InboxMessageList.css';
 
 const MessageList = ({ messages }) => {
-  const userId=sessionStorage.getItem('userId')
+  const userId = sessionStorage.getItem('userId');
+  
+  // Create a reference for the message list container
+  const messageListRef = useRef(null);
+
+  // Use useEffect to scroll to the bottom of the message list whenever the messages change
+  useEffect(() => {
+    if (messageListRef.current) {
+      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
-    <div className="message-list-container">
+    <div className="message-list-container" ref={messageListRef}>
       {messages.map((msg, index) => (
         <div
           key={index}

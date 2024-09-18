@@ -18,17 +18,17 @@ const AcceptedInsurances = ({insurance}) => {
   };
 
   return (
-
+    <div className="insurance-background-edit">
     <div className='Accepted-area'>
     <div className="container accepted-section">
       <h2>Accepted Insurances</h2>
       <div className="row accepted-row justify-content-center align-items-center ">
           {insurance?.map(i => (
               <div key={i} className="col-6 col-md-2 ">
-                <img src={getBaseImage(i.logo.data)} alt="Aetna" className="aetna insurance-logo" />
+                <img src={getBaseImage(i.logo.data)} alt="Aetna" className="aetna-edit insurance-logo-edit" />
               </div>
             ))}
-        
+        </div>
       </div>
     </div>
   </div>

@@ -1,22 +1,38 @@
 .profile-about-container{
   display: flex;
 } 
-.location-background-container-adjust{
-  width: 1200px;
+.location-background-container-adjust-patient{
+  width: 200px;
   height: 950px;
 }
-.card-container-patient{
-  display: flex;
+.articles-edit-patient{
+  position: relative;
+  top:-250px;
 }
- .location-background-container{
+.card-container-patient{
+ display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the items horizontally */
+/* Adjust as needed */
+  margin: 0 auto; /* Center container in the parent */
+}
+ .location-background-container-patient{
   width: 880px;
   height: 488px;
-  top: 6px;
+  top: -370px;
   left: 490px;
   border-radius: 12px ;
 position: relative;
   background: #FFFFFF;
 
+ }
+ .faq-background-patient{
+  position: relative;
+  top: -150px;
+ }
+ .awards-patient-edit{
+  position: relative;
+  top: -350px;
  }
  
  .doctor-edit-name span {
@@ -64,13 +80,14 @@ background-color: #ffffff;
 margin-left: auto; */
 /* margin-right: auto; */
 }
-.doctor-details-edit{
+.doctor-details-edit-patient{
   position: relative;
  justify-content: center;
  transform: translateX(-3%);
  margin-left: auto;
 margin-right: auto;
 top: -90px;
+left: 30px;
 }
 .doctor-edit-name{
   width: 442px;
@@ -211,12 +228,12 @@ left: -2px;
 color: #0167FF;
 position: relative;
  }
-.doctor-profile-edit-img{
+.doctor-profile-edit-img-patient{
   position: relative;
   width: 350px;
   height: 486px;
   top: 70px;
-  left:-2%;
+  left:-7%;
   padding: 16px 35px 0px 35px;
 
   background:#ffffff;
@@ -230,11 +247,11 @@ position: relative;
 background-position:50% top;  */
 }
 
-.doctor-edit-profile-photo{
+.doctor-edit-profile-photo-patient{
   width: 370px;
   height: 335px;
 
-  top: -218px;
+  top: -118px;
   left:-35px;
 position: relative;
 
@@ -767,7 +784,7 @@ max-width: 330px;
 padding: 20px;
 }
 
-.doctor-profile-edit-img{
+.doctor-profile-edit-img-patient{
   width: 211px;
 height: 241px;
 top:30px;
@@ -775,7 +792,7 @@ border-radius: 53px 0px 53px 0px;
 display: flex;
 left: -20px;
 }
-.doctor-details-edit{
+.doctor-details-edit-patient{
 
 display: flex; 
 flex-direction: column;
@@ -1037,7 +1054,7 @@ max-width: 330px;
 padding: 20px;
 }
 
-.doctor-profile-edit-img{
+.doctor-profile-edit-img-patient{
   width: 211px;
 height: 241px;
 top:30px;
@@ -1045,7 +1062,7 @@ border-radius: 53px 0px 53px 0px;
 display: flex;
 left: -20px;
 }
-.doctor-details-edit{
+.doctor-details-edit-patient{
 
 display: flex; 
 flex-direction: column;
@@ -1159,7 +1176,7 @@ margin-left: auto;
 margin-right: auto;
 
 }
-.doctor-details-edit{
+.doctor-details-edit-patient{
   margin-left: auto;
 margin-right: auto;
 left: 0;
@@ -1242,7 +1259,7 @@ max-width: 330px;
 padding: 20px;
 }
 
-.doctor-profile-edit-img{
+.doctor-profile-edit-img-patient{
   width: 311px;
   height: 341px;
 top:25px;
@@ -1527,13 +1544,13 @@ position: relative;
 display: flex;
 
 }
-.doctor-details-edit{
+.doctor-details-edit-patient{
   left: 20.5%;
   position: relative;
   transform: translateX(-50%);
 
 }
-  .doctor-profile-edit-img{
+  .doctor-profile-edit-img-patient{
     /* margin-left: auto;
     margin-right: auto; */
     transform: translateX(-50%);
@@ -1619,13 +1636,13 @@ display: flex;
 margin-left: auto;
 margin-right: auto;
 }
-.doctor-details-edit{
+.doctor-details-edit-patient{
   left: 30%;
   position: relative;
   transform: translateX(-50%);
 
 }
-  .doctor-profile-edit-img{
+  .doctor-profile-edit-img-patient{
     /* margin-left: auto;
     margin-right: auto; */
     transform: translateX(-50%);

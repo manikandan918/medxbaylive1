@@ -5,11 +5,17 @@ import DoctorCard from './DoctorCard';
 import VerifiedImg from '../../assests/img/Verified-SVG.svg';
 import { RiArrowDownSLine } from "react-icons/ri";
 import Sponsor from './Sponsor';
+import Loader from '../Loader/Loader';
 
-const DoctorMainCard = ({ isMapExpanded, doctors = [],location }) => {
+const DoctorMainCard = ({ isMapExpanded, doctors = [], location }) => {
     const [sortOption, setSortOption] = useState('');
     const [sponsoredDoctors, setSponsoredDoctors] = useState([]);
     const [nonSponsoredDoctors, setNonSponsoredDoctors] = useState([]);
+    const [loader, setLoader] = useState(true);
+
+    // Combined pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const doctorsPerPage = 2; // Number of doctors to show per classification per page
 
     const handleSortChange = (e) => {
         setSortOption(e.target.value);
@@ -27,31 +33,56 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [],location }) => {
     };
 
     useEffect(() => {
+        if(!doctors){
+            setLoader(true);
+        }
         const sorted = sortDoctors(doctors);
-        // Filter out doctors with empty time slots
-        const filteredDoctors = sorted.filter(
-            doctor => doctor.timeSlots && doctor.timeSlots.length > 0 && 
-            doctor.timeSlots.some(slot => slot.status === 'free')
-        )
 
-        // Separate doctors into sponsored and non-sponsored categories
-        const sponsored = filteredDoctors.filter(doctor => 
-            doctor.subscriptionType === 'Premium' || 
-            doctor.subscriptionType === 'Enterprise' 
+        const filteredDoctors = sorted.filter(
+            doctor => doctor.timeSlots && doctor.timeSlots.length > 0 &&
+            doctor.timeSlots.some(slot => slot.status === 'free')
         );
-        const nonSponsored = filteredDoctors.filter(doctor => 
-            doctor.subscriptionType !== 'Premium' && 
+
+        const sponsored = filteredDoctors.filter(doctor =>
+            doctor.subscriptionType === 'Premium' ||
+            doctor.subscriptionType === 'Enterprise'
+        );
+        const nonSponsored = filteredDoctors.filter(doctor =>
+            doctor.subscriptionType !== 'Premium' &&
             doctor.subscriptionType !== 'Enterprise' ||
             doctor.subscriptionType === 'Standard'
         );
 
-        // const freeTimesoltsDoctors = filteredDoctors.map()
-        
         setSponsoredDoctors(sponsored);
         setNonSponsoredDoctors(nonSponsored);
-        console.log(doctors);
-        
+       
+        if(doctors === filteredDoctors ){
+            setLoader(false);
+        }
     }, [sortOption, doctors]);
+
+    // Pagination logic (combined for sponsored and non-sponsored doctors)
+    const indexOfLastDoctor = currentPage * doctorsPerPage;
+    const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
+
+    const currentSponsoredDoctors = sponsoredDoctors.slice(indexOfFirstDoctor, indexOfLastDoctor);
+    const currentNonSponsoredDoctors = nonSponsoredDoctors.slice(indexOfFirstDoctor, indexOfLastDoctor);
+
+    const totalSponsoredPages = Math.ceil(sponsoredDoctors.length / doctorsPerPage);
+    const totalNonSponsoredPages = Math.ceil(nonSponsoredDoctors.length / doctorsPerPage);
+    const totalPages = Math.max(totalSponsoredPages, totalNonSponsoredPages);
+
+    const nextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
     return (
         <div className="container px-3">
@@ -82,27 +113,68 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [],location }) => {
                     </div>
                 </div>
                 <div>
-                    {sponsoredDoctors.length > 0 ? (
-                        sponsoredDoctors.map((doctor) => (
+                    {currentSponsoredDoctors.length > 0 ? (
+                        currentSponsoredDoctors.map((doctor) => (
                             <Sponsor key={doctor._id} doctor={doctor} isMapExpanded={isMapExpanded} />
                         ))
                     ) : (
-                        <p>No sponsored doctors found based on the applied filters.</p>
+                        <>{loader ? <Loader /> : <p>No sponsored doctors found based on the applied filters.</p> }</>
                     )}
                 </div>
             </div>
             <div className={`doctor-card-container result-card ${isMapExpanded ? 'expanded' : ''}`}>
                 <p>All results</p>
-                {nonSponsoredDoctors.length > 0 ? (
-                    nonSponsoredDoctors.map((doctor) => (
-                        <DoctorCard key={doctor._id} doctor={doctor} isMapExpanded={isMapExpanded}/>
+                {currentNonSponsoredDoctors.length > 0 ? (
+                    currentNonSponsoredDoctors.map((doctor) => (
+                        <DoctorCard key={doctor._id} doctor={doctor} isMapExpanded={isMapExpanded} />
                     ))
                 ) : (
-                    <p>No doctors found based on the applied filters.</p>
+                    <>{loader ? <Loader /> : <p>No doctors found based on the applied filters.</p> }</>
                 )}
             </div>
+            {/* Combined Pagination */}
+            <Pagination 
+                totalPages={totalPages} 
+                currentPage={currentPage} 
+                paginate={setCurrentPage} 
+                nextPage={nextPage} 
+                prevPage={prevPage} 
+            />
         </div>
     );
 };
+
+// Pagination component
+const Pagination = ({ totalPages, currentPage, paginate, nextPage, prevPage }) => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+    }
+
+    return (
+        <div className="pagination">
+            <button
+                onClick={prevPage}
+                disabled={currentPage === 1}
+                className="pagination-button prev"
+            />
+            {pageNumbers.map(number => (
+                <button
+                    key={number}
+                    onClick={() => paginate(number)}
+                    className={`pagination-button ${number === currentPage ? 'active' : ''}`}
+                >
+                    {number}
+                </button>
+            ))}
+            <button
+                onClick={nextPage}
+                disabled={currentPage === totalPages}
+                className="pagination-button next"
+            />
+        </div>
+    );
+};
+
 
 export default DoctorMainCard;

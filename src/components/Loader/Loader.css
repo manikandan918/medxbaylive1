@@ -1,0 +1,68 @@
+/* HTML: <div class="loader"></div> */
+/* Centering the loader on the page */
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+  }
+  /* BALL BOUNCING LOADER
+  Loader styling
+  .loader {
+    width: 30px;
+    aspect-ratio: 1;
+    display: grid;
+    transform: translateY(100%);
+  }
+  
+  .loader::before,
+  .loader::after {
+    content: "";
+    grid-area: 1/1;
+    border-radius: 50%;
+    transform-origin: bottom;
+    position: relative;
+  }
+  
+  .loader::before {
+    background: radial-gradient(at 30% 30%, #ffa500, #ff8c00); 
+    transform: scaleY(0.65);
+    top: 0;
+    animation: l11-1 2s cubic-bezier(0,400,1,400) infinite, 
+               l11-2 2s ease infinite;
+  }
+  
+  .loader::after {
+    background: orange; 
+    filter: blur(8px);
+    transform: scaleY(0.3) translate(0px,0px);
+    left: 0;
+    animation: l11-3 2s cubic-bezier(0,400,1,400) infinite;
+  } */
+  
+  /* SPINNER LOADER */
+  .loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid #0000;
+    border-right-color: #ffa50097;
+    position: relative;
+    animation: l24 1s infinite linear;
+  }
+  .loader:before,
+  .loader:after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: inherit;
+    animation: inherit;
+    animation-duration: 2s;
+  }
+  .loader:after {
+    animation-duration: 4s;
+  }
+  @keyframes l24 {
+    100% {transform: rotate(1turn)}
+  }

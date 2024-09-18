@@ -35,7 +35,7 @@ import Editdoctorprofile from './components/Editdoctorprofile/Editdoctorprofile'
 // import Adminroute from './components/Admin/Admindashboard/Adminroute/Adminroute';
 import SignupCard from './components/signup/signup';
 import PrivacyPolicy from './components/Footerpage/PrivacyPolicy';
-
+import DoctorEditPatient from './components/PatientProfile/doctorEdit';
 function App() {
   useEffect(() => {
     document.title = "MedxBay";
@@ -48,6 +48,8 @@ function App() {
           <Route path="/" element={[<Navbar/>,<Section />,<Footer/>]} />
           <Route path="/reset-password" element={<ChangePassword />} />
           <Route path="/Doctor/profile/Edit" element={[<Navbar/>,<DoctorEdit />,<Footer/>]} />     
+          <Route path="/Doctor/profile/Edit/Patient/:id" element={[<Navbar/>,<DoctorEditPatient />,<Footer/>]} />     
+
           <Route path="/edit/profile/doctor" element={[<Navbar/>,<Editdoctorprofile />,<Footer/>]}  />
           <Route path="/doctor/:id" element={[<Nestednavbar/>,<DoctorProfile />,<Footer/>]}/>
           <Route path="/profile/*" element={<ProfileRoutes />} />

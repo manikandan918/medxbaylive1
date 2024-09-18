@@ -6,6 +6,8 @@
   border-right: 1px solid #ddd;
   font-family: 'Matter', sans-serif;
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar-header {
@@ -44,6 +46,9 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  flex-grow: 1;
+  overflow-y: auto; /* Enable scrolling */
+  max-height: calc(75vh - 80px); /* Adjust height based on sidebar's height minus header */
 }
 
 .user-list-item {

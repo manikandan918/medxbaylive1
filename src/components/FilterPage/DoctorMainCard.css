@@ -168,6 +168,10 @@
     overflow: hidden;
     transition: width 0.5s ease-in-out, font-size 0.5s ease-in-out, margin 0.5s ease-in-out;
 }
+.row.doctor-card:hover{
+  /* background-color: #0067FF; */
+  box-shadow: rgba(35, 88, 194, 0.35) 0px 5px 15px;
+}
   
   .doctor-info {
     display: flex;
@@ -189,7 +193,7 @@
   }
   .doctor-details1 {
     transition: font-size 0.5s ease-in-out, margin-left 0.5s ease-in-out;
-    max-width: 400px;
+    width: 400px;
     /* margin-left: ; */
   }
   
@@ -245,7 +249,7 @@
   .liked{
     display: flex;
     justify-content: center;
-    background-color: #00a500;
+    background-color: #ff7f50;
     padding: 3px 5px;
     width: 60px;
     margin-right: 10px;
@@ -297,14 +301,12 @@
   }
   .availability{
     font-size: 15px;
-    color: #00a500;
+    color: #FF7F50;
     font-weight: 500;
   }
-  .distance-div{
+  /* .distance-div{
     margin-left: 35px;
-  }
-
- 
+  } */
 
 /* Date navigator styles */
 .date-nav {
@@ -377,6 +379,105 @@
   cursor: not-allowed;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.pagination-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  background-color: #f1f5f9; /* Light gray background for inactive state */
+  color: #1d1d1d;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination-button:hover {
+  background-color: #006aff; /* Coral for hover effect */
+  color: #fff;
+}
+
+.pagination-button.active {
+  background-color: #006aff; /* Bright blue for active page */
+  color: #fff;
+}
+
+.pagination-button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Custom styles for specific arrows */
+.pagination-button.prev,
+.pagination-button.next {
+  width: 30px;
+  height: 30px;
+}
+
+.pagination-button.prev::before {
+  content: '«'; /* Double arrow for the previous button */
+  font-size: 18px;
+}
+
+.pagination-button.next::before {
+  content: '»'; /* Double arrow for the next button */
+  font-size: 18px;
+}
+
+.consultation-price span{
+  color: #ff7f50;
+}
+.minimal-dropdown select {
+  padding: 10px 10px;
+  border: 1px solid #ccc; /* Light gray border for minimal look */
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+  color: #333; /* Darker text for readability */
+  appearance: none; /* Remove default dropdown arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  cursor: pointer;
+  box-shadow: none;
+  width: 100%; /* Full width */
+  transition: border-color 0.3s ease-in-out; /* Smooth focus transition */
+}
+
+.minimal-dropdown select:focus {
+  border-color: #007bff; /* Border color change on focus */
+}
+
+.minimal-dropdown {
+  position: relative;
+  width: 150px; /* Adjust this to fit the container */
+}
+
+/* Custom dropdown arrow */
+.minimal-dropdown::after {
+  content: '▼';
+  color: #ff7f50;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #888; /* Light arrow color */
+  pointer-events: none;
+}
+
 /* .date-selector {
   display: flex;
   justify-content: space-between;
@@ -427,7 +528,7 @@
 }
 
 .date-item .slots-available {
-  color: green;
+  color: #ff7f50;
   font-size: 14px;
 }
 

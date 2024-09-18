@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Matter:wght@400;500;600;700&display=swap');
 
-
+.award-background{
+    background-color: #FFFFFF;
+    width: 880px;
+    height: 182px;
+    position: relative;
+    left: 500px;
+    top: -300px;
+}
 .award-section{
     /* background: linear-gradient(180deg, #EDF3FF 0%, #FFFFFF 100%); */
     position: relative;
@@ -16,11 +23,12 @@
 
 .award-area h2 {
     position: relative;
-    top: -60px;
+    top: 40px;
     font-family: 'Matter', sans-serif;
-    font-size: 36px;
-    font-weight: 700;
-    line-height: 25px;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    line-height: 25px !important;
+    left: -300px;
     text-align: center;
     color: #272848;
         
@@ -29,17 +37,17 @@
 .doctor-cards-awards{
     position: relative;
     display: flex;
-    gap: 80px;
+    gap: 10px;
 
 
 }
 
 .card-award {
     position: relative;
-    width: 204px;
-    height: 229px;
-    top: 10px;
-    left: 60px;
+    width: 261px;
+    height: 82px;
+    top: 50px;
+    left: -20px;
     border-radius: 10px ;
     background: #FFFFFF;
     border: 1px solid #0000001A    
@@ -78,11 +86,11 @@
     position: relative;
     width: 173px;
     height: 75px;
-    top: 30px;
-    left: 0px;
+    top: -60px;
+    left: 10px;
     font-family: 'Matter', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
     line-height: 25px;
     text-align: center;
     color: #272848;
@@ -90,16 +98,20 @@
 }
 
 .award-description {
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Matter', sans-serif;
-    font-weight: 600;
+    font-weight: 500;
     color: #272848;
     text-align: center;
+    position: relative;
+    top: -115px;
+    left:-30px ;
 }
 
 .awardimg {
     position: relative;
-    top: 20px;
+    top: 0px;
+    left: -100px;
 }
 @media (max-width: 412px) {
     .award-section{

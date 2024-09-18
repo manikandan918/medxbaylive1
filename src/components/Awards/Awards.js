@@ -12,6 +12,7 @@ return {year,title}
     })
 
     return (
+        <div className='award-background'>
         <div className='award-section'>
         <div className="container main-area ">
             <div className='award-area'>
@@ -43,6 +44,7 @@ return {year,title}
             </div>
         </div>
     </div>
+</div>
 </div>
     );
 }

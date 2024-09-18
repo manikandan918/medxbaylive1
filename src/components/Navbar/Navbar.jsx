@@ -320,6 +320,7 @@ const Navbar = () => {
                     <button className='logout-button' onClick={handleLogout}><RiLogoutCircleRLine size='1.1rem' /></button>
                   </div>
                 </li>
+                
               </ul>
             )}
           </div>

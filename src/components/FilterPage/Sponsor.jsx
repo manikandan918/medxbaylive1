@@ -13,6 +13,7 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SignupCard from '../signup/signup';
+import axios from 'axios';
 const bufferToBase64 = (buffer) => {
     if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
         const bytes = new Uint8Array(buffer.data);
@@ -55,6 +56,9 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
     const [userLoggedin, setUserLogged] = useState();
     const [showPopup, setShowPopup] = useState(false);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
+    const [currencies,setCurrencies]= useState([]);
+    const [totalFees,setTotalFees]= useState();
+    const [currencytoBookingData,setCurrencytoBookingData] = useState('usd');
     const navigate = useNavigate();
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -70,6 +74,22 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
             }
         );
     }, []);
+    const currencyDataApi = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/doctors/${doctor._id}/slots`, {
+                withCredentials: true
+            });
+            const { feesInAllCurrencies, totalFee } = response.data;
+            setCurrencies(feesInAllCurrencies);
+            setTotalFees(totalFee);
+            console.log(currencies);
+            console.log(totalFees);
+            
+        } catch (error) {
+            console.error("Error fetching doctor's fees:", error);
+            toast.error("Unable to fetch fees. Please try again.");
+        }
+    };
     // Calculate distance when hospital or user location changes
     useEffect(() => {
         if (selectedHospital && doctor.hospitals) {
@@ -82,7 +102,6 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
             if (hospital && hospital.lat && hospital.lng && userLocation.lat && userLocation.lng) {
                 const distance = calculateDistance(userLocation.lat, userLocation.lng, hospital.lat, hospital.lng);
                 setHospitalDistance(distance);
-                console.log(distance)
             }
         }
     }, [selectedHospital, doctor.hospitals, userLocation]);
@@ -162,50 +181,67 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                 progressBar: true,
             });
             setTimeout(() => {
-                navigate('/');
+                navigate('/login');  // Navigate to login page if user is not logged in
             }, 2000);
             return;
         }
-        if (!selectedHospital) {
-            toast.info('Please select a hospital.', {
+    
+        if (consultationType === 'In-person' && !selectedHospital) {
+            toast.info('Please select a hospital for in-person consultation.', {
                 className: 'toast-center',
                 closeButton: true,
                 progressBar: true,
             });
             return;
         }
+    
         try {
             const selectedDay = dates[selectedDate];
-            if (consultationType === '') {
-                toast('Please select a consultation type.', {
+            if (!consultationType) {
+                toast.error('Please select a consultation type.', {
                     className: 'toast-center',
                     closeButton: true,
                     progressBar: true,
                 });
                 return;
             }
+    
             const bookingData = {
                 doctorId: doctor._id,
                 date: moment(selectedDay.day).format('YYYY-MM-DD'),
                 startTime: selectedTimeSlot,
-                consultationType: consultationType
+                consultationType,
+                hospital: consultationType === 'In-person' ? selectedHospital : null,
+                currency: consultationType === 'Video call' ? currencytoBookingData : null
             };
+            console.log(bookingData);
+            
+    
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/patient/book`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify(bookingData),
-                credentials: 'include'
+                credentials: 'include',
             });
+    
             const result = await response.json();
-            console.log('Booking response:', result);
-
+            // console.log(result.url);
             if (response.ok) {
-                window.location.href = result.url;
+                if(consultationType == "Video call" && result.url){
+                    window.open(result.url)
+                }else{
+                    navigate('/profile/userprofile/manage/appointments')
+                    toast.info('Booking successfull.', {
+                        className: 'toast-center',
+                        closeButton: true,
+                        progressBar: true,
+                    });
+                }
             } else {
-                toast.info('Unexpected response from server. Please try again.', {
+                toast.error('Unexpected server response. Please try again.', {
                     className: 'toast-center toast-fail',
                     closeButton: true,
                     progressBar: true,
@@ -213,12 +249,20 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
             }
         } catch (error) {
             console.error('Error booking appointment:', error.message);
-            toast.info('Error booking appointment. Please try again.', {
+            toast.error('Error booking appointment. Please try again.', {
                 className: 'toast-center toast-fail',
                 closeButton: true,
                 progressBar: true,
             });
         }
+    };
+    const currencySymbols = {
+        usd: '$',
+        inr: '₹',
+        gbp: '£',
+        aed: 'د.إ',
+        eur: '€',
+        // Add more currencies and symbols as needed
     };
     const renderStars = (rating) => {
         const fullStars = Math.floor(rating);
@@ -238,46 +282,9 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
         return stars;
     };
     const renderConsultationType = () => {
-        if (doctor.consultation === 'In-person') {
-            return (
-                <div className={`p-1 ${consultationType === "In-person" ? "consultationActiveColor" : ""}`}>
-                    <div className="form-check">
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="inPersonCheck"
-                            checked={consultationType === 'In-person'}
-                            onChange={() => setConsultationType('In-person')}
-                        />
-                        <img src={MedicalService} alt="In-Person" />
-                        <label className="form-check-label" htmlFor="inPersonCheck">
-                            In-Person
-                        </label>
-                    </div>
-                </div>
-            );
-        } else if (doctor.consultation === 'Video call') {
-            return (
-                <div className={`p-1 ${consultationType === "Video call" ? "consultationActiveColor" : ""}`}>
-                    {/* <img src={videoCall} alt="Video Consultation" style={{ color: "#37adff" }} /> */}
-                    <div className="form-check">
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="inPersonCheck"
-                            checked={consultationType === 'Video call'}
-                            onChange={() => setConsultationType('Video call')}
-                        />
-                        <img src={videoCall} alt="In-Person" />
-                        <label className="form-check-label" htmlFor="inPersonCheck">
-                            Video Consultation
-                        </label>
-                    </div>
-                </div>
-            );
-        } else if (doctor.consultation === 'Both') {
-            return (
-                <>
+        return (
+            <>
+                {doctor.consultation === 'In-person' || doctor.consultation === 'Both' ? (
                     <div className={`p-1 ${consultationType === "In-person" ? "consultationActiveColor" : ""}`}>
                         <div className="form-check">
                             <input
@@ -285,7 +292,15 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                                 type="checkbox"
                                 id="inPersonCheck"
                                 checked={consultationType === 'In-person'}
-                                onChange={() => setConsultationType('In-person')}
+                                onChange={() => {
+                                    if (consultationType === 'In-person') {
+                                        setConsultationType('');
+                                        setSelectedHospital(''); // Clear hospital selection if unchecking
+                                    } else {
+                                        setConsultationType('In-person');
+                                        setSelectedHospital(''); // Reset hospital when switching to In-person
+                                    }
+                                }}
                             />
                             <img src={MedicalService} alt="In-Person" />
                             <label className="form-check-label" htmlFor="inPersonCheck">
@@ -293,27 +308,53 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                             </label>
                         </div>
                     </div>
+                ) : null}
+    
+                {doctor.consultation === 'Video call' || doctor.consultation === 'Both' ? (
                     <div className={`p-1 ${consultationType === "Video call" ? "consultationActiveColor" : ""}`}>
-                        {/* <img src={videoCall} alt="Video Consultation" style={{ color: "#37adff" }} /> */}
                         <div className="form-check">
                             <input
                                 className="form-check-input"
                                 type="checkbox"
-                                id="inPersonCheck"
+                                id="videoCallCheck"
                                 checked={consultationType === 'Video call'}
-                                onChange={() => setConsultationType('Video call')}
+                                onClick={currencyDataApi}
+                                onChange={() => {
+                                    if (consultationType === 'Video call') {
+                                        setConsultationType('');
+                                    } else {
+                                        setConsultationType('Video call');
+                                        setSelectedHospital(''); // Clear hospital when switching to Video call
+                                    }
+                                }}
                             />
-                            <img src={videoCall} alt="In-Person" />
-                            <label className="form-check-label" htmlFor="inPersonCheck">
-                                Video consultation
+                            <img src={videoCall} alt="Video Consultation" />
+                            <label className="form-check-label" htmlFor="videoCallCheck">
+                                Video Consultation
                             </label>
                         </div>
+                        {consultationType === 'Video call' && doctor.doctorFee && (
+                            <div className="minimal-dropdown">
+                            <select
+                                value={currencytoBookingData}
+                                onChange={(e) => setCurrencytoBookingData(e.target.value)}
+                            >
+                                {Object.entries(currencies).map(([currency, value], index) => (
+                                     <option key={index} value={currency}>
+                                     {currency.toUpperCase()} - {currencySymbols[currency] || ''}{value}
+                                 </option>
+                                ))}
+                            </select>
+                        </div>
+                        
+                        )}
                     </div>
-                </>
-            );
-        }
-        return null;
+                ) : null}
+            </>
+        );
     };
+    
+
     const renderHospitalOptions = () => {
         if (!doctor.hospitals || doctor.hospitals.length === 0) {
             return <p>No hospitals available</p>;
@@ -344,7 +385,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                 <div className={`col-7 ${isMapExpanded ? 'col-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
-                            <Link to={`/doctor/${doctor._id}`}>
+                            <Link to={`/Doctor/profile/Edit/Patient/${doctor._id}`}>
                                 <img src={profilePicture} alt={doctor.name || "Doctor"} className="sponsored-doctor-photo" />
                             </Link>
                             <div className={` ${isMapExpanded ? 'mapExpanded-sponsor-rating-stars' : 'd-none'}`}>
@@ -358,7 +399,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                             </div>
                         </div>
                         <div className="doctor-details1">
-                            <Link to={`/doctor/${doctor._id}`}>
+                            <Link to={`/Doctor/profile/Edit/Patient/${doctor._id}`}>
                                 <h2>{doctor.name}</h2>
                             </Link>
                             <p className="speciality">{doctor.speciality}</p>
@@ -377,7 +418,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                             <div className={`percentage-data d-flex ${isMapExpanded ? 'mapExpanded-percentage-data' : ''}`}>
                                 <div className='liked'>
                                     <img src={thumbsUp} alt="thumbsUp" />
-                                    <span>{doctor.likedPercentage || "99%"}</span>
+                                    <span>{ `${doctor.rating ? doctor.rating * 20 : 0}%` || "70%"}</span>
                                 </div>
                                 <span>{doctor.patientStories || "93 Patient Stories"}</span>
                             </div>

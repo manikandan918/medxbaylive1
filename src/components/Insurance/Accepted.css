@@ -1,39 +1,54 @@
 @import url('https://fonts.googleapis.com/css2?family=Matter:wght@400;500;600;700&display=swap');
-
+.insurance-background-edit{
+  background-color: #ffffff !important;
+  width: 880px;
+  height: 136px;
+  position: relative;
+  left: 500px;
+  top: -760px;
+  border-radius: 10px;
+}
 .accepted-area{
     position: relative;
 top:-200px;
 
 
 }
-.accepted-section{
+
+.accepted-section-edit{
   position: relative;
-  top:-150px;
+  top:0px;
 }
-.accepted-section h2{
+.accepted-section-edit h2{
   position: relative;
     font-family: 'Matter', sans-serif;
-    font-weight: 700;
-    font-size: 36px;
+    font-weight: 500;
+    font-size: 22px;
     line-height: 25px;
     text-align: center;
     margin-top: 50px;
-    top: -40px;
+    top: 15px;
+left:-300px;
 }
 
-.insurance-logo {
+.insurance-logo-edit {
     margin-bottom: 20px;
-    margin-top: 20px;
+    margin-top: -20px;
+    
   }
 
 
   
 
 
-  .aetna{
+  .aetna-edit{
     width: 138px;
     height: 34px;
+    position: relative;
+    left: -230%;
+    top: 30px;
   }
+
 
   .Blue-Cross{
     width: 105px;
@@ -52,10 +67,10 @@ top:-200px;
 
   @media(max-width:412px){
 
-.accepted-section{
+.accepted-section-edit{
     top:-70px;
   }
-  .accepted-section h2{
+  .accepted-section-edit h2{
       line-height: 45px;
   }
   .insurance-logo {
@@ -80,10 +95,10 @@ top:-200px;
   
 }
 @media (min-width:413px) and (max-width: 600px) {
-  .accepted-section{
+  .accepted-section-edit{
     top:1100px;
   }
-  .accepted-section h2{
+  .accepted-section-edit h2{
       line-height: 45px;
   }
   .insurance-logo {
@@ -107,16 +122,16 @@ top:-200px;
 }
 @media (min-width:601px) and (max-width: 676px) {
 
-  .accepted-section{
+  .accepted-section-edit{
     top:-200px;
   }
 }
 @media (min-width:678px) and (max-width: 914px) {
 
-.accepted-section{
+.accepted-section-edit{
     top:-220px;
   }
-  .accepted-section h2{
+  .accepted-section-edit h2{
       line-height: 45px;
   }
   .insurance-logo {
@@ -149,10 +164,10 @@ top:-200px;
   
 @media (min-width:915px) and (max-width: 1023px) {
 
-  .accepted-section{
+  .accepted-section-edit{
     top:-600px;
   }
-  .accepted-section h2{
+  .accepted-section-edit h2{
     line-height: 45px;
 }
 .insurance-logo {
@@ -190,17 +205,16 @@ top:-100px;
 
 
 }
-.accepted-section{
+.accepted-section-edit{
   position: relative;
-  top:450px;
-  
+  top:-600px;
 }
 }
 
 
 @media (min-width:1441px) and (max-width: 4086px) {
-  .accepted-section{
+  .accepted-section-edit{
 
-    top:-200px;
+    top:300px;
   }
 }

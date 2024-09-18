@@ -23,6 +23,7 @@ const AcceptedInsurances = ({ insurance }) => {
 };
 
   return (
+    <div className="insurance-background">
     <div className="Accepted-area">
       <div className="container accepted-section-edit">
         <h2>Accepted Insurances</h2>
@@ -35,6 +36,8 @@ const AcceptedInsurances = ({ insurance }) => {
         </div>
       </div>
     </div>
+    </div>
+
   );
 };
 

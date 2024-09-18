@@ -24,9 +24,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         conditions: [],
         sortOption: ''
     });
-
-    const {setSearchData}=useSearch()
-
+    const {setSearchData}=useSearch();
     const [dropdownData, setDropdownData] = useState({
         countries: [],
         states: [],
@@ -36,7 +34,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         languages: [],
         hospitals: [],
     });
-
     useEffect(() => {
         populateDropdowns();
         populateSearchFieldsFromUrl();
@@ -47,7 +44,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             searchDoctors();
             onFilterChange(formData);
         }, 300); // 300ms debouncereturn() =>clearTimeout(delayDebounceFn);
-    }, [formData]);
+    }, [formData,onFilterChange]);
     const populateDropdowns = async () => {
         await populateCountryDropdown();
         await populateStateDropdown();
@@ -57,7 +54,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         await populateLanguagesDropdown();
         await populateHospitalDropdown();
     };
-
     const populateCountryDropdown = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/countries`);
@@ -70,7 +66,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             console.error('Error fetching countries:', error);
         }
     };
-
     const populateStateDropdown = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/states`);
@@ -83,7 +78,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             console.error('Error fetching states:', error);
         }
     };
-
     const populateCityDropdown = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/cities`);
@@ -96,7 +90,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             console.error('Error fetching cities:', error);
         }
     };
-
     const populateSpecialityDropdown = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/specialities`);
@@ -109,7 +102,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             console.error('Error fetching specialities:', error);
         }
     };
-
     const populateConditionsDropdown = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/conditions`);
@@ -122,7 +114,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             console.error('Error fetching conditions:', error);
         }
     };
-
     const populateLanguagesDropdown = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/languages`);
@@ -135,7 +126,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             console.error('Error fetching languages:', error);
         }
     };
-
     const populateHospitalDropdown = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/hospitals`);
@@ -148,7 +138,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             console.error('Error fetching hospitals:', error);
         }
     };
-
     const populateSearchFieldsFromUrl = () => {
         const urlParams = new URLSearchParams(window.location.search);
         setFormData((prev) => ({
@@ -157,11 +146,17 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             where: urlParams.get('where') || '',
         }));
     };
-
     const handleInputChange = (e) => {
         const { id, value, selectedOptions } = e.target;
-
-        if (id === 'conditions' || id === 'languages') {
+    
+        // Handle date format conversion if needed
+        if (id === 'dateAvailability') {
+            const formattedDate = new Date(value).toISOString().split('T')[0]; // YYYY-MM-DD format
+            setFormData((prevData) => ({
+                ...prevData,
+                [id]: formattedDate,
+            }));
+        } else if (id === 'conditions' || id === 'languages') {
             const options = Array.from(selectedOptions).map(option => option.value);
             setFormData((prevData) => ({
                 ...prevData,
@@ -173,11 +168,11 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                 [id]: value,
             }));
         }
-        setSearchData({doctors:[]})
+    
+        setSearchData({ doctors: [] });
         searchDoctors();
     };
-
-
+    
     const handleCheckboxChange = (e) => {
         const { name, value, checked } = e.target;
         setFormData(prev => {
@@ -186,28 +181,23 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                 : prev[name].filter(item => item !== value);
 
             onFilterChange({ ...prev, [name]: updatedArray });
-
-
             return {
                 ...prev,
                 [name]: updatedArray
             };
         });
         setSearchData({doctors:[]})
-        console.log(formData)
     };
-
-
-
-
     const searchDoctors = async () => {
         const query = new URLSearchParams(formData).toString();
         const url = `${process.env.REACT_APP_BASE_URL}/auth/search-doctors?${query}`;
-
+        
         try {
             const response = await fetch(url);
             const doctors = await response.json();
             setDoctors(doctors);
+            console.log('Fetched doctors:', doctors); // Log the fetched doctors
+            
         } catch (error) {
             console.error('Error fetching doctors:', error);
         }
@@ -234,8 +224,8 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         onFilterChange(resetData);
         searchDoctors();
         setSearchData({doctors:[]})
-
     };
+
 
     return (
         <div>
@@ -315,38 +305,46 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                     </div>
                 </div>
                 <div className="select-container-filter">
-                <div className="form-group">
-                    <label>Conditions:</label>
-                    <div className="checkbox-group">
-                        {dropdownData.conditions.length > 0 ? (
-                            dropdownData.conditions.map(condition => (
-                                condition && (
-                                    <div key={condition} className="checkbox-item">
-                                        <input
-                                            type="checkbox"
-                                            id={`condition-${condition}`}
-                                            name="conditions"
-                                            value={condition}
-                                            checked={formData.conditions ? formData.conditions.includes(condition) : false}
-                                            onChange={handleCheckboxChange}
-                                        />
-                                        <label htmlFor={`condition-${condition}`} className="checkbox-label">
-                                            {condition}
-                                        </label>
-                                    </div>
-                                )
-                            ))
-                        ) : (
-                            <p>No conditions available</p>
-                        )}
+                    <div className="form-group">
+                        <label htmlFor="dateAvailability">Date Availability:</label>
+                        <input type="date" id="dateAvailability" onChange={handleInputChange} value={formData.dateAvailability} min={new Date().toISOString().split('T')[0]} />
+                        <FiCalendar className="custom-calendar-icon" />
                     </div>
                 </div>
-            </div>
+                <div className="select-container-filter">
+    <div className="form-group">
+        <label>Conditions:</label>
+        <div className="checkbox-group scrollable-container">
+            {dropdownData.conditions.length > 0 ? (
+                dropdownData.conditions.map((condition, index) => (
+                    condition && (
+                        <div key={condition} className="checkbox-item">
+                            <input
+                                type="checkbox"
+                                id={`condition-${condition}`}
+                                name="conditions"
+                                value={condition}
+                                checked={formData.conditions ? formData.conditions.includes(condition) : false}
+                                onChange={handleCheckboxChange}
+                            />
+                            <label htmlFor={`condition-${condition}`} className="checkbox-label">
+                                {condition}
+                            </label>
+                        </div>
+                    )
+                ))
+            ) : (
+                <p>No conditions available</p>
+            )}
+        </div>
+    </div>
+</div>
+
 
             <div className="select-container-filter">
                     <div className="form-group">
                         <label>Language Spoken:</label>
-                        <div className="checkbox-group">
+                        <div className="checkbox-group scrollable-container">
                             {dropdownData.languages.length > 0 ? (
                                 dropdownData.languages.map(language => (
                                     language && (
@@ -409,22 +407,13 @@ const Filter = ({ onFilterChange, initialFilters }) => {
 
                     </div>
                 </div>
-
-                <div className="select-container-filter">
-                    <div className="form-group">
-                        <label htmlFor="dateAvailability">Date Availability:</label>
-                        <input type="date" id="dateAvailability" onChange={handleInputChange} value={formData.dateAvailability} />
-                        <FiCalendar className="custom-calendar-icon" />
-                    </div>
-                </div>
-
                 <div className="select-container-filter">
                     <div className="form-group">
                         <label htmlFor="consultation">Consultation Type:</label>
                         <select id="consultation" onChange={handleInputChange} value={formData.consultation}>
                             <option value="">Select Consultation</option>
                             <option value="In-person">In-person</option>
-                            <option value="video call">video call</option>
+                            <option value="Video call">Video call</option>
                             <option value="Both">Both</option>
                         </select>
                         <RiArrowDownSLine className="arrow-icon-filter" />

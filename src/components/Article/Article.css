@@ -3,23 +3,30 @@
 .main-article {
     position: relative;
     /* background: linear-gradient(180deg, #EDF3FF 0%, #FFFFFF 100%); */
-    top: -1030px;
+    top: -230px;
 }
 
 .background-article {
     padding: 70px;
-
+background-color: #ffff;
+width: 880px;
+height: 697px;
+position: relative;
+left: 340px !important;
+border-radius: 12px;
 }
 
 .articles-doctor {
     position: relative;
     font-family: 'Matter', sans-serif;
-    font-weight: 700;
-    font-size: 36px;
+    font-weight: 500;
+    font-size: 20px;
     line-height: 25px;
     color: #272848;
     text-align: center;
-    top:-90px;
+    top:-30px;
+    left: -380px;
+
 
 
 }
@@ -27,7 +34,8 @@
     position: relative;
     display: flex;
     gap: 20px;
-    left: 75px;
+    left: -30px;
+    overflow: hidden;
 
 }
 .card-article {

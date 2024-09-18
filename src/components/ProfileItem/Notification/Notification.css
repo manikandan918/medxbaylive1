@@ -51,7 +51,7 @@
   font-weight: 400;
   margin: 5px 0;
   color: #666;
-  max-width: 250px; /* Set a maximum width for the specialization field */
+  max-width: 500px; /* Set a maximum width for the specialization field */
   overflow-wrap: break-word;
 }
 

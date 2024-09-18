@@ -136,6 +136,12 @@ const FilterPage = () => {
       const doctorConditions = (doctor.conditions || []).map(getStringValue);
       const doctorLanguages = (doctor.languages || []).map(getStringValue);
       const consultation = getStringValue(doctor.consultation || '');
+       // Extract dates from the doctor's time slots
+    const doctorDates = (doctor.timeSlots || []).map((slot) => new Date(slot.date).toISOString().split('T')[0]); 
+
+    // Convert the filter date to the correct format
+    const filterDate = filters.dateAvailability ? new Date(filters.dateAvailability).toISOString().split('T')[0] : null;
+
 
       const matchesCountry = !filters.country || country === getStringValue(filters.country);
       const matchesState = !filters.state || state === getStringValue(filters.state);
@@ -147,6 +153,9 @@ const FilterPage = () => {
       const matchesConditions = filters.conditions.length === 0 || filters.conditions.every(condition => doctorConditions.includes(getStringValue(condition)));
       const matchesLanguages = filters.languages.length === 0 || filters.languages.every(language => doctorLanguages.includes(getStringValue(language)));
       const matchesConsultation = !filters.consultation || consultation === getStringValue(filters.consultation);
+ 
+    // Check if the doctor's available dates match the selected dateAvailability
+    const matchesDateAvailability = !filterDate || doctorDates.includes(filterDate);
 
       return (
         matchesCountry &&
@@ -158,7 +167,8 @@ const FilterPage = () => {
         matchesAvailability &&
         matchesConditions &&
         matchesLanguages &&
-        matchesConsultation
+        matchesConsultation &&
+        matchesDateAvailability
       );
     });
   };
@@ -172,12 +182,12 @@ const FilterPage = () => {
             Open Filters
           </button>
 
-          <div className={`offcanvas left ${isFilterOpen ? 'open' : ''}`}>
+          {/* <div className={`offcanvas left ${isFilterOpen ? 'open' : ''}`}>
             <button className="closebtn" onClick={toggleFilterCanvas}>&times;</button>
             <div className="filter-container">
               <Filter onFilterChange={handleFilterChange} filters={filters} />
             </div>
-          </div>
+          </div> */}
 
           <div className='row'>
             <div className="filter-edit col-3 d-none d-lg-block">

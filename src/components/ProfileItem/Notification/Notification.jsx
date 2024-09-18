@@ -49,7 +49,13 @@ const Notification = () => {
       <div className="notification-list">
         {notifications.map(notification => (
           <div key={notification._id} className="notification">
-            <img src={notification.senderProfilePic || 'default-image-url'} alt="Profile" />
+            {/* Render the image only for chat notifications */}
+            {notification.type === 'chat' && (
+              <img 
+                src={notification.senderProfilePic || 'default-image-url'} 
+                alt="Profile" 
+              />
+            )}
             <div className="details mt-3">
               <h2>{notification.senderName}</h2>
               <p>{notification.specialization}</p>

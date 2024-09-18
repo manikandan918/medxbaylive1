@@ -68,7 +68,7 @@ overflow: hidden;
   border-radius: 50%;
   cursor: pointer;
   color: orange;
-  left: 280px;
+  left: 200px;
   top: -55px;
 }
 .arrow-doctor-two:disabled {
@@ -380,14 +380,23 @@ color: #414146;
 
 .Appointment-container{
     position: relative;
-    width: 440px;
+    width: 360px !important;
 height: 409px;
-top: -205%;
-left: 939px;
+left: -30px !important;
 border-radius: 15px;
 background: #ffffff;
 border: 1px solid #0000001A;
 z-index: 1; 
+
+
+display: flex; 
+flex-direction: column;
+
+top:15% !important;
+width: 100%;
+max-width: 440px;
+margin-left: auto;
+margin-right: auto;
 
 }
 .doctor-card-date-doctor{
@@ -453,7 +462,7 @@ position: relative;
 }
 
 .book-appointment-inperson{
-    width: 182px;
+    width: 152px;
     height: 39px;
     top: 34px;
     left: 24px;
@@ -471,8 +480,8 @@ position: relative;
     width: 15.36px;
     height: 15.04px;
   margin-top: 4px;
-  margin-left: 10px;
-    background: url('../../assests/img/Vector.svg') no-repeat;
+  margin-left: 7px;
+    /* background: url('../../assests/img/Vector.svg') no-repeat; */
     color: #ffffff;
 
 
@@ -481,7 +490,7 @@ position: relative;
     width: 100px;
 height: 22px;
 font-family: 'Matter', sans-serif;
-font-size: 16px;
+font-size: 13px;
 font-weight: 600;
 line-height: 25px;
 
@@ -490,7 +499,7 @@ line-height: 25px;
 }
 .video-consultation-container{
     display: flex;
-    width: 212px;
+    width: 182px;
 height: 39px;
 top: 34px;
 left: 14px;
@@ -507,7 +516,7 @@ border: 1px solid #0167FF
     width: 142px;
 height: 25px;
 font-family: 'Matter', sans-serif;
-font-size: 16px;
+font-size: 13px;
 font-weight: 600;
 line-height: 25px;
 text-align: left;
@@ -518,7 +527,7 @@ text-align: left;
     width: 18px;
 height: 12px;
 /* color: #0167FF; */
-background: url('../../assests/img/Vector-2.svg') no-repeat;
+/* background: url('../../assests/img/Vector-2.svg') no-repeat; */
 margin-top: 5px;
 }
 .Appointment-select-place{
@@ -536,10 +545,11 @@ color: #272848;
 
 }
 .Appointment-select-place-dropdown {
+ 
     display: flex;
     align-items: center;
     position: relative;
-    width: 361px;
+    width: 311px;
     height: 36px;
     top: 66px;
     left: 24px;
@@ -595,7 +605,7 @@ color: #272848;
     display: flex;
     align-items: center;
     position: relative;
-    width: 361px;
+    width: 311px;
     height: 36px;
     top: 110px;
     left: 24px;

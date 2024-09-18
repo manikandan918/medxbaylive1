@@ -159,6 +159,7 @@
   padding: 20px;
   background: #F2F6FF;
   border-radius: 12px 12px 0 0;
+  cursor: pointer;
 }
 
 .edit-your-profile-section-header h3 {
@@ -173,7 +174,7 @@
   width: 25px;
   height: 25px;
   color:orange;
-  cursor: pointer;
+  
 }
 
 .edit-your-profile-section-content {
@@ -311,6 +312,15 @@ textarea {
   flex-direction: column;
   gap:20px;
 }
+.edit-doctor-fees-details-feestext{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+}
+
+.icon-double{
+  color:orange;
+}
 
 .edit-doctor-fees-details-conatiner span{
   display: block;
@@ -382,8 +392,11 @@ textarea {
 /*=================== Hospital Details Section === End ================ */
 
 /*=================== Hospital Details buttons and update button same css === Satrt ================ */
-
-
+.checkbox-container-edit-profile{
+  display:flex;
+  align-items: center;
+  gap:8px;
+}
 .edit-doctor-Update-container{
   display:flex;
   place-items: start;
@@ -489,6 +502,85 @@ textarea {
   padding: 30px 0px 30px 30px;
 }
 /*=================== Document verification Section === End ================ */
+
+/*=================== FAQ question Section === Start ================ */
+.edop-qustion-container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 20px; 
+  width: 100%;
+}
+
+.edop-qustion-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+  padding:5px 20px;
+  border: 2px solid #2E37A41A;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out; 
+}
+
+.accordion-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 20px; 
+  cursor: pointer;
+}
+
+/* .accordion-question.active {
+ 
+} */
+.edop-count-text-conatiner{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.plus-icon-less-icon {
+  font-size: 20px;
+  font-weight: 500;
+  color: #2E37A4; 
+  transition: color 0.3s ease-in-out; 
+}
+
+.plus-icon-less-icon:hover {
+  color: #ff6347; 
+}
+
+.accordion-question.active .plus-icon-less-icon {
+  color: #ff6347;
+}
+
+.edop-count-question {
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.editable-text {
+  font-size: 14px;
+  color: #333;
+  padding: 10px;
+  width:100%;
+  border-radius: 5px;
+  outline:none;
+  overflow: hidden;
+}
+
+.accordion-answer {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
 
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Faq from '../Assets/faqImage.jpg'
-import "./doctoredit.css";
+import "./doctorpatient.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAward, faPlus, faUserMd } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -10,12 +10,14 @@ import {
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
 import { MdVerified } from 'react-icons/md'; 
+import { useParams } from "react-router-dom";
+
 // import Articles from "../ArticleEdit/ArticleEdit";
 import Languages from "../LanguagesEdit/LanguageEdit";
 import Articles from "../Article/Article";
+import { fetchFromDoctor } from "../../actions/api";
 
-
-import AcceptedInsurances from "../InsuranceEdit/InsuranceEdit";
+import AcceptedInsurances from "../Insurance/Acceptedinsurance";
 import "../FaqEdit/FAQEdit.css";
 import smilee from "../../assests/img/smilee.svg";
 import hospitalimage from "../../assests/img/Image.svg";
@@ -29,11 +31,42 @@ import message from '../Assets/message.png'
 import axios from "axios";
 import profileImage from "../Assets/profileimg.png";
 import AwardsRecognition from "../Awards/Awards";
-function DoctorEdit() {
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import moment from "moment";
+
+
+
+const bufferToBase64 = (buffer) => {
+  if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
+    const bytes = new Uint8Array(buffer.data);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return `data:image/jpeg;base64,${btoa(binary)}`;
+  } else {
+    console.error('Unexpected buffer type:', typeof buffer);
+    return '';
+  }
+};
+
+function DoctorEditPatient() {
+  const { id } = useParams();
+  const [profile, setProfile] = useState("");
+
   const [doctor, setDoctor] = useState([]);
   const [insurance, setInsurance] = useState([]);
   const [ setBlogs] = useState([]);
+  const [appointmentContainerHeight, setAppointmentContainerHeight] =
+  useState("409px");
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
 
+  const [showAppointmentDropdown, setShowAppointmentDropdown] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(0);
+  const [startIndex, setStartIndex] = useState(0);
+  const [consultationType, setConsultationType] = useState('inPerson');
+  const [selectedPlace, setSelectedPlace] = useState("");
   const [showEditPopup, setShowEditPopup] = useState(false);
   // const [isEditClicked, setIsEditClicked] = useState(false);
   const navigate = useNavigate();
@@ -41,6 +74,8 @@ function DoctorEdit() {
   const handleCloseEditPopup = () => setShowEditPopup(false);
   const [loading, setLoading] = useState(false); 
   const [verificationStatus, setVerificationStatus] = useState('');
+  const [doctorData, setDoctorData] = useState([]);
+  const [showDoctorCard, setShowDoctorCard] = useState(false);
 
   const handleInsuranceChange = (event) => {
     setSelectedInsurancePlace(event.target.value);
@@ -48,8 +83,13 @@ function DoctorEdit() {
   const [selectedInsurance, setSelectedInsurancePlace] = useState("");
 
   const [profileimg, setProfileimage] = useState("");
-
- 
+  const handleChange = (event) => {
+    setSelectedPlace(event.target.value);
+  };
+  const toggleAppointmentDropdown = () => {
+    setShowAppointmentDropdown(!showAppointmentDropdown);
+    setAppointmentContainerHeight(showAppointmentDropdown ? "409px" : "948px");
+  };
 
   const [selected, setSelected] = useState(null);
 
@@ -65,6 +105,31 @@ function DoctorEdit() {
     document.title = "Doctor-Edit";
 
     fetchDoctorDetails();
+  }, []);
+  const getProfile = (a) => {
+    if (a.profilePicture && a.profilePicture.data) {
+      const base64String = bufferToBase64(a.profilePicture.data);
+      setProfile(base64String);
+    }
+  };
+  useEffect(() => {
+    document.title = "Doctor-Profile";
+    if (id) {
+      const fetchDoctors = async () => {
+        try {
+          const response = await fetchFromDoctor(`/doctors/${id}/slots`);
+          setDoctorData(response.doctor);
+          setInsurance(response.insurances)
+          setBlogs(response.blogs)
+          getProfile(response.doctor);
+          console.log(profile)
+        } catch (error) {
+          console.error("Error fetching doctors:", error);
+        }
+      };
+
+      fetchDoctors();
+    }
   }, []);
 
   const fetchDoctorDetails = async () => {
@@ -131,6 +196,120 @@ function DoctorEdit() {
     }
   };
 
+
+
+  const timeSlots = doctorData.timeSlots || [];
+  const datesMap = timeSlots.reduce((acc, slot) => {
+      const date = new Date(slot.date).toDateString();
+      if (!acc[date]) {
+          acc[date] = { day: date, slots: 0, timeSlots: [] };
+      }
+      acc[date].slots += 1;
+      acc[date].timeSlots.push(slot);
+      return acc;
+  }, {});
+
+  const dates = Object.values(datesMap);
+
+  const groupedSlots = {
+      morning: [],
+      afternoon: [],
+      evening: []
+  };
+
+  // Group time slots into morning, afternoon, evening
+  if (dates[selectedDate]) {
+      dates[selectedDate].timeSlots.forEach(slot => {
+          const hour = parseInt(slot.startTime.split(':')[0], 10);
+          if (hour < 12) {
+              groupedSlots.morning.push(slot.startTime);
+          } else if (hour < 17) {
+              groupedSlots.afternoon.push(slot.startTime);
+          } else {
+              groupedSlots.evening.push(slot.startTime);
+          }
+      });
+  }
+
+  const showPrev = () => {
+    if (startIndex > 0) {
+        setStartIndex(startIndex - 1);
+        setSelectedDate(selectedDate - 1);
+    }
+};
+
+const showNext = () => {
+    if (startIndex + 3 < dates.length) {
+        setStartIndex(startIndex + 1);
+        setSelectedDate(selectedDate + 1);
+    }
+};
+
+const handleShowCard = () => {
+    setShowDoctorCard(true);
+};
+
+const handleTimeSlotClick = (slot) => {
+    setSelectedTimeSlot(slot);
+};
+
+const handleBookAppointment = async () => {
+  const user = sessionStorage.getItem('loggedIn');
+
+  if (!user) {
+    toast.info('Please log in before booking.', {
+      className: 'toast-center toast-warning', 
+      closeButton: true,
+      progressBar: true,
+    });
+    return;
+  }
+
+
+  try {
+      const selectedDay = dates[selectedDate];
+      const bookingData = {
+          doctorId: doctorData._id,
+          date: moment(selectedDay.day).format('YYYY-MM-DD'),
+          startTime: selectedTimeSlot,
+          consultationType: consultationType
+      };
+      console.log('Booking data:', bookingData);
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/patient/book`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(bookingData),
+        credentials: 'include' 
+    });
+
+    const result = await response.json();
+    console.log('Booking response:', result);
+
+    if (response.ok) {
+        window.location.href = result.url; 
+    } else {
+        toast.info('Unexpected response from server. Please try again.', {
+            className: 'toast-center toast-fail',
+            closeButton: true,
+            progressBar: true,
+        });
+    }
+} catch (error) {
+    console.error('Error booking appointment:', error.message);
+    toast.info('Error booking appointment. Please try again.', {
+        className: 'toast-center toast-fail',
+        closeButton: true,
+        progressBar: true,
+    });
+}
+};
+const handleConsultationTypeChange = (type) => {
+  setConsultationType(type);
+};
+
   
   const faqRef = useRef(null);
 
@@ -161,7 +340,8 @@ function DoctorEdit() {
     <>
       <div className="doctor-profile-edit">
         <div className="profile-about-container">
-      <div className="doctor-profile-edit-img ">
+          <div className="card-container-patient ">
+      <div className="doctor-profile-edit-img-patient">
       <div className="doctor-edit-name">
               {doctor ? doctor.name : "Loading..."}
        {doctor.verified === 'Verified' && (
@@ -176,29 +356,13 @@ function DoctorEdit() {
               {doctor ? doctor.title : "Loading..."}
             </div>
             <div className="row edit-doctor-btns">
-            <button
+            {/* <button
               className="edit-doctor-button"
               onClick={handleShowEdit}
             >
               Edit profile
-            </button>
-            <button
-  className={`verify-doctor-button ${doctor.verified === 'Pending' ? 'pending' : ''}`}
-  onClick={handleVerify}
-  disabled={
-    loading || 
-    doctor.verified === 'Pending' || 
-    (doctor.verified === 'Verified' && doctor.subscriptionVerification === 'Verified')
-  }
->
-  {doctor.verified === 'Verified'
-    ? doctor.subscriptionVerification === 'Verified'
-      ? doctor.subscriptionType 
-      : 'Subscribe' 
-    : doctor.verified === 'Pending'
-    ? 'Pending' 
-    : 'Request To Verify'} 
-</button>
+            </button> */}
+
 
 
 
@@ -208,13 +372,196 @@ function DoctorEdit() {
             <img
               src={profileimg}
               alt="Doctor-edit"
-              className="doctor-edit-profile-photo"
+              className="doctor-edit-profile-photo-patient"
             ></img>
+
+</div>
+
+
+<div
+          className="Appointment-container"
+          style={{ height: appointmentContainerHeight }}
+        >
+            <div className="book-appointment">Book Appointment</div>
+            <div className="Appointment-container-box">
+  <div 
+    className={`book-appointment-inperson ${consultationType === 'In-person' ? 'active' : 'inactive'}`}
+    onClick={() => handleConsultationTypeChange('In-person')}
+  >
+    <div className="book-appointment-inperson-icon"></div>
+    <div className="book-appointment-inperson-container">In-person</div>
+  </div>
+  <div 
+    className={`video-consultation-container ${consultationType === 'Video call' ? 'active' : 'inactive'}`}
+    onClick={() => handleConsultationTypeChange('Video call')}
+  >
+    <div className="video-consultation-container-icon"></div>
+    <div className="video-consultation-text">Video Consultation</div>
+  </div>
+</div>
+
+          <div className="Appointment-select-place">Select Place</div>
+          <div className="Appointment-select-place-dropdown">
+            <select
+              className="Appointment-select-place-text"
+              value={selectedPlace}
+              onChange={handleChange}
+            >
+              <option value="Memorial Sloan-Kettering Cancer Center">
+                Select Place
+              </option>
+              {doctorData.hospitals?.map((i,index) => (
+                <option key={i._id} value={i._id}>{i.name}</option>
+              ))}
+            </select>
+            <svg
+              className="dropdown-arrow"
+              width="10.61"
+              height="6.48"
+              viewBox="0 0 12 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6.00057 4.97633L10.1254 0.851562L11.3039 2.03007L6.00057 7.33341L0.697266 2.03007L1.87578 0.851562L6.00057 4.97633Z"
+                fill="#FF7F50"
+              />
+            </svg>
+          </div>
+          <div className="select-insurance-plan">Select Insurance Plan</div>
+          <div className="insurance-plan-dropdown">
+            <select
+              className="Appointment-select-insurance-text"
+              value={selectedInsurance}
+              onChange={handleInsuranceChange}
+            >
+              <option>Select Insurance Plan</option>
+              {insurance.map(i => (
+                <option key={i._id} value={i._id}>{i.name}</option>
+              ))}
+            </select>
+            <svg
+              className="dropdown-arrow-insurance"
+              width="10.61"
+              height="6.48"
+              viewBox="0 0 12 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6.00057 4.97633L10.1254 0.851562L11.3039 2.03007L6.00057 7.33341L0.697266 2.03007L1.87578 0.851562L6.00057 4.97633Z"
+                fill="#FF7F50"
+              />
+            </svg>
+          </div>
+          <div className="Appointment-select-date-slot">
+            <div className="Appointment-select-date">Select Date & Slot</div>
+            <div className="Appointment-slot-drop-down">
+              <svg
+                className="Appointment-slot-drop-down-icon"
+                width="12.61"
+                height="8.48"
+                viewBox="0 0 12 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                onClick={toggleAppointmentDropdown}
+              >
+                <path
+                  d="M6.00057 4.97633L10.1254 0.851562L11.3039 2.03007L6.00057 7.33341L0.697266 2.03007L1.87578 0.851562L6.00057 4.97633Z"
+                  fill="#FF7F50"
+                />
+              </svg>
+              {showAppointmentDropdown && (
+                  <div className="container doctor-card-date-doctor">
+                      <div className="date-nav-doctor">
+                          <button className="arrow-doctor-one" onClick={showPrev} disabled={startIndex === 0}>‹</button>
+                          </div>
+                          <div className="date-carousel-doctor">
+                              {dates.slice(startIndex, startIndex + 2).map((date, index) => (
+                                  <div
+                                      key={index}
+                                      className={`date-item-doctor ${index + startIndex === selectedDate ? 'active' : ''}`}
+                                      onClick={() => setSelectedDate(index + startIndex)}
+                                  >
+                                      <h3>{date.day}</h3>
+                                      <span className="slots-available-doctor">{date.slots} Slots Available</span>
+                                  </div>
+                              ))}
+                          </div>
+                          <button className="arrow-doctor-two" onClick={showNext} disabled={startIndex + 4 >= dates.length}>›</button>
+
+                      <div className="underline-doctor">
+                          <div
+                              className="underline-doctor-active"
+                              style={{
+                                  left: `calc(100% / ${2} * ${selectedDate - startIndex})`,
+                                  width: `calc(100% / ${2})`
+                              }}
+                          ></div>
+                      </div>
+                      {dates[selectedDate] && (
+                          <div className="container mt-3">
+                              <div className="time-slots-group-doctor d-flex flex-row">
+                                  <h6>Morning</h6>
+                                  <div className="time-slots-doctor">
+                                      {groupedSlots.morning.map((slot, index) => (
+                                          <button
+                                              key={`morning-${index}`}
+                                              className={`time-slot-doctor ${selectedTimeSlot === slot ? 'selected' : ''}`}
+                                              onClick={() => handleTimeSlotClick(slot)}
+                                          >
+                                              {slot}
+                                          </button>
+                                      ))}
+                                  </div>
+                              </div>
+                              <div className="time-slots-group-doctor d-flex flex-row">
+                                  <h6>Afternoon</h6>
+                                  <div className="time-slots-doctor">
+                                      {groupedSlots.afternoon.map((slot, index) => (
+                                          <button
+                                              key={`afternoon-${index}`}
+                                              className={`time-slot-doctor ${selectedTimeSlot === slot ? 'selected' : ''}`}
+                                              onClick={() => handleTimeSlotClick(slot)}
+                                          >
+                                              {slot}
+                                          </button>
+                                      ))}
+                                  </div>
+                              </div>
+                              <div className="time-slots-group-doctor d-flex flex-row">
+                                  <h6>Evening</h6>
+                                  <div className="time-slots-doctor">
+                                      {groupedSlots.evening.map((slot, index) => (
+                                          <button
+                                              key={`evening-${index}`}
+                                              className={`time-slot-doctor ${selectedTimeSlot === slot ? 'selected btn-primary' : ''}`}
+                                              onClick={() => handleTimeSlotClick(slot)}
+                                          >
+                                              {slot}
+                                          </button>
+                                      ))}
+                                  </div>
+                              </div>
+                          </div>
+
+                      )}
+                      {selectedTimeSlot && (
+                          <div className="book-now">
+                              <button className="btn btn-primary" onClick={handleBookAppointment}>Continue Booking</button>
+                          </div>
+                      )}
+                  </div>
+              )}
+            </div>
+          </div>
+        </div>
+
           </div>
   
         <div className="doctor-profile-edit-container">
       
-          <div className="doctor-details-edit">
+          <div className="doctor-details-edit-patient">
           <div className='-left'>
 
       
@@ -359,8 +706,8 @@ function DoctorEdit() {
         </div>
         </div>
         </div>
-        <div className="location-background-container-adjust">
-        <div className="location-background-container">
+        <div className="location-background-container-adjust-patient">
+        <div className="location-background-container-patient">
         <div className="Locations-edit-doc-profile">Locations</div>
         <div className={`doctor-appoinment-card-container-edit `}>
           {doctor.hospitals?.map((data) =>{
@@ -427,12 +774,15 @@ function DoctorEdit() {
       
         <AcceptedInsurances insurance={insurance} />
            <div >
+            <div className="awards-patient-edit">
       <AwardsRecognition Awards={doctor.awards} />
       </div>
+      </div>
+      <div className="articles-edit-patient">
       <Articles  blogs={doctor.blogs}/>
-  
+      </div>
         {/* <Articles blogs={blogs}/> */}
-
+<div className="faq-background-patient">
 <div className="faq-background">
         <div className="faq " ref={faqRef}>
           <h2 className="heading">Frequently Asked Questions</h2>
@@ -468,9 +818,10 @@ function DoctorEdit() {
           </div>
         </div>
         </div>
+        </div>
       </div>
     </>
   );
 }
 
-export default DoctorEdit;
+export default DoctorEditPatient;

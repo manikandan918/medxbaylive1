@@ -47,6 +47,12 @@ const Editdoctorprofile = () => {
       certificationProof: { data: null, contentType: "" },
       businessProof: { data: null, contentType: "" },
     },
+  faqs:[
+      { question: "", answer: ""},
+      { question: "", answer: ""},
+      { question: "", answer: ""},
+      { question: "", answer: ""}
+    ],
   
   });
   const [dob, setDob] = useState('');
@@ -59,6 +65,7 @@ const Editdoctorprofile = () => {
   const [insurances, setInsurances] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   
+  const [isOpenFaq, setIsOpenFaq] = useState(false);
 
   const [isOpenPersonal, setIsOpenPersonal] = useState(true);
   const [isOpenDoctor, setIsOpenDoctor] = useState(false);
@@ -81,11 +88,14 @@ const Editdoctorprofile = () => {
   const togglePersonalSection = () => setIsOpenPersonal(!isOpenPersonal);
   const toggleDoctorSection = () => setIsOpenDoctor(!isOpenDoctor);
   const toggleFeesSection = () => setIsOpenFees(!isOpenFees);
+  const toggleFaqSection = () => setIsOpenFaq(!isOpenFaq);
+
+  const [openIndex, setOpenIndex] = useState(null);
+
   const toggleHospitalSection = (index) => {
-    setIsOpenHospital((prevState) =>
-      prevState?.map((open, i) => (i === index ? !open : open))
-    );
+    setOpenIndex(openIndex === index ? null : index);
   };
+
   const toggleDocumentProofSection = () => setIsDocumentProof(!isOpenDocumentProof);
   const toggleOthersSection = () => setIsOpenOthers(!isOpenOthers);
   
@@ -349,10 +359,12 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
   const handleRemoveHospital = (index) => {
     setDoctorData(prevData => {
       const updatedHospitals = prevData.hospitals.filter((_, i) => i !== index);
-      return { ...prevData, hospitals: updatedHospitals }; // Ensure key is 'hospitals'
+      return { ...prevData, hospitals: updatedHospitals };
     });
+  
+  
+    setIsOpenHospital(prevState => prevState.filter((_, i) => i !== index));
   };
-
 
   // File input refs
   const profilePicInputRef = useRef(null);
@@ -431,7 +443,33 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
     }
   };
   
+  const [activeIndex, setActiveIndex] = useState(null);
 
+  const toggleAccordion = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
+
+  const handleFocus = (e, field, index) => {
+    // Clear placeholder text on focus
+    if (e.target.innerText === (field === 'question' ? 'Enter your question' : 'Enter your answer')) {
+      e.target.innerText = '';
+    }
+  };
+
+  const handleBlur = (e, field, index) => {
+    const newFaqasking = [...doctorData.faqs];
+    const value = e.target.innerText.trim();
+
+    if (value === '') {
+      newFaqasking[index][field] = '';
+      e.target.innerText = field === 'question' ? 'Enter your question' : 'Enter your answer';
+    } else {
+      newFaqasking[index][field] = value;
+    }
+
+    setDoctorData({ ...doctorData, faqs: newFaqasking });
+  };
+  
 
   return (
     <>
@@ -501,7 +539,13 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                   <div className="edop-form-row">
                     <div className="edop-form-group">
                       <label htmlFor="dob">Date of Birth</label>
-                      <input type="date" id="dateOfBirth" placeholder='mm-dd-yyyy' value={doctorData.dateOfBirth}   onChange={handleDateChange} />
+<input 
+  type="date" 
+  id="dateOfBirth" 
+  placeholder="mm-dd-yyyy" 
+  value={doctorData.dateOfBirth ? doctorData.dateOfBirth.split('T')[0] : ''} 
+  onChange={handleDateChange} 
+/>
                       {error && <p style={{ color: 'red' }}>{error}</p>}
 
                     </div>
@@ -691,7 +735,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
 
             {/* Hospital Section */}
             {doctorData?.hospitals.map((hospital, index) => (
-        <div key={index} className={`edit-your-profile-details-section ${isOpenHospital[index] ? 'open' : 'closed'}`}>
+        <div key={index} className={`edit-your-profile-details-section ${openIndex === index ? 'open' : 'closed'}`}>
           <div className="edit-your-profile-section-header">
             <h3>Hospital details {index + 1}</h3>
             <div className='edit-another-hospital-container'>
@@ -700,11 +744,11 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                 <span className='edit-another-hospital-container-text' onClick={addNewHospital}>Add another hospital</span>
               </div>
               <span onClick={() => toggleHospitalSection(index)}>
-                {isOpenHospital[index] ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
+                {openIndex === index ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
               </span>
             </div>
           </div>
-          {isOpenHospital[index] && (
+          {openIndex === index && (
             <div className="hospital-content">
               <div className="edop-form-row">
                 <div className="edop-form-group">
@@ -723,8 +767,8 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                     type="text"
                     id={`address-${index}`}
                     placeholder='Enter Hospital full address'
-                    value={hospital.address}
-                    onChange={(e) => handleHospitalInputChange(index, 'address', e.target.value)}
+                    value={hospital.street}
+                    onChange={(e) => handleHospitalInputChange(index, 'street', e.target.value)}
                   />
                 </div>
               </div>
@@ -776,13 +820,13 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                 <Button className="edit-doctor-Update-btn" onClick={() => setModalShow({ show: true, index })}>
                   Pin your location
                 </Button>
-                <Button className="edit-doctor-Remove-btn" onClick={() => handleRemoveHospital(index)} ><MdDelete />Remove</Button>
+                <Button className="edit-doctor-Remove-btn" onClick={() => handleRemoveHospital(index)}><MdDelete />Remove</Button>
               </div>
             </div>
           )}
         </div>
       ))}
-
+      
 {/* Document verification Details Section */}
 <div className={`edit-your-profile-details-section ${isOpenDocumentProof ? 'open' : 'closed'}`}>
   <div className="edit-your-profile-section-header">
@@ -885,13 +929,13 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
 
             {/* Fees details Section */}
             <div className={`edit-your-profile-details-section ${isOpenFees ? 'open' : 'closed'}`}>
-              <div className="edit-your-profile-section-header">
+              <div className="edit-your-profile-section-header" onClick={toggleFeesSection}>
                 <h3>Fees details</h3>
-                <span onClick={toggleFeesSection}>{isOpenFees ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}</span>
+                <span>{isOpenFees ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}</span>
               </div>
               {isOpenFees && (
                 <div className="edit-doctor-fees-details-conatiner">
-                  <span>Enter your fees</span>
+                  <span>Enter your fees for online consultation</span>
                   <div className="fees-input-container">
                     <div className=''>
                       <select
@@ -901,7 +945,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                       >
                         {currencyOptions?.map((option) => (
                           <option key={option.code} value={option.code}>
-                            {option.code} ({option.currency})  {/* Show currency code and name */}
+                            {option.code} ({option.currency})  
                           </option>
                         ))}
                       </select>
@@ -909,10 +953,11 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                     <input
                       type="number"
                       value={doctorData.doctorFee}
-                      onChange={(e) => setFees(e.target.value)}
+                      onChange={(e) => setDoctorData(prevData => ({ ...prevData, doctorFee: e.target.value }))}
                       className="fees-input"
                       placeholder="Enter fee amount"
                     />
+                    <span>Please note that a 3% charge will be incurred for each call so we recommend adding that on top of your normal fee.</span>
                   </div>
                 </div>
 
@@ -1005,6 +1050,57 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                 </div>
               )}
             </div>
+  {/* FAQ  Details Section */}
+  <div className={`edit-your-profile-details-section ${isOpenFaq ? 'open' : 'closed'}`}>
+  <div className="edit-your-profile-section-header" onClick={toggleFaqSection}>
+    <h3>FAQ's details</h3>
+    <span>
+      {isOpenFaq ? <RiArrowUpSLine className="toggle-arrow" /> : <RiArrowDownSLine className="toggle-arrow" />}
+    </span>
+  </div>
+
+  {isOpenFaq && (
+    <div className="edop-qustion-container">
+      {[0, 1, 2, 3].map((index) => (
+        <div key={index} className="edop-qustion-item">
+          <div
+            className={`accordion-question ${activeIndex === index ? 'active' : ''}`}
+            onClick={() => toggleAccordion(index)}
+          >
+            <div className="edop-count-text-conatiner">
+              <span className="edop-count-question">{index + 1}</span>
+              <div
+                className={`editable-text ${!doctorData.faqs[index]?.question ? 'placeholder' : ''}`}
+                contentEditable
+                suppressContentEditableWarning
+                onFocus={(e) => handleFocus(e, 'question', index)}
+                onBlur={(e) => handleBlur(e, 'question', index)}
+              >
+                {doctorData.faqs[index]?.question || 'Enter your question'}
+              </div>
+            </div>
+            <span className="plus-icon-less-icon">{activeIndex === index ? '-' : '+'}</span>
+          </div>
+
+          {activeIndex === index && (
+            <div className="accordion-answer">
+              <div
+                className={`editable-text ${!doctorData.faqs[index]?.answer ? 'placeholder' : ''}`}
+                contentEditable
+                suppressContentEditableWarning
+                onFocus={(e) => handleFocus(e, 'answer', index)}
+                onBlur={(e) => handleBlur(e, 'answer', index)}
+              >
+                {doctorData.faqs[index]?.answer || 'Enter your answer'}
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
 
             <div>
               <div>
