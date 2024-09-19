@@ -412,7 +412,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
   
       if (!error) {
         toast.info('Form submitted successfully');
-        navigate('/Doctor/profile/Edit'); 
+        navigate('/doc-profile'); 
         window.scrollTo(0, 0); 
             }
 

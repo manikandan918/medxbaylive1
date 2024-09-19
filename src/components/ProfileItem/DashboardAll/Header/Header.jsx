@@ -60,7 +60,7 @@ const Header = () => {
         )}
         <div className="profile-container">
           <li className="nav-item active ml-md-4" style={{ listStyle: 'none' }}>
-            <Link to='/Doctor/profile/Edit'>
+            <Link to='/doc-profile'>
               <div className='image-container'>
                 <button type="button" className="nav-notification-button">
                   <img src={profileImage} alt="Profile" />
