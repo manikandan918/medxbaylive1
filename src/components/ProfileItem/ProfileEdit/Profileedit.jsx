@@ -16,7 +16,7 @@ const ProfileEdit = () => {
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [dob, setDob] = useState(null);
+  const [dateofbirth, setDob] = useState(null);
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
@@ -29,7 +29,7 @@ const ProfileEdit = () => {
     email: false,
     mobileNumber: false,
     address: false,
-    dob: false,
+    dateofbirth: false,
     age: false,
     gender: false,
     bloodGroup: false,
@@ -42,7 +42,7 @@ const ProfileEdit = () => {
     email: "",
     mobileNumber: "",
     address: "",
-    dob: "",
+    dateofbirth: "",
     age: "",
     gender: "",
     bloodGroup: "",
@@ -66,37 +66,38 @@ const ProfileEdit = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/profile`, { withCredentials: true });
-        const { patient } = response.data;
-        const profileImageData = patient.profilePicture
-          ? `data:image/jpeg;base64,${patient.profilePicture.data}` // Update the prefix if the image is not JPEG
-          : profileimg;
+ // Modify the fetchProfileData useEffect
+useEffect(() => {
+  const fetchProfileData = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/profile`, { withCredentials: true });
+      const { patient } = response.data;
+      const profileImageData = patient.profilePicture
+        ? `data:image/jpeg;base64,${patient.profilePicture.data}` // Update the prefix if the image is not JPEG
+        : profileimg;
 
-        setProfileImage(profileImageData);
-        setName(patient.name || "");
-        setEmail(patient.email || "");
-        setMobileNumber(patient.phoneNumber || "");
-        setAddress(patient.address || "");
-        setDob(patient.dateOfBirth ? formatDate(patient.dateOfBirth) : "");
-        setAge(patient.age || "");
-        setGender(patient.gender || "");
-        setBloodGroup(patient.bloodGroup || "");
-        setInsuranceProvider(patient.insuranceProvider || "");
-        setPolicyNumber(patient.policyNumber || "");
-      } catch (error) {
-        console.error("There was an error fetching the profile data!", error);
-      }
-    };
+      setProfileImage(profileImageData);
+      setName(patient.name || "");
+      setEmail(patient.email || "");
+      setMobileNumber(patient.phoneNumber || "");
+      setAddress(patient.address || "");
+      setDob(patient.dateOfBirth ? new Date(patient.dateOfBirth) : null); // Set as Date object
+      setAge(patient.age || "");
+      setGender(patient.gender || "");
+      setBloodGroup(patient.bloodGroup || "");
+      setInsuranceProvider(patient.insuranceProvider || "");
+      setPolicyNumber(patient.policyNumber || "");
+    } catch (error) {
+      console.error("There was an error fetching the profile data!", error);
+    }
+  };
 
-    fetchProfileData();
-  }, []);
+  fetchProfileData();
+}, []);
 
-  const calculateAge = (dob) => {
-    if (!dob) return "";
-    const birthDate = new Date(dob);
+  const calculateAge = (dateofbirth) => {
+    if (!dateofbirth) return "";
+    const birthDate = new Date(dateofbirth);
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -109,8 +110,8 @@ const ProfileEdit = () => {
   };
 
   useEffect(() => {
-    setAge(calculateAge(dob));
-  }, [dob]);
+    setAge(calculateAge(dateofbirth));
+  }, [dateofbirth]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -230,8 +231,25 @@ const ProfileEdit = () => {
       case 'address':
         setAddress(value);
         break;
-      case 'dob':
-        setDob(value);
+        case 'dateofbirth':
+          if (!value) return "Date of birth is required";
+    
+          const today = new Date();
+          const dob = new Date(value);
+    
+          const age = today.getFullYear() - dob.getFullYear();
+          const monthDiff = today.getMonth() - dob.getMonth();
+          const dayDiff = today.getDate() - dob.getDate();
+    
+          if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+              age--;
+          }
+    
+          if (dob > today) return "Date of birth cannot be in the future";
+          if (age < 5) return "Age must be at least 5 years";
+    
+          return ''; 
+    
         break;
       case 'age':
         setAge(value);
@@ -264,19 +282,19 @@ const ProfileEdit = () => {
 
   const handleSave = async (event) => {
     event.preventDefault();  // Prevent the form from reloading the page
-
+  
     let formattedDob = '';
-    if (dob) {
-      const dateObj = new Date(dob);
+    if (dateofbirth) {
+      const dateObj = new Date(dateofbirth);
       if (!isNaN(dateObj.getTime())) {
-        formattedDob = dateObj.toISOString().split('T')[0];  // Format date to the correct format
+        formattedDob = dateObj.toISOString().split('T')[0];  // Format date to 'yyyy-MM-dd'
       } else {
-        console.error('Invalid date:', dob);
+        console.error('Invalid date:', dateofbirth);
       }
     }
-
+  
     const formData = new FormData();  // Prepare the form data to be sent
-
+  
     if (profileImage && profileImage.startsWith('data:image')) {
       const blob = await fetch(profileImage).then(r => r.blob());
       formData.append("profilePicture", blob, "profile.jpg");  // Add the profile picture if available
@@ -285,21 +303,24 @@ const ProfileEdit = () => {
     formData.append("email", email);
     formData.append("phoneNumber", mobileNumber);
     formData.append("address", address);
-    formData.append("dob", formattedDob);
+    formData.append("dateofbirth", formattedDob);  // Ensure this matches backend expectations
     formData.append("age", age);
     formData.append("gender", gender);
     formData.append("bloodGroup", bloodGroup);
     formData.append("insuranceProvider", insuranceProvider);
     formData.append("policyNumber", policyNumber);
-
+  
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/patient/profile/update`, formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/patient/profile/update`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",  // Ensure the headers are set correctly
         },
         withCredentials: true  // Send cookies along with the request
       });
-
+  
+      // Optionally, you can log the response to verify if dateofbirth is included
+      console.log('Update response:', response.data);
+  
       toast.info("Profile updated successfully!", {
         closeButton: true,
         progressBar: true,
@@ -314,6 +335,7 @@ const ProfileEdit = () => {
       });
     }
   };
+  
 
 
   return (
@@ -432,17 +454,16 @@ const ProfileEdit = () => {
           {errors.address && <div className="error-message">{errors.address}</div>}
 
           <div className="profile-group">
-  <label className="profile-label" htmlFor="dob">DOB</label>
+  <label className="profile-label" htmlFor="dateofbirth">DOB</label>
   <DatePicker
-  value={dob}
-  selected={dob}
-  onChange={(date) => handleFieldChange('dob', date)}
-  onBlur={() => handleBlur('dob')}
+  selected={dateofbirth}  // Ensure this is a Date object or null
+  onChange={(date) => handleFieldChange('dateofbirth', date)}  // `date` is a Date object
+  onBlur={() => handleBlur('dateofbirth')}
   dateFormat="yyyy-MM-dd"
   className="profile-input"
   placeholderText="Select date of birth"
   ref={dobRef}
-  disabled={!isEditing.dob}
+  disabled={!isEditing.dateofbirth}
   showPopperArrow={false}
   autoComplete="bday"
   popperPlacement="bottom-start"
@@ -450,14 +471,15 @@ const ProfileEdit = () => {
   showMonthDropdown
   dropdownMode="select"
 />
+
   <FiEdit3
     className="edit-icon"
     size="1rem"
-    onClick={() => handleEditClick("dob", dobRef)}
+    onClick={() => handleEditClick("dateofbirth", dobRef)}
   />
 
 </div>
-{errors.dob && <div className="error-message">{errors.dob}</div>}
+{errors.dateofbirth && <div className="error-message">{errors.dateofbirth}</div>}
 
 
 

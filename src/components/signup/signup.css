@@ -217,7 +217,8 @@ height: 50px !important;
   margin-left: 37.5%;
   margin-top: 10px;
   border: 1px solid #272848;
-z-index:9999;
+z-index:9999 ;
+position: relative;
   
 }
 
@@ -486,7 +487,7 @@ position: relative;
   display: flex;
   position: relative;
   top: -310px;
-  z-index:99;
+z-index: 1;
 
 }
 .end-line-sign-up{
