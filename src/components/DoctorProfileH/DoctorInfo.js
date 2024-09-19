@@ -10,19 +10,23 @@ import { useState, useEffect } from "react";
 import profileImage from "../Assets/profileimg.png";
 import axios from "axios";
 
-const bufferToBase64 = (buffer) => {
-  if (buffer?.type === "Buffer" && Array.isArray(buffer?.data)) {
+const bufferToBase64 = (logo) => {
+  const buffer = logo.data;
+  const contentType = logo.contentType;
+  
+  if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
     const bytes = new Uint8Array(buffer.data);
-    let binary = "";
+    let binary = '';
     for (let i = 0; i < bytes.length; i++) {
       binary += String.fromCharCode(bytes[i]);
     }
-    return `data:image/jpeg;base64,${btoa(binary)}`;
+    return `data:${contentType};base64,${btoa(binary)}`;
   } else {
-    console.error("Unexpected buffer type:", typeof buffer);
-    return "";
+    console.error('Unexpected buffer type:', typeof buffer);
+    return '';
   }
 };
+
 
 const DoctorInfo = () => {
   const [profileimg, setProfileimage] = useState("");
@@ -67,11 +71,11 @@ const DoctorInfo = () => {
   useEffect(() => {
     fetchDoctorDetails();
   }, []);
-
-  const getBaseImage = (data) => {
-    const base64String = bufferToBase64(data);
+  const getBaseImage = (logo) => {
+    const base64String = bufferToBase64(logo);
     return base64String;
   };
+  
 
  
   const [isReadMore, setIsReadMore] = useState(true);
@@ -252,22 +256,22 @@ const DoctorInfo = () => {
         </section>
 
         <section className="overflow-hidden py-9 pr-20 pl-10 mt-10 bg-white rounded-xl max-md:px-5 max-md:max-w-full">
-          <h2 className="text-2xl font-medium leading-none text-slate-800">
-            Accepted insurances
-          </h2>
-          <div className="flex gap-5 mt-8 max-md:flex-col">
-            {doctor?.insurances?.map((i, index) => (
-              <div className="flex overflow-hidden flex-col   rounded-xl">
-                <img
-                  loading="lazy"
-                  src={getBaseImage(i)}
-                  alt={"insurance-logo"}
-                  className=" w-[131px]"
-                />
-              </div>
-            ))}
-          </div>
-        </section>
+  <h2 className="text-2xl font-medium leading-none text-slate-800">
+    Accepted Insurances
+  </h2>
+  <div className="flex gap-5 mt-8 max-md:flex-col">
+    {insurance?.map((i) => (
+      <div key={i._id} className="flex overflow-hidden flex-col rounded-xl">
+        <img
+          src={getBaseImage(i.logo)}
+          alt={i.name || "Insurance Logo"}
+          className="insurance-logo"
+        />
+      </div>
+    ))}
+  </div>
+</section>
+
         <section className="overflow-hidden py-7 pr-20 pl-9 mt-10 w-full bg-white rounded-xl max-md:px-5 max-md:max-w-full">
           <h2 className="text-2xl font-medium leading-none text-slate-800">
             Awards

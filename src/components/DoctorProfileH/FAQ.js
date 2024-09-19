@@ -1,5 +1,6 @@
 import React from "react";
 import profileImage from "../Assets/profileimg.png";
+import faqImage from "../Assets/faqImage.jpg";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -55,7 +56,7 @@ const FAQ = () => {
           <div className="flex overflow-hidden flex-col items-start mt-10 bg-neutral-400 h-full">
             <img
               loading="lazy"
-              src="/DoctorProfile/Doctorfaq.png"
+              src={faqImage}
               alt="FAQ illustration"
               className="object-cover w-full h-full" // Change object-contain to object-cover
             />
