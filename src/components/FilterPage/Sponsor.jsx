@@ -385,7 +385,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                 <div className={`col-7 ${isMapExpanded ? 'col-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
-                            <Link to={`/Doctor/profile/Edit/Patient/${doctor._id}`}>
+                            <Link to={`/book-appointment-profile/${doctor._id}`}>
                                 <img src={profilePicture} alt={doctor.name || "Doctor"} className="sponsored-doctor-photo" />
                             </Link>
                             <div className={` ${isMapExpanded ? 'mapExpanded-sponsor-rating-stars' : 'd-none'}`}>
@@ -399,7 +399,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                             </div>
                         </div>
                         <div className="doctor-details1">
-                            <Link to={`/Doctor/profile/Edit/Patient/${doctor._id}`}>
+                            <Link to={`/book-appointment-profile/${doctor._id}`}>
                                 <h2>{doctor.name}</h2>
                             </Link>
                             <p className="speciality">{doctor.speciality}</p>

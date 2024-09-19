@@ -239,7 +239,7 @@ const Hero = () => {
                         <div className='image-division'>
                             <div className="ecg-container">
                                 <svg viewBox="0 0 100 50" className="ecg-line">
-                                    <polyline className="outline" points="0,25 10,25 15,13 20,35 25,25 33,25 40,7 47,40 53,25 65,25 68,15 74,35 80,25 95,25" />
+                                    <polyline className="" points="0,25 10,25 15,13 20,35 25,25 33,25 40,7 47,40 53,25 65,25 68,15 74,35 80,25 95,25" />
                                     <polyline className="line" points="0,25 10,25 15,13 20,35 25,25 33,25 40,7 47,40 53,25 65,25 68,15 74,35 80,25 100,25" />
                                 </svg>
                             </div>

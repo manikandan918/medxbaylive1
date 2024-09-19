@@ -37,6 +37,8 @@ import SignupCard from './components/signup/signup';
 import PrivacyPolicy from './components/Footerpage/PrivacyPolicy';
 import DoctorEditPatient from './components/PatientProfile/doctorEdit';
 import MainDoc from "./components/DoctorProfileH/MainDoc/MainDoc";
+import PatientFrofile from "./components/DoctorProfileH/MainDoc/PatientFrofile"
+
 
 function App() {
   useEffect(() => {
@@ -69,6 +71,7 @@ function App() {
           <Route path="/signup" element={[<Navbar/>,<SignupCard />,<Footer/>]} />
           <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
           <Route path="/doc-profile" element={[<Nestednavbar/>,<MainDoc />,<Footer/>]}/>
+          <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<PatientFrofile />,<Footer/>]}/>
 
           {/* <Route path="/admin/dashboardpage/*" element={<Adminroute/>} /> */}
         </Routes>
