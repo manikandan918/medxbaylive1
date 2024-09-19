@@ -242,7 +242,7 @@ const DoctorInfo = () => {
                 </div>
                 <a
                   href="#"
-                  className="gap-2.5 self-end px-5 py-1 mt-20 text-base font-medium leading-loose text-white bg-blue-600 rounded-md min-h-[42px] max-md:mt-10 h-[40px]"
+                  className="gap-2.5 self-end px-5 py-1 mt-28 text-base font-medium leading-loose text-white bg-blue-600 rounded-md min-h-[42px] max-md:mt-10 h-[40px]"
                 >
                   Visit website
                 </a>

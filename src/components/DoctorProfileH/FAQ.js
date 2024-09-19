@@ -38,37 +38,15 @@ const FAQ = () => {
   useEffect(() => {
     fetchDoctorDetails();
   }, []);
-  const faqItems = [
-    {
-      question: "Why choose our medical for your family?",
-      image: "/DoctorProfile/plus.png",
-      content: "Why choose our medical for your family?",
-    },
-    {
-      question: "Why we are different from others?",
-      image: "/DoctorProfile/plus.png",
-      content: "Why choose our medical for your family?",
-    },
-    {
-      question: "Trusted & experience senior care & love",
-      image: "/DoctorProfile/plus.png",
-      content: "Why choose our medical for your family?",
-    },
-    {
-      question: "How to get appointment for emergency",
-      image: "/DoctorProfile/plus.png",
-      content: "Why choose our medical for your family?",
-    },
-  ];
+
 
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleContent = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    <section className="overflow-hidden p-9 mt-10 max-w-full bg-white rounded-xl w-[780px] max-md:px-5">
+    <section className="overflow-hidden p-9 mt-10 max-w-full bg-white rounded-xl w-[850px] max-md:px-5">
       <h2 className="self-start text-2xl font-medium leading-none text-slate-800">
         Frequently asked questions
       </h2>

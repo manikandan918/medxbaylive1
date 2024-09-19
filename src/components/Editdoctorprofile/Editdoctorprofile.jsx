@@ -11,7 +11,6 @@ import axios from 'axios';  // Import axios for API requests
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LocationPicker from './LocationPicker'; // Assuming you have a LocationPicker component
-import { Modal, Form, Button, InputGroup } from "react-bootstrap";
 
 const Editdoctorprofile = () => {
   const [doctorData, setDoctorData] = useState({
@@ -63,25 +62,16 @@ const Editdoctorprofile = () => {
   const [allSpecialties, setAllSpecialties] = useState([]);
   const [allConditions, setAllConditions] = useState([]);
   const [insurances, setInsurances] = useState([]);
-  const [showDropdown, setShowDropdown] = useState(false);
-  
   const [isOpenFaq, setIsOpenFaq] = useState(false);
-
   const [isOpenPersonal, setIsOpenPersonal] = useState(true);
   const [isOpenDoctor, setIsOpenDoctor] = useState(false);
   const [isOpenFees, setIsOpenFees] = useState(false);
   const [isOpenHospital, setIsOpenHospital] = useState([false]);
   const [isOpenDocumentProof, setIsDocumentProof] = useState(false);
   const [isOpenOthers, setIsOpenOthers] = useState(false);
-  const [profilePic, setProfilePic] = useState(profileImage);
-  const [newSpeciality, setnewSpeciality] = useState('');
-  const [newCondition, setNewCondition] = useState('');
   const [newLanguage, setNewLanguage] = useState('');
   const [currency, setCurrency] = useState('USD');
-  const [fees, setFees] = useState(100);
-  const [newInsurance, setNewInsurance] = useState('');
   const [newAwards, setNewAwards] = useState('');
-  const [newFaq, setNewFaq] = useState('');
   const [profilePicturePreview, setProfilePicturePreview] = useState(null);
   const [modalShow, setModalShow] = useState({ show: false, index: null });
 
@@ -322,17 +312,6 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
     setDoctorData({ ...doctorData, awards: doctorData.awards.filter((c) => c !== awards) });
   };
 
-  //FAQ's
-  const handleFaqKeyDown = (e) => {
-    if (e.key === 'Enter' && newFaq && !doctorData.faq.includes(newFaq)) {
-      setDoctorData({ ...doctorData, faq: [...doctorData.faq, newFaq] });
-      setNewFaq('');
-    }
-  };
-
-  const handleFaqRemove = (faq) => {
-    setDoctorData({ ...doctorData, faq: doctorData.faq.filter((c) => c !== faq) });
-  };
   //end
 
   const currencyOptions = currencyCodes.data.map((currency) => ({
@@ -443,6 +422,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
     }
   };
   
+  //Faq
   const [activeIndex, setActiveIndex] = useState(null);
 
   const toggleAccordion = (index) => {
@@ -474,6 +454,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
   return (
     <>
     <div className='edit-your-profile-container'>
+      <ToastContainer/>
       <div className="edit-doctor-our-profile-header">
         <TbSquareArrowLeft className="back-arrow" onClick={() => window.history.back()} />
         <span className='title-head-to-title'>Edit your Profile</span>
@@ -512,9 +493,9 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
           <div className='edit-your-profile-all-input-details-header'>
             {/* Personal Details Section */}
             <div className={`edit-your-profile-details-section ${isOpenPersonal ? 'open' : 'closed'}`}>
-              <div className="edit-your-profile-section-header">
+              <div className="edit-your-profile-section-header" onClick={togglePersonalSection}>
                 <h3>Personal details</h3>
-                <span onClick={togglePersonalSection}>{isOpenPersonal ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}</span>
+                <span>{isOpenPersonal ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}</span>
               </div>
               {isOpenPersonal && (
                 <div className="edit-your-profile-section-content">
@@ -539,13 +520,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                   <div className="edop-form-row">
                     <div className="edop-form-group">
                       <label htmlFor="dob">Date of Birth</label>
-<input 
-  type="date" 
-  id="dateOfBirth" 
-  placeholder="mm-dd-yyyy" 
-  value={doctorData.dateOfBirth ? doctorData.dateOfBirth.split('T')[0] : ''} 
-  onChange={handleDateChange} 
-/>
+                      <input type="date" id="dateOfBirth" placeholder='mm-dd-yyyy' value={doctorData.dateOfBirth}   onChange={handleDateChange} />
                       {error && <p style={{ color: 'red' }}>{error}</p>}
 
                     </div>
@@ -602,73 +577,69 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
 
             {/* Doctor Details Section */}
             <div className={`edit-your-profile-details-section ${isOpenDoctor ? 'open' : 'closed'}`}>
-              <div className="edit-your-profile-section-header">
+              <div className="edit-your-profile-section-header" onClick={toggleDoctorSection}>
                 <h3>Doctor details</h3>
-                <span onClick={toggleDoctorSection}>{isOpenDoctor ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}</span>
+                <span>{isOpenDoctor ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}</span>
               </div>
               {isOpenDoctor && (
                 <div className="edit-your-profile-section-content">
-
-
                   {/* Specialties Section */}
                   <div className="edop-form-row">
-  <div className="edop-form-group edop-full-width">
-    <label>Specialities</label>
-    <div className="tag-container">
-      {/* Display selected specialities as tags */}
-      {doctorData.speciality.map((speciality, index) => (
-        <span key={index} className="tag-edit-doctor">
-          {speciality} {/* Display the speciality name */}
-          <button onClick={() => handleSpecialitiesRemove(speciality)}>x</button>
-        </span>
-      ))}
+                    <div className="edop-form-group edop-full-width">
+                      <label>Specialities</label>
+                      <div className="tag-container">
+                        {/* Display selected specialities as tags */}
+                        {doctorData.speciality.map((speciality, index) => (
+                          <span key={index} className="tag-edit-doctor">
+                            {speciality} {/* Display the speciality name */}
+                            <button onClick={() => handleSpecialitiesRemove(speciality)}>x</button>
+                          </span>
+                        ))}
 
-      {/* Dropdown for adding new specialities */}
-      <select
-        value=""
-        onChange={handleSpecialitiesChange}
-        className="edit-doctor-profile-dropdown"
-      >
-        <option value="" disabled>Select Speciality</option>
-        {allSpecialties.map((specialityObj, index) => (
-          <option key={index} value={specialityObj.name}>
-            {specialityObj.name} {/* Display the name, not the object */}
-          </option>
-        ))}
-      </select>
-    </div>
-  </div>
-</div>
-
-
+                        {/* Dropdown for adding new specialities */}
+                        <select
+                          value=""
+                          onChange={handleSpecialitiesChange}
+                          className="edit-doctor-profile-dropdown"
+                        >
+                          <option value="" disabled>Select Speciality</option>
+                          {allSpecialties.map((specialityObj, index) => (
+                            <option key={index} value={specialityObj.name}>
+                              {specialityObj.name} {/* Display the name, not the object */}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Conditions Section */}
                   <div className="edop-form-row">
-      <div className="edop-form-group edop-full-width">
-        <label>Conditions</label>
-        <div className="tag-container">
-          {doctorData.conditions.map((condition, index) => (
-            <span key={index} className="tag-edit-doctor">
-              {condition}
-              <button onClick={() => handleConditionRemove(condition)}>x</button>
-            </span>
-          ))}
+                    <div className="edop-form-group edop-full-width">
+                      <label>Conditions</label>
+                      <div className="tag-container">
+                        {doctorData.conditions.map((condition, index) => (
+                          <span key={index} className="tag-edit-doctor">
+                            {condition}
+                            <button onClick={() => handleConditionRemove(condition)}>x</button>
+                          </span>
+                        ))}
 
-          <select
-            value=""
-            onChange={handleConditionChange}
-            className="edit-doctor-profile-dropdown"
-          >
-            <option value="" disabled>Select Condition</option>
-            {allConditions.map((conditionObj, index) => (
-              <option key={index} value={conditionObj.name}>
-                {conditionObj.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-    </div>
+                        <select
+                          value=""
+                          onChange={handleConditionChange}
+                          className="edit-doctor-profile-dropdown"
+                        >
+                          <option value="" disabled>Select Condition</option>
+                          {allConditions.map((conditionObj, index) => (
+                            <option key={index} value={conditionObj.name}>
+                              {conditionObj.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
 
 
                   {/* Languages Section */}
@@ -730,202 +701,198 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                   </div>
                 </div>
               )}
-
             </div>
 
             {/* Hospital Section */}
             {doctorData?.hospitals.map((hospital, index) => (
-        <div key={index} className={`edit-your-profile-details-section ${openIndex === index ? 'open' : 'closed'}`}>
-          <div className="edit-your-profile-section-header">
-            <h3>Hospital details {index + 1}</h3>
-            <div className='edit-another-hospital-container'>
-              <div className='edit-another-hospital-container-icon-text'>
-                <TiPlus />
-                <span className='edit-another-hospital-container-text' onClick={addNewHospital}>Add another hospital</span>
+              <div key={index} className={`edit-your-profile-details-section ${openIndex === index ? 'open' : 'closed'}`}>
+                <div className="edit-your-profile-section-header" onClick={() => toggleHospitalSection(index)}>
+                  <h3>Hospital details {index + 1}</h3>
+                  <div className='edit-another-hospital-container'>
+                    <div className='edit-another-hospital-container-icon-text'>
+                      <TiPlus />
+                      <span className='edit-another-hospital-container-text' onClick={addNewHospital}>Add another hospital</span>
+                    </div>
+                    <span>
+                      {openIndex === index ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
+                    </span>
+                  </div>
+                </div>
+                {openIndex === index && (
+                  <div className="hospital-content">
+                    <div className="edop-form-row">
+                      <div className="edop-form-group">
+                        <label htmlFor={`hospitalName-${index}`}>Hospital Name</label>
+                        <input
+                          type="text"
+                          id={`hospitalName-${index}`}
+                          placeholder='Enter Hospital name'
+                          value={hospital.name}
+                          onChange={(e) => handleHospitalInputChange(index, 'name', e.target.value)}
+                        />
+                      </div>
+                      <div className="edop-form-group">
+                        <label htmlFor={`address-${index}`}>Address</label>
+                        <input
+                          type="text"
+                          id={`address-${index}`}
+                          placeholder='Enter Hospital full address'
+                          value={hospital.street}
+                          onChange={(e) => handleHospitalInputChange(index, 'street', e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="edop-form-row">
+                      <div className="edop-form-group">
+                        <label htmlFor={`city-${index}`}>City</label>
+                        <input
+                          type="text"
+                          id={`city-${index}`}
+                          placeholder='Enter city'
+                          value={hospital.city}
+                          onChange={(e) => handleHospitalInputChange(index, 'city', e.target.value)}
+                        />
+                      </div>
+                      <div className="edop-form-group">
+                        <label htmlFor={`state-${index}`}>State</label>
+                        <input
+                          type="text"
+                          id={`state-${index}`}
+                          placeholder='Enter state'
+                          value={hospital.state}
+                          onChange={(e) => handleHospitalInputChange(index, 'state', e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="edop-form-row">
+                      <div className="edop-form-group">
+                        <label htmlFor={`country-${index}`}>Country</label>
+                        <input
+                          type="text"
+                          id={`country-${index}`}
+                          placeholder='Enter country'
+                          value={hospital.country}
+                          onChange={(e) => handleHospitalInputChange(index, 'country', e.target.value)}
+                        />
+                      </div>
+                      <div className="edop-form-group">
+                        <label htmlFor={`pinCode-${index}`}>Zip Code</label>
+                        <input
+                          type="text"
+                          id={`pinCode-${index}`}
+                          placeholder='Enter pinCode'
+                          value={hospital.zip}
+                          onChange={(e) => handleHospitalInputChange(index, 'zip', e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="edit-doctor-Update-container edit-doctor-location-button">
+                      <button className="edit-doctor-Update-btn" onClick={() => setModalShow({ show: true, index })}>
+                        Pin your location
+                      </button>
+                      <button className="edit-doctor-Remove-btn" onClick={() => handleRemoveHospital(index)}><MdDelete />Remove</button>
+                    </div>
+                  </div>
+                )}
               </div>
-              <span onClick={() => toggleHospitalSection(index)}>
-                {openIndex === index ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
-              </span>
-            </div>
-          </div>
-          {openIndex === index && (
-            <div className="hospital-content">
-              <div className="edop-form-row">
-                <div className="edop-form-group">
-                  <label htmlFor={`hospitalName-${index}`}>Hospital Name</label>
-                  <input
-                    type="text"
-                    id={`hospitalName-${index}`}
-                    placeholder='Enter Hospital name'
-                    value={hospital.name}
-                    onChange={(e) => handleHospitalInputChange(index, 'name', e.target.value)}
-                  />
-                </div>
-                <div className="edop-form-group">
-                  <label htmlFor={`address-${index}`}>Address</label>
-                  <input
-                    type="text"
-                    id={`address-${index}`}
-                    placeholder='Enter Hospital full address'
-                    value={hospital.street}
-                    onChange={(e) => handleHospitalInputChange(index, 'street', e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="edop-form-row">
-                <div className="edop-form-group">
-                  <label htmlFor={`city-${index}`}>City</label>
-                  <input
-                    type="text"
-                    id={`city-${index}`}
-                    placeholder='Enter city'
-                    value={hospital.city}
-                    onChange={(e) => handleHospitalInputChange(index, 'city', e.target.value)}
-                  />
-                </div>
-                <div className="edop-form-group">
-                  <label htmlFor={`state-${index}`}>State</label>
-                  <input
-                    type="text"
-                    id={`state-${index}`}
-                    placeholder='Enter state'
-                    value={hospital.state}
-                    onChange={(e) => handleHospitalInputChange(index, 'state', e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="edop-form-row">
-                <div className="edop-form-group">
-                  <label htmlFor={`country-${index}`}>Country</label>
-                  <input
-                    type="text"
-                    id={`country-${index}`}
-                    placeholder='Enter country'
-                    value={hospital.country}
-                    onChange={(e) => handleHospitalInputChange(index, 'country', e.target.value)}
-                  />
-                </div>
-                <div className="edop-form-group">
-                  <label htmlFor={`pinCode-${index}`}>Zip Code</label>
-                  <input
-                    type="text"
-                    id={`pinCode-${index}`}
-                    placeholder='Enter pinCode'
-                    value={hospital.zip}
-                    onChange={(e) => handleHospitalInputChange(index, 'zip', e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="edit-doctor-Update-container edit-doctor-location-button">
-                <Button className="edit-doctor-Update-btn" onClick={() => setModalShow({ show: true, index })}>
-                  Pin your location
-                </Button>
-                <Button className="edit-doctor-Remove-btn" onClick={() => handleRemoveHospital(index)}><MdDelete />Remove</Button>
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
+            ))}
       
-{/* Document verification Details Section */}
-<div className={`edit-your-profile-details-section ${isOpenDocumentProof ? 'open' : 'closed'}`}>
-  <div className="edit-your-profile-section-header">
-    <h3>Document verification details</h3>
-    <span onClick={toggleDocumentProofSection}>
-      {isOpenDocumentProof ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
-    </span>
-  </div>
+            {/* Document verification Details Section */}
+            <div className={`edit-your-profile-details-section ${isOpenDocumentProof ? 'open' : 'closed'}`}>
+              <div className="edit-your-profile-section-header" onClick={toggleDocumentProofSection}>
+                <h3>Document verification details</h3>
+                <span>
+                  {isOpenDocumentProof ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
+                </span>
+              </div>
 
-  {isOpenDocumentProof && (
-    <div>
-      <div className="edop-form-row">
-        {/* Certification Proof */}
-        <div className='edop-form-group'>
-          <label>Certification Proof</label>
-          <div className="edit-doctor-profile-doc-Proof-file">
-            {doctorData && doctorData.documents && doctorData.documents.certificationProof && (
-              <p className="edit-doctor-profile-doc-Proof-file-name">
-                {typeof doctorData.documents.certificationProof === 'object'
-                  ? doctorData.documents.certificationProof.name || 'File Uploaded'
-                  : doctorData.documents.certificationProof}
-              </p>
-            )}
+              {isOpenDocumentProof && (
+                <div>
+                  <div className="edop-form-row">
+                    {/* Certification Proof */}
+                    <div className='edop-form-group'>
+                      <label>Certification Proof</label>
+                      <div className="edit-doctor-profile-doc-Proof-file">
+                        {doctorData && doctorData.documents && doctorData.documents.certificationProof && (
+                          <p className="edit-doctor-profile-doc-Proof-file-name">
+                            {typeof doctorData.documents.certificationProof === 'object'
+                              ? doctorData.documents.certificationProof.name || 'File Uploaded'
+                              : doctorData.documents.certificationProof}
+                          </p>
+                        )}
 
-          
-            <input
-              type="file"
-              id="certificationProof"
-              ref={certificationProofInputRef}
-              className="edit-doctor-profile-doc-Proof-input"
-              onChange={(e) => handleFileChange(e, "certificationProof")}
-            />
-            <p className="edit-doctor-profile-doc-Proof-file-name"></p>
-            <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => certificationProofInputRef.current.click()}>
-              <span>Choose File</span>
+                      
+                        <input
+                          type="file"
+                          id="certificationProof"
+                          ref={certificationProofInputRef}
+                          className="edit-doctor-profile-doc-Proof-input"
+                          onChange={(e) => handleFileChange(e, "certificationProof")}
+                        />
+                        <p className="edit-doctor-profile-doc-Proof-file-name"></p>
+                        <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => certificationProofInputRef.current.click()}>
+                          <span>Choose File</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Business Proof */}
+                    <div className='edop-form-group'>
+                      <label>Business Proof</label>
+                      <div className="edit-doctor-profile-doc-Proof-file">
+                        {doctorData && doctorData.documents && doctorData.documents.businessProof && (
+                          <p className="edit-doctor-profile-doc-Proof-file-name">
+                            {typeof doctorData.documents.businessProof === 'object'
+                              ? doctorData.documents.businessProof.name || 'File Uploaded'
+                              : doctorData.documents.businessProof}
+                          </p>
+                        )}
+
+
+                        <input
+                          type="file"
+                          id="businessProof"
+                          ref={businessProofInputRef}
+                          className="edit-doctor-profile-doc-Proof-input"
+                          onChange={(e) => handleFileChange(e, "businessProof")}
+                        />
+                        <p className="edit-doctor-profile-doc-Proof-file-name"></p>
+                        <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => businessProofInputRef.current.click()}>
+                          <span>Choose File</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* License Proof */}
+                  <div className="edop-form-group edop-form-padding-or-magin">
+                    <label>License Proof</label>
+                    <div className="edit-doctor-profile-doc-Proof-file">
+                      {doctorData && doctorData.documents && doctorData.documents.licenseProof && (
+                        <p className="edit-doctor-profile-doc-Proof-file-name">
+                          {typeof doctorData.documents.licenseProof === 'object'
+                            ? doctorData.documents.licenseProof.name || 'File Uploaded'
+                            : doctorData.documents.licenseProof}
+                        </p>
+                      )}
+
+                    
+                      <input
+                        type="file"
+                        id="licenseProof"
+                        ref={licenseProofInputRef}
+                        className="edit-doctor-profile-doc-Proof-input"
+                        onChange={(e) => handleFileChange(e, "licenseProof")}
+                      />
+                      <p className="edit-doctor-profile-doc-Proof-file-name">  </p>
+                      <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => licenseProofInputRef.current.click()}>
+                        <span>Choose File</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-
-        {/* Business Proof */}
-        <div className='edop-form-group'>
-          <label>Business Proof</label>
-          <div className="edit-doctor-profile-doc-Proof-file">
-            {doctorData && doctorData.documents && doctorData.documents.businessProof && (
-              <p className="edit-doctor-profile-doc-Proof-file-name">
-                {typeof doctorData.documents.businessProof === 'object'
-                  ? doctorData.documents.businessProof.name || 'File Uploaded'
-                  : doctorData.documents.businessProof}
-              </p>
-            )}
-
-
-            <input
-              type="file"
-              id="businessProof"
-              ref={businessProofInputRef}
-              className="edit-doctor-profile-doc-Proof-input"
-              onChange={(e) => handleFileChange(e, "businessProof")}
-            />
-            <p className="edit-doctor-profile-doc-Proof-file-name"></p>
-            <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => businessProofInputRef.current.click()}>
-              <span>Choose File</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* License Proof */}
-      <div className="edop-form-group edop-form-padding-or-magin">
-        <label>License Proof</label>
-        <div className="edit-doctor-profile-doc-Proof-file">
-          {doctorData && doctorData.documents && doctorData.documents.licenseProof && (
-            <p className="edit-doctor-profile-doc-Proof-file-name">
-              {typeof doctorData.documents.licenseProof === 'object'
-                ? doctorData.documents.licenseProof.name || 'File Uploaded'
-                : doctorData.documents.licenseProof}
-            </p>
-          )}
-
-         
-          <input
-            type="file"
-            id="licenseProof"
-            ref={licenseProofInputRef}
-            className="edit-doctor-profile-doc-Proof-input"
-            onChange={(e) => handleFileChange(e, "licenseProof")}
-          />
-          <p className="edit-doctor-profile-doc-Proof-file-name">  </p>
-          <div className="edit-doctor-profile-doc-Proof-choose-file" onClick={() => licenseProofInputRef.current.click()}>
-            <span>Choose File</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  )}
-</div>
-
-
-
 
             {/* Fees details Section */}
             <div className={`edit-your-profile-details-section ${isOpenFees ? 'open' : 'closed'}`}>
@@ -966,9 +933,9 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
 
             {/* Others Details Section */}
             <div className={`edit-your-profile-details-section ${isOpenOthers ? 'open' : 'closed'}`}>
-              <div className="edit-your-profile-section-header">
+              <div className="edit-your-profile-section-header" onClick={toggleOthersSection}>
                 <h3>Others details</h3>
-                <span onClick={toggleOthersSection}>
+                <span>
                   {isOpenOthers ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
                 </span>
               </div>
@@ -1050,74 +1017,69 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                 </div>
               )}
             </div>
-  {/* FAQ  Details Section */}
-  <div className={`edit-your-profile-details-section ${isOpenFaq ? 'open' : 'closed'}`}>
-  <div className="edit-your-profile-section-header" onClick={toggleFaqSection}>
-    <h3>FAQ's details</h3>
-    <span>
-      {isOpenFaq ? <RiArrowUpSLine className="toggle-arrow" /> : <RiArrowDownSLine className="toggle-arrow" />}
-    </span>
-  </div>
 
-  {isOpenFaq && (
-    <div className="edop-qustion-container">
-      {[0, 1, 2, 3].map((index) => (
-        <div key={index} className="edop-qustion-item">
-          <div
-            className={`accordion-question ${activeIndex === index ? 'active' : ''}`}
-            onClick={() => toggleAccordion(index)}
-          >
-            <div className="edop-count-text-conatiner">
-              <span className="edop-count-question">{index + 1}</span>
-              <div
-                className={`editable-text ${!doctorData.faqs[index]?.question ? 'placeholder' : ''}`}
-                contentEditable
-                suppressContentEditableWarning
-                onFocus={(e) => handleFocus(e, 'question', index)}
-                onBlur={(e) => handleBlur(e, 'question', index)}
-              >
-                {doctorData.faqs[index]?.question || 'Enter your question'}
+            {/* FAQ  Details Section */}
+            <div className={`edit-your-profile-details-section ${isOpenFaq ? 'open' : 'closed'}`}>
+              <div className="edit-your-profile-section-header" onClick={toggleFaqSection}>
+                <h3>FAQ's details</h3>
+                <span>
+                  {isOpenFaq ? <RiArrowUpSLine className="toggle-arrow" /> : <RiArrowDownSLine className="toggle-arrow" />}
+                </span>
               </div>
+
+              {isOpenFaq && (
+                <div className="edop-qustion-container">
+                  {[0, 1, 2, 3].map((index) => (
+                    <div key={index} className="edop-qustion-item">
+                      <div
+                        className={`accordion-question ${activeIndex === index ? 'active' : ''}`}
+                        onClick={() => toggleAccordion(index)}
+                      >
+                        <div className="edop-count-text-conatiner">
+                          <span className="edop-count-question">{index + 1}</span>
+                          <div
+                            className={`editable-text ${!doctorData.faqs[index]?.question ? 'placeholder' : ''}`}
+                            contentEditable
+                            suppressContentEditableWarning
+                            onFocus={(e) => handleFocus(e, 'question', index)}
+                            onBlur={(e) => handleBlur(e, 'question', index)}
+                          >
+                            {doctorData.faqs[index]?.question || 'Enter your question'}
+                          </div>
+                        </div>
+                        <span className="plus-icon-less-icon">{activeIndex === index ? '-' : '+'}</span>
+                      </div>
+
+                      {activeIndex === index && (
+                        <div className="accordion-answer">
+                          <div
+                            className={`editable-text ${!doctorData.faqs[index]?.answer ? 'placeholder' : ''}`}
+                            contentEditable
+                            suppressContentEditableWarning
+                            onFocus={(e) => handleFocus(e, 'answer', index)}
+                            onBlur={(e) => handleBlur(e, 'answer', index)}
+                          >
+                            {doctorData.faqs[index]?.answer || 'Enter your answer'}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-            <span className="plus-icon-less-icon">{activeIndex === index ? '-' : '+'}</span>
-          </div>
 
-          {activeIndex === index && (
-            <div className="accordion-answer">
-              <div
-                className={`editable-text ${!doctorData.faqs[index]?.answer ? 'placeholder' : ''}`}
-                contentEditable
-                suppressContentEditableWarning
-                onFocus={(e) => handleFocus(e, 'answer', index)}
-                onBlur={(e) => handleBlur(e, 'answer', index)}
-              >
-                {doctorData.faqs[index]?.answer || 'Enter your answer'}
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  )}
-</div>
-
-
+            {/* check box and Update button Details Section */}
             <div>
-              <div>
+              <div className='checkbox-container-edit-profile'>
                 <input
                   type="checkbox"
                   id="terms"
                   checked={isChecked}
                   onChange={handleCheckboxChange}
                 />
-                <span htmlFor="terms">
-                  I agree to the{" "}
-                  <a href="/terms" target="_blank" rel="noopener noreferrer">
-                    Terms and Conditions
-                  </a>
-                </span>
+                <span htmlFor="terms">I agree to the{" "}<a href="/terms" target="_blank" rel="noopener noreferrer">Terms and Conditions</a></span>
               </div>
-
               <small>Please read and accept our Terms and Conditions before submitting.</small>
               <div className={`edit-doctor-Update-container${!isChecked ? "disabled" : ""}`} >
                 <button className="edit-doctor-Update-btn mt-3" type="submit" disabled={!isChecked} onClick={handleSubmit}>Update Profile</button>
@@ -1128,14 +1090,14 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
       </div>
     </div>
     <LocationPicker
-    zoom={13}
-    style={{ height: '400px', width: '100%' }}
-    dragging={true}
-    zoomControl={true}
-    show={modalShow.show}
-    handleClose={() => setModalShow({ show: false, index: null })}
-    handleLocationSelect={handleLocationSelect}
-  />
+      zoom={13}
+      style={{ height: '400px', width: '100%' }}
+      dragging={true}
+      zoomControl={true}
+      show={modalShow.show}
+      handleClose={() => setModalShow({ show: false, index: null })}
+      handleLocationSelect={handleLocationSelect}
+    />
   </>
   );
 };

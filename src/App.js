@@ -36,7 +36,7 @@ import Editdoctorprofile from './components/Editdoctorprofile/Editdoctorprofile'
 import SignupCard from './components/signup/signup';
 import PrivacyPolicy from './components/Footerpage/PrivacyPolicy';
 import DoctorEditPatient from './components/PatientProfile/doctorEdit';
-import MainDoc from "./components/DoctorProfileH /MainDoc/MainDoc";
+import MainDoc from "./components/DoctorProfileH/MainDoc/MainDoc";
 
 function App() {
   useEffect(() => {

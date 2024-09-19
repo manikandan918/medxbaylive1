@@ -33,7 +33,7 @@ const Articles = () => {
   ];
 
   return (
-    <section className="flex flex-col py-9 pl-10 mt-10 max-w-full bg-white rounded-xl w-[780px] max-md:pl-5">
+    <section className="flex flex-col py-9 pl-10 mt-10 max-w-full bg-white rounded-xl w-[850px] max-md:pl-5">
       <h2 className="self-start text-2xl font-medium leading-none text-slate-800">
         Articles
       </h2>
