@@ -3,6 +3,7 @@ import Articles from "../Articles";
 import DoctorInfo from "../DoctorInfo";
 import FAQ from "../FAQ";
 import MainPac from "./MainPac";
+import "../tail.css";
 
 function PatientFrofile() {
   return (

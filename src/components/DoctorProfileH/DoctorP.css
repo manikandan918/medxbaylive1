@@ -1,0 +1,17 @@
+.edit-button{
+    background-color: #0167FF;
+    color:white;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    border:1px solid #0167FF; 
+}
+.verify-button{
+    padding-left: 10px;
+    padding-right: 10px;
+    border:1px solid #0167FF; 
+    background-color: white;
+    color: #0167FF;
+    border-radius: 5px;
+    margin-left: 10px;
+}

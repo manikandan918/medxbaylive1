@@ -1,6 +1,7 @@
 import React from "react";
 import ArticleCard from "./ArticleCard";
-import "./Scrool.css"
+import "./Scrool.css";
+import "./Article.css"; 
 
 const Articles = () => {
   const articles = [
@@ -12,7 +13,6 @@ const Articles = () => {
       readTime: "2 min read",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing Quisque placerat Convallis felis vitae tortor augue. Velit nascetur massa in.",
     },
-    // Repeat the article structure for a total of 5 articles
     {
       image: "/DoctorProfile/ArticleImage.png",
       category: "TELEMEDICINE",
@@ -29,20 +29,16 @@ const Articles = () => {
       readTime: "2 min read",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing Quisque placerat Convallis felis vitae tortor augue. Velit nascetur massa in.",
     },
-
   ];
 
   return (
-    <section className="flex flex-col py-9 pl-10 mt-10 max-w-full bg-white rounded-xl w-[850px] max-md:pl-5">
-      <h2 className="self-start text-2xl font-medium leading-none text-slate-800">
-        Articles
-      </h2>
-      <div className="flex overflow-x-auto gap-8 mt-8 max-md:max-w-full scrollbar">
+    <section className="articles">
+      <h2>Articles</h2>
+      <div className="article-container">
         {articles.map((article, index) => (
           <ArticleCard key={index} {...article} />
         ))}
       </div>
-      
     </section>
   );
 };

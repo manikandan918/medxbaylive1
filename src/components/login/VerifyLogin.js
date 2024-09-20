@@ -257,8 +257,8 @@ const VerifyLogin = ({ show, handleClose,openRegisterModal }) => {
             <ToastContainer />
     <div  centered className="custom-modal custom-modal-change">
        <Modal.Title>
-        <span className="model-header-login">Sign In</span>{' '}
-        <span className="model-header-sub-login"> Sign In to your account.</span>
+        <span className="model-header-login-verify">Sign In</span>{' '}
+        <span className="model-header-sub-login-verify"> Sign In to your account.</span>
       </Modal.Title>
       <button type="button" className="btn-close-custom" aria-label="Close" onClick={handleClose}>
 
