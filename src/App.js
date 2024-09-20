@@ -60,7 +60,7 @@ function App() {
           <Route path="/Filters" element={<FilterPage />} />
           <Route path="/verify/login" element={<VerifyLogin />} />
           <Route path="/verify" element={<Verification />} />
-          <Route path="/blogs" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/>
+          <Route path="/condition-libraries" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/>
           <Route path="/blogPost/:id" element={[<Nestednavbar/>,<BlogPage />,<Footer/>]}/>          <Route path="/edit/profile/doctor" element={[<Navbar/>,<DoctorPopUp />,<Footer/>]}  />
           <Route path="/SubscriptionPlans" element={[<Navbar/>,<SubscriptionPlans />,<Footer/>]}  />
           <Route path="/Message" element={[<Navbar/>,<Message />,<Footer/>]}  />
