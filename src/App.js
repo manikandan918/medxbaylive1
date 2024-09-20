@@ -38,7 +38,7 @@ import PrivacyPolicy from './components/Footerpage/PrivacyPolicy';
 import DoctorEditPatient from './components/PatientProfile/doctorEdit';
 import MainDoc from "./components/DoctorProfileH/MainDoc/MainDoc";
 import PatientFrofile from "./components/DoctorProfileH/MainDoc/PatientFrofile"
-
+import PopupModal from './components/PopupModal';
 
 function App() {
   useEffect(() => {
@@ -49,8 +49,7 @@ function App() {
     <SearchProvider>
       <Router>
         <Routes>
-          <Route path="/" element={[<Navbar/>,<Section />,<Footer/>]} />
-          <Route path="/reset-password" element={<ChangePassword />} />
+        <Route path="/" element={[<Navbar/>,<Section />,<PopupModal/>,<Footer/>]} />          <Route path="/reset-password" element={<ChangePassword />} />
           <Route path="/Doctor/profile/Edit" element={[<Navbar/>,<DoctorEdit />,<Footer/>]} />     
           <Route path="/Doctor/profile/Edit/Patient/:id" element={[<Navbar/>,<DoctorEditPatient />,<Footer/>]} />     
 

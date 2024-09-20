@@ -47,19 +47,24 @@ const Provider = ({ show, handleClose,openRegisterModal }) => {
       setIsSubmitDisabled(true);
       try {
         const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/submit-lead`, { email, name });
-        
+  
         if (res.status === 200) {
           setSuccessMessage('Form submitted successfully!');
+          toast.info('Form submitted successfully!');
         }
       } catch (err) {
-        console.error('Error during form submission:', err);
-        toast.success('Submission failed. Please try again.');
-      }
-      finally {
-        setIsSubmitDisabled(false); 
+        if (err.response && err.response.status === 400) {
+          toast.info('Email already exists.');
+        } else {
+          console.error('Error during form submission:', err);
+          toast.info('Submission failed. Please try again.');
+        }
+      } finally {
+        setIsSubmitDisabled(false);
       }
     }
   };
+  
   
 
 

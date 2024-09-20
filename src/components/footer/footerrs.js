@@ -19,21 +19,27 @@ const Footer = () => {
   const handleLinkClick = () => {
     window.scrollTo(0, 0);  
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/submit-email`,
         { email },
-        { withCredentials: true }  
+        { withCredentials: true }
       );
+      
       setMessage('Thank you for your subscription');
       setEmail('');
     } catch (error) {
-      setMessage('Error saving lead');
+    
+      if (error.response && error.response.data.message === 'Email already exists') {
+        setMessage('Email already exists');
+      } else {
+        setMessage('Error saving lead');
+      }
     }
   };
+  
   
   return (
     <footer className="custom-footer">
