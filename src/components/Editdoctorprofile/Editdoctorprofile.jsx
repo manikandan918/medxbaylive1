@@ -227,6 +227,7 @@ const Editdoctorprofile = () => {
       setDoctorData({ ...doctorData, dateOfBirth: e.target.value });
     }
   };
+  
 
 
 const handleSpecialitiesChange = (event) => {
@@ -516,14 +517,20 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                       <textarea id="aboutMe" placeholder='Describe yourself...' value={doctorData.aboutMe} onChange={handleInputChange}></textarea>
                     </div>
                   </div>
-
                   <div className="edop-form-row">
-                    <div className="edop-form-group">
-                      <label htmlFor="dob">Date of Birth</label>
-                      <input type="date" id="dateOfBirth" placeholder='mm-dd-yyyy' value={doctorData.dateOfBirth}   onChange={handleDateChange} />
-                      {error && <p style={{ color: 'red' }}>{error}</p>}
+  <div className="edop-form-group">
+    <label htmlFor="dob">Date of Birth</label>
+    <input 
+      type="date" 
+      id="dateOfBirth" 
+      placeholder='mm-dd-yyyy'
+      value={doctorData && doctorData.dateOfBirth ? doctorData.dateOfBirth.split('T')[0] : ''} 
+      onChange={handleDateChange} 
+    />
+    {error && <p style={{ color: 'red' }}>{error}</p>}
+  </div>
 
-                    </div>
+
 
                     <div className="edop-form-group edop-select-box-header">
                       <label htmlFor="gender">Gender</label>
@@ -702,101 +709,119 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                 </div>
               )}
             </div>
+{/* Hospital Section */}
+{doctorData?.hospitals.length === 0 && (
+  addNewHospital()
+)}
 
-            {/* Hospital Section */}
-            {doctorData?.hospitals.map((hospital, index) => (
-              <div key={index} className={`edit-your-profile-details-section ${openIndex === index ? 'open' : 'closed'}`}>
-                <div className="edit-your-profile-section-header" onClick={() => toggleHospitalSection(index)}>
-                  <h3>Hospital details {index + 1}</h3>
-                  <div className='edit-another-hospital-container'>
-                    <div className='edit-another-hospital-container-icon-text'>
-                      <TiPlus />
-                      <span className='edit-another-hospital-container-text' onClick={addNewHospital}>Add another hospital</span>
-                    </div>
-                    <span>
-                      {openIndex === index ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
-                    </span>
-                  </div>
-                </div>
-                {openIndex === index && (
-                  <div className="hospital-content">
-                    <div className="edop-form-row">
-                      <div className="edop-form-group">
-                        <label htmlFor={`hospitalName-${index}`}>Hospital Name</label>
-                        <input
-                          type="text"
-                          id={`hospitalName-${index}`}
-                          placeholder='Enter Hospital name'
-                          value={hospital.name}
-                          onChange={(e) => handleHospitalInputChange(index, 'name', e.target.value)}
-                        />
-                      </div>
-                      <div className="edop-form-group">
-                        <label htmlFor={`address-${index}`}>Address</label>
-                        <input
-                          type="text"
-                          id={`address-${index}`}
-                          placeholder='Enter Hospital full address'
-                          value={hospital.street}
-                          onChange={(e) => handleHospitalInputChange(index, 'street', e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="edop-form-row">
-                      <div className="edop-form-group">
-                        <label htmlFor={`city-${index}`}>City</label>
-                        <input
-                          type="text"
-                          id={`city-${index}`}
-                          placeholder='Enter city'
-                          value={hospital.city}
-                          onChange={(e) => handleHospitalInputChange(index, 'city', e.target.value)}
-                        />
-                      </div>
-                      <div className="edop-form-group">
-                        <label htmlFor={`state-${index}`}>State</label>
-                        <input
-                          type="text"
-                          id={`state-${index}`}
-                          placeholder='Enter state'
-                          value={hospital.state}
-                          onChange={(e) => handleHospitalInputChange(index, 'state', e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="edop-form-row">
-                      <div className="edop-form-group">
-                        <label htmlFor={`country-${index}`}>Country</label>
-                        <input
-                          type="text"
-                          id={`country-${index}`}
-                          placeholder='Enter country'
-                          value={hospital.country}
-                          onChange={(e) => handleHospitalInputChange(index, 'country', e.target.value)}
-                        />
-                      </div>
-                      <div className="edop-form-group">
-                        <label htmlFor={`pinCode-${index}`}>Zip Code</label>
-                        <input
-                          type="text"
-                          id={`pinCode-${index}`}
-                          placeholder='Enter pinCode'
-                          value={hospital.zip}
-                          onChange={(e) => handleHospitalInputChange(index, 'zip', e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="edit-doctor-Update-container edit-doctor-location-button">
-                      <button className="edit-doctor-Update-btn" onClick={() => setModalShow({ show: true, index })}>
-                        Pin your location
-                      </button>
-                      <button className="edit-doctor-Remove-btn" onClick={() => handleRemoveHospital(index)}><MdDelete />Remove</button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-      
+{doctorData?.hospitals.map((hospital, index) => (
+  <div key={index} className={`edit-your-profile-details-section ${openIndex === index ? 'open' : 'closed'}`}>
+    <div className="edit-your-profile-section-header" onClick={() => toggleHospitalSection(index)}>
+      <h3>Hospital details {index + 1}</h3>
+      <div className='edit-another-hospital-container'>
+      {doctorData?.hospitals.length < 5 && (
+
+        <div className='edit-another-hospital-container-icon-text'>
+  <div className='edit-another-hospital-container'>
+      <TiPlus />
+      <span className='edit-another-hospital-container-text' onClick={addNewHospital}>
+        Add another hospital
+      </span>
+
+  </div>
+
+        </div>
+      )}
+        <span>
+          {openIndex === index ? <RiArrowUpSLine className='toggle-arrow' /> : <RiArrowDownSLine className='toggle-arrow' />}
+        </span>
+      </div>
+    </div>
+    {openIndex === index && (
+      <div className="hospital-content">
+        <div className="edop-form-row">
+          <div className="edop-form-group">
+            <label htmlFor={`hospitalName-${index}`}>Hospital Name</label>
+            <input
+              type="text"
+              id={`hospitalName-${index}`}
+              placeholder='Enter Hospital name'
+              value={hospital.name}
+              onChange={(e) => handleHospitalInputChange(index, 'name', e.target.value)}
+            />
+          </div>
+          <div className="edop-form-group">
+            <label htmlFor={`address-${index}`}>Address</label>
+            <input
+              type="text"
+              id={`address-${index}`}
+              placeholder='Enter Hospital full address'
+              value={hospital.street}
+              onChange={(e) => handleHospitalInputChange(index, 'street', e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="edop-form-row">
+          <div className="edop-form-group">
+            <label htmlFor={`city-${index}`}>City</label>
+            <input
+              type="text"
+              id={`city-${index}`}
+              placeholder='Enter city'
+              value={hospital.city}
+              onChange={(e) => handleHospitalInputChange(index, 'city', e.target.value)}
+            />
+          </div>
+          <div className="edop-form-group">
+            <label htmlFor={`state-${index}`}>State</label>
+            <input
+              type="text"
+              id={`state-${index}`}
+              placeholder='Enter state'
+              value={hospital.state}
+              onChange={(e) => handleHospitalInputChange(index, 'state', e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="edop-form-row">
+          <div className="edop-form-group">
+            <label htmlFor={`country-${index}`}>Country</label>
+            <input
+              type="text"
+              id={`country-${index}`}
+              placeholder='Enter country'
+              value={hospital.country}
+              onChange={(e) => handleHospitalInputChange(index, 'country', e.target.value)}
+            />
+          </div>
+          <div className="edop-form-group">
+            <label htmlFor={`pinCode-${index}`}>Zip Code</label>
+            <input
+              type="text"
+              id={`pinCode-${index}`}
+              placeholder='Enter pinCode'
+              value={hospital.zip}
+              onChange={(e) => handleHospitalInputChange(index, 'zip', e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="edit-doctor-Update-container edit-doctor-location-button">
+          <button className="edit-doctor-Update-btn" onClick={() => setModalShow({ show: true, index })}>
+            Pin your location
+          </button>
+          {doctorData.hospitals.length > 1 && (
+            <button className="edit-doctor-Remove-btn" onClick={() => handleRemoveHospital(index)}>
+              <MdDelete />Remove
+            </button>
+          )}
+        </div>
+      </div>
+    )}
+  </div>
+))}
+
+
+
             {/* Document verification Details Section */}
             <div className={`edit-your-profile-details-section ${isOpenDocumentProof ? 'open' : 'closed'}`}>
               <div className="edit-your-profile-section-header" onClick={toggleDocumentProofSection}>

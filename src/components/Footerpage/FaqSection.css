@@ -18,6 +18,7 @@
 .faq-item00 {
   padding: 15px 0;
   border-bottom: 1px solid #ddd;
+  color: aqua;
 }
 
 /* FAQ question container */
@@ -35,7 +36,7 @@
 
 /* FAQ question text (h2) */
 .faq-question-texts00 {
-  font-size: 20px !important;
+  font-size: 24px !important;
   font-weight: 500;
   margin: 0;
   color: #272848;
@@ -52,11 +53,15 @@
 /* FAQ answer container */
 .faq-answers00 {
   margin-top: 15px;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.6;
   color: #333;
   text-align: left;
   padding-left: 20px; /* Aligns the answer with the question */
+}
+
+.faq-answers00 li {
+  margin-bottom: 20px;
 }
 
 /* Specific styles for the first FAQ item answer */
@@ -81,4 +86,22 @@
 .faq-question00:hover {
   background-color: #e5ebff; /* Slightly darker background on hover */
   transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+.faq-answer-texts00{
+  font-size: 18px;
+  font-weight: 400;
+}
+
+
+
+/* When FAQ is open, apply this class */
+.faq-questionss00.open {
+  background-color: #0167FF;
+  color: #fff !important;
+}
+
+/* Target the h2 inside the open FAQ and change its color */
+.faq-questionss00.open h2 {
+  color: #fff;
+  color: #fff !important;
 }

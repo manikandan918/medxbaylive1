@@ -57,37 +57,16 @@ const MiddlePart = () => {
           <div className="col-12 col-md-6 col-first pt-lg-5">
             {/* <div className="heading">LOREM ISPUM</div> */}
             <div className="main-heading">
-  <span className="highlight-mid">Where Providers</span> 
-  <span className="secondary-text"> Connect, Earn, and Grow</span>
+  <span className="highlight-mid">Together,</span> 
+  <span className="secondary-text">We Revolutionize Healthcare</span>
 </div>        
     <div className="description"></div>
             <div className="check-list my-5">
               <div className='list d-flex'>
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p >Connect with Colleagues and Enhance Care</p>
-              </div>
-              <div className="list d-flex">
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p>Earn More and Expand Your Reach</p>
-              </div>
-              <div className="list d-flex">
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p>Grow Your Practice with Confidence</p>
-              </div>
-              <div className='list d-flex'>
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p >Automated Scheduling</p>
-              </div>
-              <div className='list d-flex'>
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p >Integrated Payment Processing</p>
-              </div>
-              <div className='list d-flex'>
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p >Patient Management System</p>
+                {/* <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} /> */}
+                <p className='home-paragraph-content' >In the rapidly evolving world of healthcare, MedxBay is designed with you in mind. We see the strain of endless paperwork, fragmented systems, and missed patient connections. These hurdles can add to an already demanding environment, but with MedxBay, you are no longer navigating this alone. Our platform is built to lift the burden, so you can focus on what you do best: caring for your patients</p>
               </div>
             </div>
-
           </div>
 
           <div className="col-12 col-md-6">
@@ -161,37 +140,16 @@ const MiddlePart = () => {
           <div className="col-12 col-md-6 col-second mt-5 pt-lg-5 d-flex flex-column justify-content-center">
             {/* <div className="heading">LOREM ISPUM</div> */}
             <div className="main-heading">
-  <span className="highlight-mid">Become your</span> 
-  <span className="secondary-text"> Own Health Advocate</span>
+  <span className="highlight-mid">Discover a Better Way</span> 
+  <span className="secondary-text">  to Manage Your Health</span>
 </div>    
             <div className="description"></div>
             <div className="check-list my-5">
               <div className='list d-flex'>
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p>Real-Time Appointment Booking</p>
-              </div>
-              <div className="list d-flex">
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p>Telemedicine Services</p>
-              </div>
-              <div  className="list d-flex">
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p>Automated Reminders</p>
-              </div>
-              <div  className="list d-flex">
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p>Secure Messaging Platform</p>
-              </div>
-              <div  className="list d-flex">
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p>Trusted Provider Database</p>
-              </div>
-              <div  className="list d-flex">
-                <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} />
-                <p>Vetted condition library</p>
+                {/* <FontAwesomeIcon className='mx-3 fa-size' icon={faCircleCheck} style={{ color: "#FF7F50", }} /> */}
+                <p className='home-paragraph-content'>MedxBay is your all-in-one platform for finding trusted healthcare providers, booking appointments with ease, and staying connected to your care—all from the comfort of home. Whether you're looking for in-person visits or telehealth consultations, MedxBay helps you access the right care, manage your health records, and communicate securely with your providers. Take control of your healthcare journey with accurate, reliable information and tools designed to fit your needs.</p>
               </div>
             </div>
-  
           </div>
           <div className="x-image2" style={{ display: 'flex', flexDirection: 'row-reverse' }}>
             {/* <img src={xImage} alt="X-Image" className="overlay" /> */}

@@ -7,7 +7,7 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import Sponsor from './Sponsor';
 import Loader from '../Loader/Loader';
 
-const DoctorMainCard = ({ isMapExpanded, doctors = [], location }) => {
+const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus }) => {
     const [sortOption, setSortOption] = useState('');
     const [sponsoredDoctors, setSponsoredDoctors] = useState([]);
     const [nonSponsoredDoctors, setNonSponsoredDoctors] = useState([]);
@@ -33,33 +33,38 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location }) => {
     };
 
     useEffect(() => {
-        if(!doctors){
+        if (responseStatus === 'pending') {
             setLoader(true);
         }
+
         const sorted = sortDoctors(doctors);
 
         const filteredDoctors = sorted.filter(
-            doctor => doctor.timeSlots && doctor.timeSlots.length > 0 &&
-            doctor.timeSlots.some(slot => slot.status === 'free')
+            doctor =>
+                doctor.timeSlots &&
+                doctor.timeSlots.length > 0 &&
+                doctor.timeSlots.some(slot => slot.status === 'free')
         );
 
-        const sponsored = filteredDoctors.filter(doctor =>
-            doctor.subscriptionType === 'Premium' ||
-            doctor.subscriptionType === 'Enterprise'
+        const sponsored = filteredDoctors.filter(
+            doctor =>
+                doctor.subscriptionType === 'Premium' ||
+                doctor.subscriptionType === 'Enterprise'
         );
-        const nonSponsored = filteredDoctors.filter(doctor =>
-            doctor.subscriptionType !== 'Premium' &&
-            doctor.subscriptionType !== 'Enterprise' ||
-            doctor.subscriptionType === 'Standard'
+        const nonSponsored = filteredDoctors.filter(
+            doctor =>
+                doctor.subscriptionType !== 'Premium' &&
+                doctor.subscriptionType !== 'Enterprise'
         );
 
         setSponsoredDoctors(sponsored);
         setNonSponsoredDoctors(nonSponsored);
-       
-        if(doctors === filteredDoctors ){
+
+        // Disable the loader if doctors are loaded
+        if (filteredDoctors.length > 0 || doctors.length > 0) {
             setLoader(false);
         }
-    }, [sortOption, doctors]);
+    }, [sortOption, doctors, responseStatus]);
 
     // Pagination logic (combined for sponsored and non-sponsored doctors)
     const indexOfLastDoctor = currentPage * doctorsPerPage;
@@ -118,7 +123,7 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location }) => {
                             <Sponsor key={doctor._id} doctor={doctor} isMapExpanded={isMapExpanded} />
                         ))
                     ) : (
-                        <>{loader ? <Loader /> : <p>No sponsored doctors found based on the applied filters.</p> }</>
+                        <>{loader ? <Loader /> : <p className='no-results-message'>No sponsored doctors found based on the applied filters.</p>}</>
                     )}
                 </div>
             </div>
@@ -129,7 +134,7 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location }) => {
                         <DoctorCard key={doctor._id} doctor={doctor} isMapExpanded={isMapExpanded} />
                     ))
                 ) : (
-                    <>{loader ? <Loader /> : <p>No doctors found based on the applied filters.</p> }</>
+                    <>{loader ? <Loader /> : <p>No doctors found based on the applied filters.</p>}</>
                 )}
             </div>
             {/* Combined Pagination */}
@@ -175,6 +180,5 @@ const Pagination = ({ totalPages, currentPage, paginate, nextPage, prevPage }) =
         </div>
     );
 };
-
 
 export default DoctorMainCard;

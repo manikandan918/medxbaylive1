@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaFacebookF, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaFacebookF, FaLinkedin, FaInstagram ,FaYoutube} from 'react-icons/fa';
 import { RiSendPlaneFill } from "react-icons/ri";
 import logobrand from '../Assets/logobrand.png';
 import './footerrs.css';
@@ -58,13 +58,18 @@ const UserFooter = () => {
                 <FaInstagram />
               </a>
             </div>
+            <div className="custom-social-icon">
+              <a href="https://www.youtube.com/@MedxBaychannel" target="_blank" rel="noopener noreferrer">
+                <FaYoutube />
+              </a>
+            </div>
           </div>
         </div>
         <div className="custom-footer-links">
           <div className="custom-footer-column">
             <h4 className='explore'>Explore</h4>
             <ul>
-              <li onClick={handleNavigation} style={{ cursor: 'pointer' }}>Home Page</li>
+              <li onClick={handleNavigation} style={{ cursor: 'pointer' }}>Home </li>
               <Link to="/about/section" onClick={handleLinkClick}><li>About Us</li></Link>
               <Link to="/faq/section" onClick={handleLinkClick}><li>FAQs</li></Link>
             </ul>

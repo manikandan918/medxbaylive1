@@ -97,14 +97,21 @@ body{
     padding-bottom: 20px;
 }
 .highlight-mid {
+    
     color: #272848; 
   }
   
   .secondary-text {
     color:  #0167FF 
   }
+
+  .home-paragraph-content{
+    font-size: 15px;
+    line-height: 35px;
+  }
 .list p {
     margin: 0px 0 15px 0;
+
 }
 
 .fa-size {
