@@ -39,6 +39,7 @@ import DoctorEditPatient from './components/PatientProfile/doctorEdit';
 import MainDoc from "./components/DoctorProfileH/MainDoc/MainDoc";
 import PatientFrofile from "./components/DoctorProfileH/MainDoc/PatientFrofile"
 import PopupModal from './components/PopupModal';
+import HealthcareSection from './components/Footerpage/HealthcareSection';
 
 function App() {
   useEffect(() => {
@@ -67,6 +68,7 @@ function App() {
           <Route path="/faq/section" element={[<Navbar/>,<FaqSection />,<Footer/>]} />
           <Route path="/about/section" element={[<Navbar/>,<About />,<Footer/>]} />
           <Route path="/terms" element={[<Navbar/>,<TermsAndConditions />,<Footer/>]} />
+          <Route path="/enterprise" element={[<Navbar/>,<HealthcareSection />,<Footer/>]} />
           <Route path="/signup" element={[<Navbar/>,<SignupCard />,<Footer/>]} />
           <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
           <Route path="/doc-profile" element={[<Nestednavbar/>,<MainDoc />,<Footer/>]}/>

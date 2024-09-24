@@ -230,7 +230,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
             const result = await response.json();
             // console.log(result.url);
             if (response.ok) {
-                if(consultationType == "Video call" && result.url){
+                if(consultationType.toLowerCase() == "Video call" && result.url){
                     window.open(result.url)
                 }else{
                     navigate('/profile/userprofile/manage/appointments')

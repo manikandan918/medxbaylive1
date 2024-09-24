@@ -15,7 +15,7 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
 
     // Combined pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const doctorsPerPage = 2; // Number of doctors to show per classification per page
+    const doctorsPerPage = 5; // Number of doctors to show per classification per page
 
     const handleSortChange = (e) => {
         setSortOption(e.target.value);
@@ -27,6 +27,8 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
                 return [...doctors].sort((a, b) => (b.rating || 0) - (a.rating || 0));
             case 'mostReviewed':
                 return [...doctors].sort((a, b) => (b.reviews.length || 0) - (a.reviews.length || 0));
+            case 'priceLowToHigh':
+                return [...doctors].sort((a, b) => (a.doctorFee || 0) - (b.doctorFee || 0)); // Assuming consultationFee is the price field
             default:
                 return doctors;
         }
@@ -112,6 +114,7 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
                                 <option value="">Select</option>
                                 <option value="highestRated">Highest Rated</option>
                                 <option value="mostReviewed">Most Reviewed</option>
+                                <option value="priceLowToHigh">Price: Low to High</option> {/* New option */}
                             </select>
                             <RiArrowDownSLine className="arrow-icon-filter" />
                         </div>
@@ -134,9 +137,8 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
                         <DoctorCard key={doctor._id} doctor={doctor} isMapExpanded={isMapExpanded} />
                     ))
                 ) : (
-                    <>{loader ? <Loader /> : <p>No doctors found based on the applied filters.</p>}</>
+                    <>{loader ? <Loader /> : <p className='no-results-message'>No doctors found based on the applied filters.</p>}</>
                 )}
-            </div>
             {/* Combined Pagination */}
             <Pagination 
                 totalPages={totalPages} 
@@ -144,20 +146,22 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
                 paginate={setCurrentPage} 
                 nextPage={nextPage} 
                 prevPage={prevPage} 
+                isMapExpanded={isMapExpanded}
             />
+            </div>
         </div>
     );
 };
 
 // Pagination component
-const Pagination = ({ totalPages, currentPage, paginate, nextPage, prevPage }) => {
+const Pagination = ({ totalPages, currentPage, paginate, nextPage, prevPage,isMapExpanded }) => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i);
     }
 
     return (
-        <div className="pagination">
+        <div className={`pagination  ${isMapExpanded ? 'mapExpanded-pagination' : ''}`}>
             <button
                 onClick={prevPage}
                 disabled={currentPage === 1}

@@ -97,8 +97,8 @@ const DoctorProfile = () => {
 
 
   return (
-    <div >
-    <div className="profile-card-doctor" style={{marginTop:"40px", }}>
+    <div className="doc-back" style={{ backgroundColor: "white", marginTop:"40px", borderRadius:"20px" }}>
+      {/* <div className="profile-card-doctor" style={{marginTop:"40px",backgroundColor:"white" }}>
       <div className="profile-image-container">
         <img
           loading="lazy"
@@ -112,14 +112,14 @@ const DoctorProfile = () => {
           <div className="doctor-name">
             {doctor ? doctor.name : "Loading..."}
           </div>
-          {/* <div className="py-1">
+          <div className="py-1">
             <img
               loading="lazy"
               src="/DoctorProfile/share.png"
               alt=""
               className="share-icon"
             />
-          </div> */}
+          </div>
         </div>
         <div className="doctor-title">
           {doctor ? doctor.title : "Loading..."}
@@ -149,9 +149,65 @@ const DoctorProfile = () => {
           </button>
         </div>
       </div>
+    </div> */}
+
+
+      <div className="background-container">
+        <img
+          src="/DoctorProfile/Doctor1.png" // Replace with your image URL
+          alt="Overlap Example"
+          className="overlapping-image"
+        />
+      </div>
+      <br></br>
+      <br></br>
+    
+      <div style={{ backgroundColor: "white", padding:"20px", borderRadius:"20px"}}>
+        <div style={{ fontWeight: 500, fontSize: "18px" }}>
+        {doctor ? doctor.name : "Loading..."}
+        </div>
+        <div style={{ fontSize: "14px" }}> {doctor ? doctor.title : "Loading..."}</div>
+
+        <br></br>
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+          <div style={{ border: "1px solid #bfbebe", padding: "3px 55px", borderRadius:"10px", backgroundColor:"#0167FF", color:"white" }} onClick={handleShowEdit}>Edit Profile</div>
+          <div style={{ border: "1px solid #bfbebe", padding: "3px 35px", borderRadius:"10px" }}
+          className="verify-button"
+          onClick={handleVerify}
+          disabled={
+            loading ||
+            doctor.verified === "Pending" ||
+            (doctor.verified === "Verified" &&
+              doctor.subscriptionVerification === "Verified")
+          }>
+           {doctor.verified === "Verified"
+              ? doctor.subscriptionVerification === "Verified"
+                ? doctor.subscriptionType
+                : "Subscribe"
+              : doctor.verified === "Pending"
+              ? "Pending"
+              : "Request To Verify"}
+            </div>
+        </div>
+        <br></br>
+        <div>
+          <div>
+            <img src="" />
+            <span>{doctor ? doctor.email : "Loading..."}</span>
+          </div>
+          
+          <div>
+            <img src="" />
+            <span>{doctor ? doctor.country : "Loading..."}</span>
+          </div>
+          <div>
+            <img src="" />
+            <span>{doctor ? doctor.role : "Loading..."}</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
-  
   );
 };
 

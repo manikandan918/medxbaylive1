@@ -2,22 +2,27 @@ import React from "react";
 import Articles from "../Articles";
 import DoctorInfo from "../DoctorInfo";
 import FAQ from "../FAQ";
-import MainPac from "./MainPac";
-import "../tail.css";
+import DoctorProfile from "../DoctorProfile";
+import BookAppointment from "../BookAppointment";
 
 function PatientFrofile() {
   return (
     <div>
-      <main className="flex flex-col items-end px-20 mt-10 w-full max-md:px-5 max-md:mt-10 max-md:max-w-full">
-        <div className="self-stretch max-md:max-w-full">
-          <div className="flex gap-5 max-md:flex-col">
-            <MainPac />
+      <main className="">
+      <div className="">
+        <div style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:"100%", border:"" }}>
+           <div style={{border:"", width:"40%", paddingLeft:"5%", paddingRight:"5%"}}>
+            <DoctorProfile />
+            <BookAppointment/>
+          </div>
+          <div style={{border:"", width:"60%", paddingLeft:"", paddingRight:"5%"}}>
             <DoctorInfo />
+            <Articles />
+            <FAQ />
           </div>
         </div>
-        <Articles />
-        <FAQ />
-      </main>
+      </div>
+    </main>
     </div>
   );
 }

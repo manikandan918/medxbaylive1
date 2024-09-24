@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './filter.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { RiArrowDownSLine } from "react-icons/ri";
-import { FiCalendar } from "react-icons/fi";
+import { FiCalendar, FiSearch } from "react-icons/fi";
 import { useSearch } from '../context/context';
 
 const Filter = ({ onFilterChange, initialFilters }) => {
@@ -24,7 +24,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         conditions: [],
         sortOption: ''
     });
-    const {setSearchData}=useSearch();
+    const { setSearchData } = useSearch();
     const [dropdownData, setDropdownData] = useState({
         countries: [],
         states: [],
@@ -34,17 +34,27 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         languages: [],
         hospitals: [],
     });
+    const [conditionSearch, setConditionSearch] = useState('');
+    const [languageSearch, setLanguageSearch] = useState('');
+
+    const filteredConditions = dropdownData.conditions.filter(condition =>
+        condition.toLowerCase().includes(conditionSearch.toLowerCase())
+    );
+
+    const filteredLanguages = dropdownData.languages.filter(language =>
+        language.toLowerCase().includes(languageSearch.toLowerCase())
+    );
     useEffect(() => {
         populateDropdowns();
         populateSearchFieldsFromUrl();
         searchDoctors();
     }, []);
-      useEffect(() => {
+    useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             searchDoctors();
             onFilterChange(formData);
         }, 300); // 300ms debouncereturn() =>clearTimeout(delayDebounceFn);
-    }, [formData,onFilterChange]);
+    }, [formData, onFilterChange]);
     const populateDropdowns = async () => {
         await populateCountryDropdown();
         await populateStateDropdown();
@@ -148,7 +158,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
     };
     const handleInputChange = (e) => {
         const { id, value, selectedOptions } = e.target;
-    
+
         // Handle date format conversion if needed
         if (id === 'dateAvailability') {
             const formattedDate = new Date(value).toISOString().split('T')[0]; // YYYY-MM-DD format
@@ -168,11 +178,11 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                 [id]: value,
             }));
         }
-    
+
         setSearchData({ doctors: [] });
         searchDoctors();
     };
-    
+
     const handleCheckboxChange = (e) => {
         const { name, value, checked } = e.target;
         setFormData(prev => {
@@ -186,18 +196,18 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                 [name]: updatedArray
             };
         });
-        setSearchData({doctors:[]})
+        setSearchData({ doctors: [] })
     };
     const searchDoctors = async () => {
         const query = new URLSearchParams(formData).toString();
         const url = `${process.env.REACT_APP_BASE_URL}/auth/search-doctors?${query}`;
-        
+
         try {
             const response = await fetch(url);
             const doctors = await response.json();
             setDoctors(doctors);
-            console.log('Fetched doctors:', doctors); // Log the fetched doctors
-            
+            // console.log('Fetched doctors:', doctors); // Log the fetched doctors
+
         } catch (error) {
             console.error('Error fetching doctors:', error);
         }
@@ -223,8 +233,12 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         setFormData(resetData);
         onFilterChange(resetData);
         searchDoctors();
-        setSearchData({doctors:[]})
+        setSearchData({ doctors: [] })
+        setConditionSearch(''); // Reset condition search
+        setLanguageSearch(''); // Reset language search
     };
+    
+
 
 
     return (
@@ -312,41 +326,60 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                     </div>
                 </div>
                 <div className="select-container-filter">
-    <div className="form-group">
-        <label>Conditions:</label>
-        <div className="checkbox-group scrollable-container">
-            {dropdownData.conditions.length > 0 ? (
-                dropdownData.conditions.map((condition, index) => (
-                    condition && (
-                        <div key={condition} className="checkbox-item">
+                    <div className="form-group">
+                        <label>Conditions:</label>
+                        <div className="filter-search-container">
                             <input
-                                type="checkbox"
-                                id={`condition-${condition}`}
-                                name="conditions"
-                                value={condition}
-                                checked={formData.conditions ? formData.conditions.includes(condition) : false}
-                                onChange={handleCheckboxChange}
+                                type="text"
+                                placeholder="Search Conditions"
+                                value={conditionSearch}
+                                onChange={(e) => setConditionSearch(e.target.value)}
+                                className="filter-search-bar"
                             />
-                            <label htmlFor={`condition-${condition}`} className="checkbox-label">
-                                {condition}
-                            </label>
+                            <FiSearch className="filter-search-icon" />
                         </div>
-                    )
-                ))
-            ) : (
-                <p>No conditions available</p>
-            )}
-        </div>
-    </div>
-</div>
+                        <div className="checkbox-group scrollable-container">
+                            {filteredConditions.length > 0 ? (
+                                filteredConditions.map((condition, index) => (
+                                    condition && (
+                                        <div key={condition} className="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                id={`condition-${condition}`}
+                                                name="conditions"
+                                                value={condition}
+                                                checked={formData.conditions ? formData.conditions.includes(condition) : false}
+                                                onChange={handleCheckboxChange}
+                                            />
+                                            <label htmlFor={`condition-${condition}`} className="checkbox-label">
+                                                {condition}
+                                            </label>
+                                        </div>
+                                    )
+                                ))
+                            ) : (
+                                <p>No conditions available</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
 
-
-            <div className="select-container-filter">
+                <div className="select-container-filter">
                     <div className="form-group">
                         <label>Language Spoken:</label>
+                        <div className="filter-search-container">
+                        <input
+                            type="text"
+                            placeholder="Search Languages"
+                            value={languageSearch}
+                            onChange={(e) => setLanguageSearch(e.target.value)}
+                            className="filter-search-bar"
+                        />
+                        <FiSearch className="filter-search-icon" />
+                        </div>
                         <div className="checkbox-group scrollable-container">
-                            {dropdownData.languages.length > 0 ? (
-                                dropdownData.languages.map(language => (
+                            {filteredLanguages.length > 0 ? (
+                                filteredLanguages.map(language => (
                                     language && (
                                         <div key={language} className="checkbox-item">
                                             <input
@@ -369,6 +402,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                         </div>
                     </div>
                 </div>
+
                 <div className="select-container-filter">
                     <div className="form-group">
                         <label htmlFor="gender">Gender:</label>
@@ -413,7 +447,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                         <select id="consultation" onChange={handleInputChange} value={formData.consultation}>
                             <option value="">Select Consultation</option>
                             <option value="In-person">In-person</option>
-                            <option value="Video call">Video call</option>
+                            <option value="video call">video call</option>
                             <option value="Both">Both</option>
                         </select>
                         <RiArrowDownSLine className="arrow-icon-filter" />

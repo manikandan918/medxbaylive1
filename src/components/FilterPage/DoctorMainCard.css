@@ -427,12 +427,12 @@
 }
 
 .pagination-button.prev::before {
-  content: 'Â«'; /* Double arrow for the previous button */
+  content: '«'; /* Double arrow for the previous button */
   font-size: 18px;
 }
 
 .pagination-button.next::before {
-  content: 'Â»'; /* Double arrow for the next button */
+  content: '»'; /* Double arrow for the next button */
   font-size: 18px;
 }
 
@@ -467,7 +467,7 @@
 
 /* Custom dropdown arrow */
 .minimal-dropdown::after {
-  content: 'â–¼';
+  content: '▼';
   color: #ff7f50;
   position: absolute;
   top: 50%;
@@ -772,4 +772,7 @@
 }
 .mapExpanded-sponsor-card{
   margin: 20px 0 !important;
+}
+.mapExpanded-pagination{
+  width: 93%;
 }

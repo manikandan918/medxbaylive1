@@ -217,6 +217,53 @@ input[type="date"]::-ms-expand {
     box-shadow: 0 0 3px #007bff;
 }
 
+.filter-search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin-bottom: 10px; /* Adjust for spacing */
+    background-color: #fff;
+}
+
+.filter-search-bar {
+    border: none !important;
+    outline: none !important; /* Remove the default outline */
+    width: 100%;
+    padding: 5px;
+    font-size: 14px;
+    color: #272848;
+}
+
+.filter-search-bar::placeholder {
+    color: #aaa; /* Lighter color for placeholder text */
+}
+
+.filter-search-icon {
+    font-size: 18px;
+    color: #FF7F50;
+    margin-left: 10px;
+}
+
+.filter-search-container:hover {
+    border-color: #007bff; /* Change border color on hover */
+}
+
+.filter-search-container:focus-within {
+    border-color: #007bff; /* Change border color when input is focused */
+}
+
+.checkbox-group {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .sidebar-filter {

@@ -77,9 +77,13 @@ const UserFooter = () => {
           <div className="custom-footer-column">
             <h4>Legal</h4>
             <ul>
-              <li>Privacy Policy</li>
+            <Link to="/privacy" onClick={handleLinkClick}><li>Privacy Policy</li></Link>
+
+
               <Link to="/terms" onClick={handleLinkClick}><li>Terms of Service</li></Link>
-              <li>Contact</li>
+              <Link to="/enterprise" onClick={handleLinkClick}><li>Enterprise</li></Link>
+
+    
             </ul>
           </div>
           <div className="custom-footer-column">

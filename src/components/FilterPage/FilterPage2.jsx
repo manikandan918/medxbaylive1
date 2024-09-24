@@ -515,3 +515,426 @@ const FilterPage = () => {
 }
 
 export default FilterPage
+
+
+// import React, { useEffect, useState } from 'react';
+// import DoctorMainCard from './DoctorMainCard';
+// import Filter from './Filter';
+// import './FilterPage.css';
+// import Footer from '../footer/footerrs';
+// import MapContainer from './Mapcontainer';
+// import './OffCanvas.css';
+// import { fetchFromPatient } from '../../actions/api';
+// import Nestednavbar from '../Nestednavbar2/Nestednavbar2';
+// import { useLocation } from 'react-router-dom';
+// import { useSearch } from '../context/context';
+
+// const FilterPage = () => {
+//   const location = useLocation();
+//   const [isFilterOpen, setIsFilterOpen] = useState(false);
+//   const [isMapExpanded, setIsMapExpanded] = useState(false);
+//   const [searchInput, setSearchInput] = useState('');
+//   const [doctors, setDoctors] = useState([]);
+//   const [doc, setDoc] = useState([]);
+//   const [responseStatus, setResponseStatus] = useState();
+//   const [filters, setFilters] = useState({
+//     what: '',
+//     where: '',
+//     country: '',
+//     state: '',
+//     city: '',
+//     speciality: '',
+//     conditions: [],
+//     languages: [],
+//     gender: '',
+//     hospital: "",
+//     availability: '',
+//     dateAvailability: '',
+//     consultation: ''
+//   });
+
+//   const { searchData } = useSearch();
+
+//   useEffect(() => {
+//     if (searchData.doctors) {
+//       setDoctors(searchData.doctors);
+//       setFilters(prevFilters => ({
+//         ...prevFilters,
+//         what: searchData.what || '',
+//         where: searchData.where || ''
+//       }));
+//     } else if (searchData.error) {
+//       console.error(searchData.error);
+//     }
+//   }, [searchData]);
+
+//   const fetchDoctors = async () => {
+//     try {
+//       const response = await fetchFromPatient('/doctors');
+//       if (response && Array.isArray(response.doctors)) {
+//         setDoc(response.doctors);
+//       }
+//       setResponseStatus(response.status === 200 ? "Success" : "Failed");
+//     } catch (error) {
+//       console.error('Error fetching doctors:', error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchDoctors();
+//   }, []);
+
+//   const toggleFilterCanvas = () => {
+//     setIsFilterOpen(!isFilterOpen);
+//   };
+
+//   const handleMapExpandToggle = () => {
+//     setIsMapExpanded(!isMapExpanded);
+//   };
+
+//   const handleSearchInputChange = (e) => {
+//     setSearchInput(e.target.value);
+//   };
+
+//   const handleSearchButtonClick = () => {
+//     setFilters((prevFilters) => ({ ...prevFilters, what: searchInput }));
+//   };
+
+//   const handleFilterChange = (filterData) => {
+//     setFilters(filterData);
+//   };
+
+//   const handleResetClick = () => {
+//     setIsMapExpanded(false);
+//     setSearchInput('');
+//   };
+
+//   const handleMapClose = () => {
+//     setIsMapExpanded(false);
+//   };
+
+//   const filterDoctors = (doctors) => {
+//     if (!Array.isArray(doctors)) return [];
+
+//     return doctors.filter(doctor => {
+//       const getStringValue = value => (typeof value === 'string' ? value.toLowerCase().replace(" ", "") : '');
+
+//       const country = getStringValue(doctor.country || '');
+//       const state = getStringValue(doctor.state || '');
+//       const city = getStringValue(doctor.city || '');
+//       const speciality = (doctor.speciality || []).map(getStringValue);
+//       const gender = getStringValue(doctor.gender || '');
+//       const hospital = doctor.hospitals ? doctor.hospitals.map(hospital => getStringValue(hospital.name)) : [];
+//       const availability = getStringValue(doctor.availability || '');
+//       const conditions = (doctor.conditions || []).map(getStringValue);
+//       const languages = (doctor.languages || []).map(getStringValue);
+//       const consultation = getStringValue(doctor.consultation || '');
+
+//       return (
+//         (!filters.country || country === getStringValue(filters.country)) &&
+//         (!filters.state || state === getStringValue(filters.state)) &&
+//         (!filters.city || city === getStringValue(filters.city)) &&
+//         (!filters.speciality || speciality.includes(getStringValue(filters.speciality))) &&
+//         (!filters.gender || gender === getStringValue(filters.gender)) &&
+//         (!filters.hospital || hospital.includes(getStringValue(filters.hospital))) &&
+//         (!filters.availability || availability === getStringValue(filters.availability)) &&
+//         (!filters.conditions.length || filters.conditions.every(condition => conditions.includes(getStringValue(condition)))) &&
+//         (!filters.languages.length || filters.languages.every(language => languages.includes(getStringValue(language)))) &&
+//         (!filters.consultation || consultation === getStringValue(filters.consultation))
+//       );
+//     });
+//   };
+
+//   const filteredDoctors = filterDoctors(doctors.length === 0 ? doc : doctors);
+
+//   // Extract unique locations from filteredDoctors
+//   const uniqueLocations = filteredDoctors
+//     .flatMap(doctor =>
+//       doctor.hospitals?.map(hospital => ({
+//         lat: hospital.lat,
+//         lng: hospital.lng,
+//         name: hospital.name,
+//         city: hospital.city
+//       })) || []
+//     )
+//     .filter((location, index, self) =>
+//       index === self.findIndex(loc => loc.lat === location.lat && loc.lng === location.lng)
+//     );
+
+//   return (
+//     <>
+//       <Nestednavbar />
+//       <div className='container-fluid mt-5'>
+//         <div className='filterpage-parent'>
+//           <button onClick={toggleFilterCanvas} className="btn btn-primary my-3 d-lg-none">
+//             Open Filters
+//           </button>
+
+//           <div className='row'>
+//             <div className="filter-edit col-3 d-none d-lg-block">
+//               <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
+//             </div>
+//             <div className={`doctorMainCard-edit ${isMapExpanded ? 'col-4' : 'col-12 col-lg-6'}`}>
+//               <DoctorMainCard isMapExpanded={isMapExpanded} doctors={filteredDoctors} />
+//             </div>
+//             <div className={`map-edit d-none d-lg-block ${isMapExpanded ? 'col-5 mt-4' : 'col-3'}`}>
+//               <MapContainer
+//                 expanded={isMapExpanded}
+//                 searchInput={searchInput}
+//                 onExpandToggle={handleMapExpandToggle}
+//                 onSearchInputChange={handleSearchInputChange}
+//                 onSearchButtonClick={handleSearchButtonClick}
+//                 onResetClick={handleResetClick}
+//                 uniqueLocations={uniqueLocations}
+//                 onClickOutside={handleMapClose}
+//               />
+//             </div>
+//           </div>
+//         </div>
+
+//         <Footer />
+//       </div>
+//     </>
+//   );
+// };
+
+// export default FilterPage;
+
+
+// update map before hirushit bro update :
+// import React, { useEffect, useState } from 'react';
+// // import Nestednavbar from '../Nestednavbar/Nestednavbar';
+// import DoctorMainCard from './DoctorMainCard';
+// import Filter from './Filter';
+// import './FilterPage.css';
+// import MidPartTwo from '../../MidPartTwo';
+// import Footer from '../footer/footerrs';
+// import Footerr from '../footer/footer';
+// import MapContainer from './Mapcontainer';
+// import './OffCanvas.css';
+// import { fetchFromPatient } from '../../actions/api';
+// import Nestednavbar from '../Nestednavbar2/Nestednavbar2';
+// import { useLocation } from 'react-router-dom';
+// import { useSearch } from '../context/context';
+
+// const FilterPage = () => {
+//   const location = useLocation();
+//   const [isFilterOpen, setIsFilterOpen] = useState(false);
+//   const [isMapExpanded, setIsMapExpanded] = useState(false);
+//   const [searchInput, setSearchInput] = useState('');
+//   const [doctors, setDoctors] = useState([]);
+//   const [doc, setDoc] = useState([]);
+//   const [locations, setLocations] = useState([]);
+//   const [responseStatus,setresponseStatus] = useState();
+//   const [filters, setFilters] = useState({
+//     what: '',
+//     where: '',
+//     country: '',
+//     state: '',
+//     city: '',
+//     speciality: '',
+//     conditions: [],
+//     languages: [],
+//     gender: '',
+//     hospital: "",
+//     availability: '',
+//     dateAvailability: '',
+//     consultation: ''
+//   });
+
+//   const { searchData } = useSearch();
+
+//   console.log(searchData,'jkahfkjehkje')
+
+//   useEffect(() => {
+//     if (searchData.doctors) {
+//       setDoctors(searchData.doctors);
+//       setFilters(prevFilters => ({
+//         ...prevFilters,
+//         what: searchData.what || '',
+//         where: searchData.where || ''
+//       }));
+//     } else if (searchData.error) {
+//       console.error(searchData.error);
+//       // Handle error display to user
+//     } 
+//   }, [searchData]);
+
+//   const fetchDoctors = async () => {
+//     try {
+//       const response = await fetchFromPatient('/doctors');
+//       if (response && Array.isArray(response.doctors)) {
+//         setDoc(response.doctors);
+//         const extractedLocations = response.doctors
+//           .filter(doctor => doctor.hospitals && Array.isArray(doctor.hospitals))
+//           .flatMap(doctor =>
+//             doctor.hospitals
+//               .filter(hospital => hospital.lat && hospital.lng)
+//               .map(hospital => ({
+//                 lat: hospital.lat,
+//                 lng: hospital.lng,
+//                 name: hospital.name,
+//                 city: hospital.city
+//               }))
+//           );
+//         setLocations(extractedLocations);
+//         console.log(response.doctors);
+
+//       } else {
+//         setLocations([])
+//       }
+      
+//       if(response.status === 200){
+//         setresponseStatus("Success");
+//       }
+//       else if(response.status === 500){
+//         setresponseStatus("Failed");
+//       }
+//       else{
+//         setresponseStatus("Pending");
+//       }
+
+//     } catch (error) {
+//       console.error('Error fetching doctors:', error);
+//     }
+//   };
+
+//   useEffect(() => {
+//       fetchDoctors()
+    
+//   }, []);
+
+
+//   const toggleFilterCanvas = () => {
+//     setIsFilterOpen(!isFilterOpen);
+//   };
+
+//   const handleMapExpandToggle = () => {
+//     setIsMapExpanded(!isMapExpanded);
+//   };
+
+//   const handleSearchInputChange = (e) => {
+//     setSearchInput(e.target.value);
+//   };
+
+//   const handleSearchButtonClick = () => {
+//     setFilters((prevFilters) => ({ ...prevFilters, what: searchInput }));
+//   };
+
+//   const handleFilterChange = (filterData) => {
+//     setFilters(filterData);
+//   };
+
+//   const handleResetClick = () => {
+//     setIsMapExpanded(false);
+//     setSearchInput('');
+
+//   };
+//   const handleMapClose = () => {
+//     setIsMapExpanded(false);
+//   };
+
+//   const filterDoctors = (doctors) => {
+//     if (!Array.isArray(doctors)) {
+//       return [];
+//     }
+
+//     return doctors.filter((doctor) => {
+//       const getStringValue = (value) => (typeof value === 'string' ? value.toLowerCase().replace(" ", "") : '');
+
+//       const country = getStringValue(doctor.country || '');
+//       const state = getStringValue(doctor.state || '');
+//       const speciality = (doctor.speciality.length > 0 ? doctor.speciality : []).map(getStringValue);
+//       const city = getStringValue(doctor.city || '');
+//       const gender = getStringValue(doctor.gender || '');
+//       const hospital = doctor.hospitals.length > 0 ? doctor.hospitals.map(hospital => getStringValue(hospital.name)) : [];
+//       const availability = getStringValue(doctor.availability || '');
+//       const doctorConditions = (doctor.conditions || []).map(getStringValue);
+//       const doctorLanguages = (doctor.languages || []).map(getStringValue);
+//       const consultation = getStringValue(doctor.consultation || '');
+//        // Extract dates from the doctor's time slots
+//     const doctorDates = (doctor.timeSlots || []).map((slot) => new Date(slot.date).toISOString().split('T')[0]); 
+
+//     // Convert the filter date to the correct format
+//     const filterDate = filters.dateAvailability ? new Date(filters.dateAvailability).toISOString().split('T')[0] : null;
+
+
+//       const matchesCountry = !filters.country || country === getStringValue(filters.country);
+//       const matchesState = !filters.state || state === getStringValue(filters.state);
+//       const matchesCity = !filters.city || city === getStringValue(filters.city);
+//       const matchesSpeciality = !filters.speciality || speciality.includes(getStringValue(filters.speciality));
+//       const matchesGender = !filters.gender || gender === getStringValue(filters.gender);
+//       const matchesHospital = !filters.hospital || hospital.includes(getStringValue(filters.hospital));
+//       const matchesAvailability = !filters.availability || availability === getStringValue(filters.availability);
+//       const matchesConditions = filters.conditions.length === 0 || filters.conditions.every(condition => doctorConditions.includes(getStringValue(condition)));
+//       const matchesLanguages = filters.languages.length === 0 || filters.languages.every(language => doctorLanguages.includes(getStringValue(language)));
+//       const matchesConsultation = !filters.consultation || consultation === getStringValue(filters.consultation);
+ 
+//     // Check if the doctor's available dates match the selected dateAvailability
+//     const matchesDateAvailability = !filterDate || doctorDates.includes(filterDate);
+
+//       return (
+//         matchesCountry &&
+//         matchesState &&
+//         matchesCity &&
+//         matchesSpeciality &&
+//         matchesGender &&
+//         matchesHospital &&
+//         matchesAvailability &&
+//         matchesConditions &&
+//         matchesLanguages &&
+//         matchesConsultation &&
+//         matchesDateAvailability
+//       );
+//     });
+//   };
+//   const filteredDoctors = doctors.length == 0 ? filterDoctors(doc) : filterDoctors(doctors);
+//   return (
+//     <>
+//     <Nestednavbar/>
+//       <div className='container-fluid mt-5'>
+//         <div className='filterpage-parent'>
+//           <button onClick={toggleFilterCanvas} className="btn btn-primary my-3 d-lg-none">
+//             Open Filters
+//           </button>
+
+//           {/* <div className={`offcanvas left ${isFilterOpen ? 'open' : ''}`}>
+//             <button className="closebtn" onClick={toggleFilterCanvas}>&times;</button>
+//             <div className="filter-container">
+//               <Filter onFilterChange={handleFilterChange} filters={filters} />
+//             </div>
+//           </div> */}
+
+//           <div className='row'>
+//             <div className="filter-edit col-3 d-none d-lg-block">
+//             <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
+
+//             </div>
+//             <div className={`doctorMainCard-edit ${isMapExpanded ? 'col-4' : 'col-12 col-lg-6'}`}>
+//               <DoctorMainCard isMapExpanded={isMapExpanded} doctors={filteredDoctors} location={locations} responseStatus={responseStatus}/>
+//             </div>
+//             <div className={`map-edit d-none d-lg-block ${isMapExpanded ? 'col-5 mt-4' : 'col-3'}`}>
+//               <MapContainer
+//                 expanded={isMapExpanded}
+//                 searchInput={searchInput}
+//                 onExpandToggle={handleMapExpandToggle}
+//                 onSearchInputChange={handleSearchInputChange}
+//                 onSearchButtonClick={handleSearchButtonClick}
+//                 onResetClick={handleResetClick}
+//                 uniqueLocations={locations}
+//                 onClickOutside={handleMapClose} // Pass handleMapClose function
+//                 doctors={filteredDoctors}
+
+//               />
+//             </div>
+//           </div>
+//         </div>
+
+
+//         <Footer />
+//       </div>
+//     </>
+//   );
+// };
+
+// export default FilterPage;

@@ -1,8 +1,8 @@
 .nutrition-tips-container {
   
   padding-bottom: 2rem;
-  padding-left: 90px;
-  padding-right: 90px;
+  padding-left: 150px  !important;
+  padding-right: 150px  !important;
   padding-top: 2rem !important;
 
   
@@ -266,5 +266,6 @@ padding: 30px;
 
 .helpful-text {
   margin-top: 10px;
+  margin-left: 50px;
   font-size: 14px;
 }

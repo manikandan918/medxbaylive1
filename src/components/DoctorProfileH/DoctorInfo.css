@@ -1,14 +1,14 @@
 .contain {
   display: flex;
   flex-direction: column;
-  width: 65%;
+  /* width: 65%; */
   
 }
 
-.section {
+.about-section {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  /* width: 100%; */
   margin-top: 2rem;
   padding: 2.25rem 2.5rem;
   background-color: white;

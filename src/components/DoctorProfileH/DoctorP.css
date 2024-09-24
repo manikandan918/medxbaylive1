@@ -1,4 +1,4 @@
-.edit-button{
+/* .edit-button{
     background-color: #0167FF;
     color:white;
     padding-left: 15px;
@@ -14,4 +14,37 @@
     color: #0167FF;
     border-radius: 5px;
     margin-left: 10px;
+} */
+
+
+.background-container {
+    height: 150px;
+    background-color: #f0f0f0;
+    /* Your desired background color */
+    position: relative;
+    /* Position for absolute children */
+    display: flex;
+
+    justify-content: center;
+    /* Center image horizontally */
+    align-items: flex-start;
+    /* Align items to the top */
+}
+
+.overlapping-image {
+    position: absolute;
+    bottom: -40%;
+    /* Move the image down for overlap */
+    left: 50%;
+    /* Center the image horizontally */
+    transform: translateX(-50%);
+    /* Centering adjustment */
+    max-width: none;
+    /* Allow natural width */
+    width: 200px;
+    /* Adjust as needed */
+    height: auto;
+    border-radius: 20px;
+    /* Adjust as needed */
+    z-index: 100
 }
