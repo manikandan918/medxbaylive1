@@ -185,7 +185,10 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  
+  const handleLinkClick = () => {
+    window.scrollTo(0, 0);  
+  };
+
   useEffect(() => {
     const loggedIn = sessionStorage.getItem('loggedIn') === 'true';
     const role = sessionStorage.getItem('role');
@@ -217,24 +220,22 @@ const Navbar = () => {
               <li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
                 <Link 
                   className="for-corporates nav-link nav-link-style dropdown-toggle" 
-                  to="#" 
+                  to="/enterprise" 
                   role="button" 
-                  onClick={toggleProviderModal}
+                  onClick={handleLinkClick}
                 >
-                  For Corporates
+         Enterprise
                   {/* <FontAwesomeIcon icon={faChevronDown} className="ml-2" /> */}
                 </Link>
               </li>
               <li className="nav-item dropdown active ml-md-4" ref={providersDropdownRef}>
               <a 
   className="for-providers nav-link nav-link-style dropdown-toggle" 
-  href="https://mxb-providerslaunch.zoholandingpage.com/zoho-marketing-automation-workspace/Prelaunch%20-%20Providers/" 
-  role="button" 
-  target="_blank" 
-  rel="noopener noreferrer" // Optional for security reasons
-  onClick={toggleProvidersDropdown}
+
+
+  onClick={handleShowBlogPopup}
 >
-  For Providers
+Dr/Physician
 </a>
 
               </li>
