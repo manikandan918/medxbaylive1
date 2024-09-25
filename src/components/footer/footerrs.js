@@ -83,9 +83,9 @@ const Footer = () => {
             <ul>
             <Link to="/privacy" onClick={handleLinkClick}><li>Privacy Policy</li></Link>
 
-
+   
               <Link to="/terms" onClick={handleLinkClick}><li>Terms of Service</li></Link>
-              <li>Contact</li>
+              <Link to="/contact-us" onClick={handleLinkClick}><li>Contact</li></Link>
             </ul>
           </div>
           <div className="custom-footer-column">

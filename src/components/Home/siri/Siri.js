@@ -19,7 +19,7 @@ return(
 
 <div className='siri-background'>
  <div className='introduction-afya'>Introducing <span className='introduction-afya-sub'>Afya</span></div>
- <div className='afya-explaination'>An advanced AI bot designed to significantly enhance the healthcare experience for both patients and providers by offering smart, tailored support (launching this year!)</div>
+ <div className='afya-explaination'>An advanced AI bot designed to significantly enhance the healthcare experience for both patients and providers by offering smart, tailored support (Afya will launch in Q4 of 2024)</div>
  <div className='afya-zip-container'>
  <Lottie 
         options={defaultOptions}

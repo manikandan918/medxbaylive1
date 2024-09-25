@@ -8,10 +8,10 @@
   
   .enp-text-content {
     width: 55%;
-   
-    padding: 1rem;
+   margin-top: 20px;
+    padding: 4rem;
     
-    padding-right: 40px;
+
   
   }
   
@@ -22,7 +22,7 @@
   }
   
   .enp-text-content h1 span {
-    font-size: 28px;
+    font-size: 35px;
 
     color: #007BFF; /* Blue text for "for Healthcare Entities" */
   }
@@ -31,6 +31,21 @@
     font-size: 28px;
     color: #007BFF; /* Blue text for "for Healthcare Entities" */
   }
+
+ .sub-health-section{
+    width: 632px;
+height: 38px;
+
+font-family: Matter;
+font-size: 16px;
+font-weight: 500;
+line-height: 19.2px;
+text-align: left;
+margin:20px 0px 20px 0px;
+
+
+  }
+
   
   .enp-text-content p {
     margin: 1rem 0;
@@ -38,22 +53,23 @@
     text-align: justify;
     font-size: 14px;
     font-weight: 400;
-    width: 500px;
+    width: 580px;
   }
   
   .enp-image-content img {
-   
-    height: 555px;
-    width: 555px;
-    border-top-right-radius: 90px;
-  border-bottom-left-radius: 90px;
+
+
+    width: 482px;
+height: 494px;
+border-radius: 0px 120px 0px 120px;
     border-right: 30px;
-    padding: 1rem;
-    margin-top: 50px;
+    padding: 2rem;
+    margin-top: 0px;
+    margin-right: 50px;
   }
   
   .enp-bottom-section {
-    margin-top: 2rem;
+
     margin-bottom: 5rem;
     text-align: center;
     padding: 3rem;
@@ -61,8 +77,9 @@
   }
   
   .enp-bottom-section h2 {
-   
+   margin-bottom: 30px;
     font-size: 2rem;
+    
   }
   
   .enp-features-grid {
@@ -76,6 +93,9 @@
   .enp-feature-card {
     padding: 1.5rem;
     border-radius: 8px;
+    background-color: #F2F6FF; /* Highlight selected card */
+    /* border: 1px solid #007BFF; */
+    border: 0.5px solid #0167FF80;
     
   }
   
@@ -92,7 +112,7 @@
   }
   
   .enp-spanclass091{
-    color: #007BFF;
+    color:  #0167FF;
     font-size: 2rem;
     text-align: center;
   }
@@ -140,6 +160,7 @@
     
     color: #007BFF;  /* Icon color */
     margin-right: 1rem;
+
   }
   
   .enp-benefit-text h3 {
@@ -147,6 +168,9 @@
     
     font-size: 20px !important;
     text-align: left;
+  }
+  .enp-benefit-text img{
+    margin-bottom: 10px;
   }
   
   .enp-benefit-text p {
@@ -177,6 +201,7 @@
     height: 332px;
     object-fit: cover;
     margin-top: 30px;
+    border-radius: 12px;
 
   }
 
@@ -185,6 +210,7 @@
     width: 285px !important;
     height:198px;
     object-fit: cover;
+    border-radius: 12px;
   }
 
   .enp-image-grid4{
@@ -192,12 +218,14 @@
     height: 332px;
     margin-top: -140px;
     object-fit: cover;
+    border-radius: 12px;
 
   }
   .enp-image-grid3{
     width: 285px !important;
     height:188px;
     object-fit: cover;
+    border-radius: 12px;
 
   }
 
@@ -299,6 +327,7 @@
     font-size: 0.8rem;
     font-weight: 600;
     text-align: center;
+    line-height: 12px;
 
   }
   
@@ -334,8 +363,11 @@
   
 
   .selected-feature {
-    background-color: #F2F6FF; /* Highlight selected card */
-    border: 1px solid #007BFF;
+    box-shadow: 0px 4px 4px 0px #00000040;
+
+
+    background-color:#e4eaf9; /* Highlight selected card */
+    /* border: 1px solid #007BFF; */
   }
   .selected-card {
     background-color: #F2F6FF; /* Highlight selected card */

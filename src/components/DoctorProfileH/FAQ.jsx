@@ -5,6 +5,8 @@ import faqImage from '../Assets/faqImage.jpg'
 
 const FAQ = () => {
   const [doctor, setDoctor] = useState([]);
+  const [openFAQs, setOpenFAQs] = useState({});
+
   const fetchDoctorDetails = async () => {
     try {
       const response = await axios.get(
@@ -35,9 +37,11 @@ const FAQ = () => {
     fetchDoctorDetails();
   }, []);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleContent = () => {
-    setIsOpen(!isOpen);
+  const handleOpen = (index) => {
+    setOpenFAQs((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index], // Toggle open state
+    }));
   };
 
   return (
@@ -49,20 +53,25 @@ const FAQ = () => {
             loading="lazy"
             src={faqImage}
             alt="FAQ illustration"
-            style={{width:"250px", paddingLeft:"40px", marginTop:"20px"}}
-         
+            style={{ width: "250px", paddingLeft: "40px", marginTop: "20px" }}
           />
         </div>
         <div className="faq-content">
           <div className="faq-list">
             {doctor?.faqs?.map((item, index) => (
-              <div className="faq-item" key={index}>
-                <div className="faq-question">{item.question}</div>
-                <div className="faq-toggle" onClick={toggleContent}>
-                  <img src="/DoctorProfile/plus.png" alt="Toggle" className="py-2" />
+              <div className="faq-item" key={item._id}>
+                <div className="faq-question">
+                  {item.question} ?
+                  <span
+                    className="faq-icon"
+                    onClick={() => handleOpen(index)}
+                    style={{ cursor: "pointer", paddingLeft: "10px" }}
+                  >
+                    {openFAQs[index] ? "-" : "+"} {/* Toggle between plus and minus */}
+                  </span>
                 </div>
-                {isOpen && (
-                  <div className="faq-answer">
+                {openFAQs[index] && (
+                  <div className="faq-answer-doctor">
                     <p>{item.answer}</p>
                   </div>
                 )}

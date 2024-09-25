@@ -26,7 +26,7 @@ margin-top: 180px;
 }
 
 .blog{
-width: 43px;
+width: 203px;
 height: 25px;
 gap: 0px;
  opacity: 1;
@@ -323,7 +323,7 @@ margin-top: 30px;
      opacity: 1;
       border-radius: 50%;
 
-      background: url('/public/insightpersonone.png') no-repeat center center;
+      background: url('../../Assets/david\ clarke.jpg') no-repeat center center;
       background-size: cover; 
 
 
@@ -344,16 +344,7 @@ margin-top: 6px;
 
 
 }
-.insight-image-one{
-    width: 432px;
-height: 244px;
-top: 36.02px;
-left: 36px;
-gap: 0px;
- opacity: 1;
-background: url('/public/insight1.jpg') center no-repeat;
-background-size: cover;
-}
+
 
 
 
@@ -422,7 +413,7 @@ border-radius: 50%;
      opacity: 1;
     border-radius: 50%;
 
-    background: url('/public/insightpersontwo.jpeg') center no-repeat;
+    background: url('../../Assets/samuel\ harris.jpg') center no-repeat;
     background-size: cover; 
 }
 .text-box-person-two-name{
@@ -438,6 +429,17 @@ border-radius: 50%;
     text-align: center;
     margin-top: 6px;
 }
+
+.insight-image-one{
+    width: 432px;
+height: 244px;
+top: 36.02px;
+left: 36px;
+gap: 0px;
+ opacity: 1;
+background: url('../../Assets/1.jpg') center no-repeat;
+background-size: cover;
+}
 .insight-image-two{
     width: 432px;
 height: 244px;
@@ -445,9 +447,31 @@ top: 36.02px;
 left: 36px;
 gap: 0px;
  opacity: 1;
-background: url('/public/insight2.jpg') center no-repeat ;
+background: url('../../Assets/2.png') center no-repeat ;
 background-size: cover;
 }
+.insight-image-three{
+    width: 432px;
+height: 244px;
+top: 36.02px;
+left: 36px;
+gap: 0px;
+ opacity: 1;
+background: url('../../Assets/3.png') center no-repeat ;
+background-size: cover;
+}
+.insight-image-four{
+    width: 432px;
+height: 244px;
+top: 36.02px;
+left: 36px;
+gap: 0px;
+ opacity: 1;
+background: url('../../Assets/4.png') center no-repeat ;
+background-size: cover;
+}
+
+
 
 
 

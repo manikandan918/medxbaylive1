@@ -40,6 +40,7 @@ import MainDoc from "./components/DoctorProfileH/MainDoc/MainDoc";
 import PatientFrofile from "./components/DoctorProfileH/MainDoc/PatientFrofile"
 import PopupModal from './components/PopupModal';
 import HealthcareSection from './components/Footerpage/HealthcareSection';
+import ContactUs from './components/Footerpage/ContactUs/ContactUs';
 
 function App() {
   useEffect(() => {
@@ -77,6 +78,8 @@ function App() {
           <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<PatientFrofile />,<Footer/>]}/>
 
           <Route path="/admin/dashboardpage/*" element={<Adminroute/>} />
+          <Route path="/contact-us" element={[<Nestednavbar/>,<ContactUs />,<Footer/>]}/>
+
         </Routes>
       </Router>
       </SearchProvider>

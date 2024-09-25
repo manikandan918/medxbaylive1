@@ -207,7 +207,7 @@ const DoctorInfo = () => {
                 loading="lazy"
                 src={getBaseImage(i.logo)}
                 alt="insurance-logo"
-                style={{ width: '150px', height: '40px', marginLeft: '20px', border: '1px solid #e0e0e0', padding: '10px', borderRadius: '5px' }}
+                style={{ width: '150px',  marginLeft: '20px', border: '1px solid #e0e0e0',  borderRadius: '5px' }}
               />
             </div>
           ))}

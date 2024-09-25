@@ -64,46 +64,46 @@ function Insights() {
 
     const cardData = [
         {
-            category: "TELEMEDICINE",
+            category: "Viral Infections",
             date: "05 June, 2024",
             readTime: "2 min read",
-            title: "Virtual Primary Care: A new era of telemedicine",
-            content: "Lorem ipsum dolor sit amet consectetur. Tortor molestie faucibus facilisi fermentum. Varius orci pellentesque tortor consequat risus senectus aenean",
-            author: "By Dr. Andrew Miller",
+            title: "Viral Infections Explained; Stages, Symptoms, and Effective Treatments",
+            content: "What is a Viral Infection? A viral infection occurs when a virus enters the body, invades healthy cells, and begins to multiply.",
+            author: "Dr. David Clarke",
             imageClass: "insight-image-one",
             personImageClass: "text-box-person-one-image",
             personClass: "text-box-person-one"
         },
         {
-            category: "HYPERTENSION",
+            category: "Women's Health",
             date: "05 June, 2024",
             readTime: "2 min read",
-            title: "What is considered as high <br> blood pressure?",
-            content: "Lorem ipsum dolor sit amet consectetur. Tortor molestie faucibus facilisi fermentum. Varius orci pellentesque tortor consequat risus senectus aenean",
-            author: "By Dr. Mehmet Akinci",
+            title: "What is Thyroid Stimulating Hormone (TSH) and why it important",
+            content: "Thyroid Stimulating Hormone (TSH) plays a critical role in maintaining hormonal balance and regulating the body's metabolism, particularly in women.",
+            author: "By Dr. David Clarke",
             imageClass: "insight-image-two",
+            personImageClass: "text-box-person-one-image",
+            personClass: "text-box-person-two"
+        },
+        {
+            category: "Diabetes",
+            date: "05 June, 2024",
+            readTime: "2 min read",
+            title: "Understanding Diabetes and Managing Life with It",
+            content: "Living with diabetes can be challenging, but understanding it is the first step towards managing it effectively.",
+            author: "By Dr. Samuel Harris",
+            imageClass: "insight-image-three",
             personImageClass: "text-box-person-two-image",
             personClass: "text-box-person-two"
         },
         {
-            category: "HYPERTENSION",
+            category: "Asthma",
             date: "05 June, 2024",
             readTime: "2 min read",
-            title: "What is considered as high <br> blood pressure?",
-            content: "Lorem ipsum dolor sit amet consectetur. Tortor molestie faucibus facilisi fermentum. Varius orci pellentesque tortor consequat risus senectus aenean",
-            author: "By Dr. Mehmet Akinci",
-            imageClass: "insight-image-two",
-            personImageClass: "text-box-person-two-image",
-            personClass: "text-box-person-two"
-        },
-        {
-            category: "HYPERTENSION",
-            date: "05 June, 2024",
-            readTime: "2 min read",
-            title: "What is considered as high <br> blood pressure?",
-            content: "Lorem ipsum dolor sit amet consectetur. Tortor molestie faucibus facilisi fermentum. Varius orci pellentesque tortor consequat risus senectus aenean",
-            author: "By Dr. Mehmet Akinci",
-            imageClass: "insight-image-two",
+            title: "Understanding the Different Types of Asthma",
+            content: "Asthma, a chronic respiratory condition characterized by airway inflammation and constriction, affects millions of people worldwide.",
+            author: "By Dr. Samuel Harris",
+            imageClass: "insight-image-four",
             personImageClass: "text-box-person-two-image",
             personClass: "text-box-person-two"
         }
@@ -119,7 +119,7 @@ function Insights() {
     return (
         <div className="insight-background" {...handlers}>
             <div className="frame">
-                <div className="blog">BLOG</div>
+                <div className="blog">Condition Libraries</div>
                 <div className="explore-insight">Explore Insights</div>
                 <p className="insight-content">Stay one step ahead with our dedicated latest news update blogs.</p>
                 <div className="navigation">

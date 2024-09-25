@@ -52,7 +52,7 @@ const DashboardPage = () => {
   };
   const navigate = useNavigate();
   const handleView =() => {
-    navigate('/Doctor/profile/Edit');
+    navigate('/doc-profile');
   }
 
   useEffect(() => {

@@ -1,13 +1,20 @@
 import React, { useState } from 'react';  // Import useState from React
 import './HealthcareSection.css';  // Create and link a CSS file for styling
+import { useNavigate } from 'react-router-dom';
 
 const HealthcareSection = () => {
     const [selectedCard, setSelectedCard] = useState(null);  // Initialize state
-
+    const navigate = useNavigate();
     // Function to handle card selection
     const handleCardClick = (cardIndex) => {
         setSelectedCard(cardIndex);  // Update state based on clicked card index
     };
+
+
+  const  handleClick = () =>{
+    window.scrollTo(0,0);
+      navigate('/contact-us');
+    }
 
 
     const [selectedCards, setSelectedCards] = useState(null);  // State for tracking selected card
@@ -21,7 +28,7 @@ const HealthcareSection = () => {
       <div className="enp-top-section">
         <div className="enp-text-content">
           <h1>Transforming Healthcare <span>for<br/> Healthcare Entities</span></h1>
-          <h4> Revolutionizing how healthcare systems operate <br/>with a global, integrated approach</h4>
+          <div className='sub-health-section'> Revolutionizing how healthcare systems operate <br/>with a global, integrated approach</div>
           <p>
             As a global leader in healthcare solutions, MedxBay connects hospitals,
              clinics, pharmacies, labs,  cosmetic surgery centers, and more to a unified network that streamlines patient care and operational efficiency. Whether you're managing a large hospital system or a specialized clinic, MedxBay simplifies healthcare delivery    by integrating advanced tools tailored to meet your unique needs.
@@ -213,8 +220,8 @@ const HealthcareSection = () => {
           MedxBay is your partner in delivering world-class healthcare solutions. By joining our global network, your healthcare organization will<br/><br/> benefit from cutting-edge technology, operational efficiency, and expanded patient reach.
         </p>
         <div className="enp-buttons">
-          <button className="enp-signup-btn">Signup now</button>
-          <button className="enp-demo-btn">Schedule demo</button>
+
+          <button onClick={handleClick} className="enp-demo-btn">Schedule demo</button>
         </div>
       </div>
     </div>

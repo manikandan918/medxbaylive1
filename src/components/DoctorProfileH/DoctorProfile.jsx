@@ -154,7 +154,7 @@ const DoctorProfile = () => {
 
       <div className="background-container">
         <img
-          src="/DoctorProfile/Doctor1.png" // Replace with your image URL
+          src={profileimg}
           alt="Overlap Example"
           className="overlapping-image"
         />
@@ -169,9 +169,9 @@ const DoctorProfile = () => {
         <div style={{ fontSize: "14px" }}> {doctor ? doctor.title : "Loading..."}</div>
 
         <br></br>
-        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-          <div style={{ border: "1px solid #bfbebe", padding: "3px 55px", borderRadius:"10px", backgroundColor:"#0167FF", color:"white" }} onClick={handleShowEdit}>Edit Profile</div>
-          <div style={{ border: "1px solid #bfbebe", padding: "3px 35px", borderRadius:"10px" }}
+        <div style={{ display: "flex", flexDirection: "row", marginLeft:'20px'}}>
+          <div style={{ border: "1px solid #bfbebe", padding: "3px 55px", borderRadius:"10px", backgroundColor:"#0167FF", color:"white"  }} onClick={handleShowEdit}>Edit Profile</div>
+          <div style={{ border: "1px solid #bfbebe", padding: "3px 35px", borderRadius:"10px" , marginLeft:'20px'}}
           className="verify-button"
           onClick={handleVerify}
           disabled={

@@ -104,7 +104,7 @@ const Sidebar = () => {
   };
   const handleClickProfile = () => {
     if (isTrialExpired) {
-      navigate('/edit/profile/doctor'); 
+      navigate('/doc-profile'); 
     }
   };
 
