@@ -11,7 +11,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 import DoctorPopUp from './components/DoctorEdit/DoctorPopUp';
 //Landing page imported
-import Section from './components/section/section';
+import Section from './components/Home/section/section';
 
 //all components imported
 import ChangePassword from './components/login/changepassword';
@@ -32,7 +32,7 @@ import FaqSection from './components/Footerpage/FaqSection';
 import About from './components/Footerpage/About';
 import TermsAndConditions from './components/Footerpage/TermsAndConditions';
 import Editdoctorprofile from './components/Editdoctorprofile/Editdoctorprofile';
-// import Adminroute from './components/Admin/Admindashboard/Adminroute/Adminroute';
+import Adminroute from './components/Admin/Admindashboard/Adminroute/Adminroute';
 import SignupCard from './components/signup/signup';
 import PrivacyPolicy from './components/Footerpage/PrivacyPolicy';
 import DoctorEditPatient from './components/PatientProfile/doctorEdit';
@@ -62,7 +62,8 @@ function App() {
           <Route path="/verify/login" element={<VerifyLogin />} />
           <Route path="/verify" element={<Verification />} />
           <Route path="/condition-libraries" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/>
-          <Route path="/blogPost/:id" element={[<Nestednavbar/>,<BlogPage />,<Footer/>]}/>          <Route path="/edit/profile/doctor" element={[<Navbar/>,<DoctorPopUp />,<Footer/>]}  />
+          <Route path="/blogPost/:id" element={[<Nestednavbar/>,<BlogPage />,<Footer/>]}/>      
+              <Route path="/edit/profile/doctor" element={[<Navbar/>,<DoctorPopUp />,<Footer/>]}  />
           <Route path="/SubscriptionPlans" element={[<Navbar/>,<SubscriptionPlans />,<Footer/>]}  />
           <Route path="/Message" element={[<Navbar/>,<Message />,<Footer/>]}  />
           <Route path="/faq/section" element={[<Navbar/>,<FaqSection />,<Footer/>]} />
@@ -75,7 +76,7 @@ function App() {
 
           <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<PatientFrofile />,<Footer/>]}/>
 
-          {/* <Route path="/admin/dashboardpage/*" element={<Adminroute/>} /> */}
+          <Route path="/admin/dashboardpage/*" element={<Adminroute/>} />
         </Routes>
       </Router>
       </SearchProvider>

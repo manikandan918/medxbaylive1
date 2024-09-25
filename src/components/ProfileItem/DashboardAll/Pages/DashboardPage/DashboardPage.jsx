@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Dashboard.css';
 import  reviewsImg from './Assets/reviewsImg.png';
+import { RiArrowDownSLine } from "react-icons/ri";
 import consultationimg from './Assets/consultationimg.png';
 import { FaUserInjured } from "react-icons/fa6";
 import { BsCheckCircleFill } from "react-icons/bs";
@@ -95,7 +96,7 @@ const DashboardPage = () => {
           <div className="insight-patient">
             <div className='dashboard-head-common'>
               <p>My Insights</p>
-              {/* <div className="select-container">
+              <div className="select-container">
                 <select
                   className="select-box-common"
                   value={timePeriod}
@@ -106,7 +107,7 @@ const DashboardPage = () => {
                   <option value="This Year">This Year</option>
                 </select>
                 <RiArrowDownSLine className="arrow-icon-filter" />
-              </div> */}
+              </div>
             </div>
 
             <div className="insight-item">

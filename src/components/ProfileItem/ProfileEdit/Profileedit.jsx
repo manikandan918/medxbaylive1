@@ -400,18 +400,20 @@ const ProfileEdit = () => {
 
             <div className="profile-group">
               <label className="profile-label" htmlFor="mobileNumber">Mobile Number</label>
-              <PhoneInput
-                country={'us'}
-                value={mobileNumber}
-                onChange={(value) => handleFieldChange('mobileNumber', value)}
-                onBlur={() => handleBlur('mobileNumber')}
-                inputProps={{
-                  id: 'mobileNumber',
-                  ref: mobileNumberRef,
-                  readOnly: !isEditing.mobileNumber,
-                  className: 'react-PH-input',
-                }}
+              <div>
+                <PhoneInput
+                  country={'us'}
+                  value={mobileNumber}
+                  onChange={(value) => handleFieldChange('mobileNumber', value)}
+                  onBlur={() => handleBlur('mobileNumber')}
+                  inputProps={{
+                    id: 'mobileNumber',
+                    ref: mobileNumberRef,
+                    readOnly: !isEditing.mobileNumber,
+                    className:"profile-input",
+                  }}
               />
+              </div>
 
               <FiEdit3
                 className="edit-icon"
@@ -447,7 +449,7 @@ const ProfileEdit = () => {
             <div className="profile-group">
               <label className="profile-label" htmlFor="dob">DOB</label>
               <DatePicker
-value={dob}
+                value={dob}
                 selected={dob}
                 onChange={(date) => handleFieldChange('dob', date)}
                 onBlur={() => handleBlur('dob')}

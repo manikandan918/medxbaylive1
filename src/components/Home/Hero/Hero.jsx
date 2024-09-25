@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './hero.css'; 
 
-import doctorImage from '../Assets/doctorImage.png';
+import doctorImage from '../../Assets/doctorImage.png';
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoMdSearch } from "react-icons/io";
 import { getNames, getCode } from 'country-list';
 import countries from 'i18n-iso-countries';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useSearch } from '../context/context';
+import { useSearch } from '../../context/context';
 
 countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
 

@@ -214,8 +214,16 @@ const Navbar = () => {
                 </li>
               )}
 
-              <li className="nav-item active ml-md-4">
-                <Link className="about-nav nav-link nav-link-style" to="/About/Section">About</Link>
+<li className="nav-item dropdown active ml-md-4" ref={providersDropdownRef}>
+              <a 
+  className="for-providers nav-link nav-link-style dropdown-toggle" 
+
+
+  onClick={handleShowBlogPopup}
+>
+Dr/Physician
+</a>
+
               </li>
               <li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
                 <Link 
@@ -228,19 +236,13 @@ const Navbar = () => {
                   {/* <FontAwesomeIcon icon={faChevronDown} className="ml-2" /> */}
                 </Link>
               </li>
-              <li className="nav-item dropdown active ml-md-4" ref={providersDropdownRef}>
-              <a 
-  className="for-providers nav-link nav-link-style dropdown-toggle" 
 
-
-  onClick={handleShowBlogPopup}
->
-Dr/Physician
-</a>
-
-              </li>
               <li className="nav-item active ml-md-1">
                 <button className="find-doctor nav-link nav-link-style" onClick={handleShowBlogPopup}>Condition Libraries</button> {/* Update Blog link */}
+              </li>
+
+              <li className="nav-item active ml-md-4">
+                <Link className="about-nav nav-link nav-link-style" to="/About/Section">About</Link>
               </li>
             </ul>
 

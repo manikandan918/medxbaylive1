@@ -3,7 +3,7 @@ import './Siri.css';
 
 
 import Lottie from 'react-lottie';
-import animationData from '../Assets/lottie.json';
+import animationData from '../../Assets/lottie.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 function Siri() {

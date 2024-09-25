@@ -45,31 +45,31 @@ const Notification = () => {
   };
 
   return (
-    <div className="notification-card">
-      <div className="notification-list">
+    <div className="user-notification-card">
+      <h2>Notification</h2>
+      <div className="user-notification-list">
         {notifications.map(notification => (
-          <div key={notification._id} className="notification">
-            {/* Render the image only for chat notifications */}
-            {notification.type === 'chat' && (
-              <img 
-                src={notification.senderProfilePic || 'default-image-url'} 
-                alt="Profile" 
-              />
-            )}
-            <div className="details mt-3">
-              <h2>{notification.senderName}</h2>
-              <p>{notification.specialization}</p>
-              <p>{notification.message}</p>
+          <div key={notification._id} className="user-notification">
+
+            <div className="user-details-head">
+              <img src={notification.senderProfilePic || 'default-image-url'} alt="No Profile" />
+              <div className="user-details">
+                <h2>{notification.senderName}</h2>
+                <p>{notification.specialization}</p>
+                <p>{notification.message}</p>
+              </div>
             </div>
-            <div className="status mt-4 p-2">
-              <span className="time">{notification.timeAgo}</span>
+
+            <div className="user-notification-list-status">
+              <span className="user-notification-list-time">{notification.timeAgo}</span>
               <p style={{ color: notification.statusColor }}>{notification.status}</p>
             </div>
-            <div className="buttons mt-4">
+
+            <div className="user-buttons">
               {!notification.read && (
-                <button className='btn-primary' onClick={() => handleMarkAsRead(notification._id)}>Mark as Read</button>
+                <button className='btn-Mark-Read' onClick={() => handleMarkAsRead(notification._id)}>Mark as Read</button>
               )}
-              <button className='btn-secondary' onClick={() => handleDelete(notification._id)}>Delete</button>
+              <button className='btn-user-delete-buttons' onClick={() => handleDelete(notification._id)}>Delete</button>
             </div>
           </div>
         ))}

@@ -107,7 +107,7 @@ const BookingRate = ( {booking} ) => {
     <>
       <div className='booking-header'>
         <h2 className="booking-title">Booking Rate</h2>
-        {/* <div className="select-container">
+        <div className="select-container">
           <select className='recently'>
             <option>Recently</option>
             <option>This Month</option>
@@ -115,7 +115,7 @@ const BookingRate = ( {booking} ) => {
             <option>This Year</option>
           </select>
           <RiArrowDownSLine className="arrow-icon-filter" />
-        </div> */}
+        </div>
       </div>
       <div className="booking-area">
         <div className="rate">

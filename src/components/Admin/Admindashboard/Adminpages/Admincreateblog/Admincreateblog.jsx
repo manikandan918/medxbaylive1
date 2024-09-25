@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './admincreateblog.css';
 import Admineditor from "./Admineditor";
 import axios from "axios";
@@ -19,10 +19,28 @@ const AdminBlogUploadForm = () => {
     description: "",
     image: null,
     save: false,
+    authorId : ""
   });
 
+  const [doctors, setDoctors] = useState([]); // Store doctors' data
   const quillRef = useRef(null);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/blog`);
+        setDoctors(response.data.doctors); // Set doctors data for dropdown
+        
+      } catch (error) {
+        toast.error("Failed to fetch doctors.");
+        console.error("Error fetching doctors:", error);
+      }
+    };
+    
+    fetchDoctors();
+  }, []);
+
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -43,6 +61,7 @@ const AdminBlogUploadForm = () => {
       description: "",
       image: null,
       save: false,
+      authorId: "", // Reset doctor assignment
     });
   };
 
@@ -54,7 +73,7 @@ const AdminBlogUploadForm = () => {
         formDataToSend.append(key, formData[key]);
       }
 
-      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}admin/blog-all`, formDataToSend, {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/blog-all`, formDataToSend, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -221,6 +240,30 @@ const AdminBlogUploadForm = () => {
                   </label>
                 </div>
               </div>
+            </div>
+
+                        {/* Doctor Assignment */}
+                        <div className="admin-create-blog-header">
+              <select
+                value={formData.authorId}
+                name="authorId"
+                className="admin-create-blog-input"
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled hidden>
+                  Assign a Doctor
+                </option>
+                {Array.isArray(doctors) && doctors.map((doctor, index) => (
+                  <option key={index} value={doctor._id}>
+                    {doctor.name}
+                  </option>
+                ))}
+              </select>
+              <p className="admin-create-blog-placeholder">
+                Assign Doctor
+                <span style={{ color: "red" }}> *</span>
+              </p>
             </div>
 
             <div className="admin-create-blog-editor-and-file-container">

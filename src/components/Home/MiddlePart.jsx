@@ -1,20 +1,66 @@
-import React, { useEffect,useRef} from 'react';
-import maledoc3 from './assests/img/maledoc3.png';
-import './assests/MiddlePart.css';
+import React, { useEffect,useRef,useState} from 'react';
+import maledoc3 from '../../assests/img/maledoc3.png';
+import './MiddlePart.css';
 // import maledoc3 from './assests/img/maledoc3.png'
-import doctorProfile1 from './assests/img/Ellipse-30.png'
-import doctorProfile2 from './assests/img/doctor-profile-2.png'
-import doctorProfile3 from './assests/img/Ellipse-29.png'
-import doctorProfile4 from './assests/img/doctor-profile-4.png'
-import smallbar from './assests/img/smallbar.png'
-import largebar from './assests/img/largebar.png'
-import './assests/MiddlePart.css'
+// import doctorProfile1 from './assests/img/Ellipse-30.png'
+import doctorProfile1 from '../../assests/img/Ellipse-30.png'
+import { Link } from 'react-router-dom';
+import doctorProfile2 from '../../assests/img/doctor-profile-2.png'
+import doctorProfile3 from '../../assests/img/Ellipse-29.png'
+import doctorProfile4 from '../../assests/img/doctor-profile-4.png'
+import smallbar from '../../assests/img/smallbar.png'
+import largebar from '../../assests/img/largebar.png'
+import './MiddlePart.css'
 import { Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import LoginCard from '../login/login';
 // import yunche3 from '../src/assests/img/yunche2.png'
-import midyunche from '../src/assests/img/midyunche.png'
+import SignupCard from '../signup/signup';
+import midyunche from '../../../src/assests/img/midyunche.png'
 const MiddlePart = () => {
   const revealedCardsRef = useRef(new Set()); // To track revealed cards
+  const handleClick = () =>{
+    window.scrollTo(0,0);
+  };
+
+  const handleShowPopup = () => setShowPopup(true);
+  const [showPopup, setShowPopup] = useState(false);
+  const [isRegisterClicked, setIsRegisterClicked] = useState(false);
+  const [isSignInClicked, setIsSignInClicked] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const handleCloseLoginPopup = () => setShowLoginPopup(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState('');
+
+  const handleCloseLoginCard = () => {
+    setIsRegisterClicked(false);
+  };
+  const handleSignInClick = () => {
+    setIsSignInClicked(true);
+    setIsRegisterClicked(false);
+  };
+  const handleCloseRegister = () => {
+    setShowPopup(false);
+  };
+  const handleShowLogin = () => {
+    setShowLoginPopup(true);
+  };
+  const handleClosePopup = () => setShowPopup(false);
+
+  const handleShowRegister = () => {
+    setShowPopup(true);
+  };
+  const handleLogin = (role) => {
+    sessionStorage.setItem('loggedIn', 'true');
+    sessionStorage.setItem('role', role);
+
+    setIsLoggedIn(true);
+    setUserRole(role);
+    setIsSignInClicked(false); 
+    setIsRegisterClicked(false); 
+    handleCloseLoginPopup(); 
+    handleClosePopup(); 
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,6 +84,8 @@ const MiddlePart = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+
   useEffect(() => {
     const handleScroll = () => {
       const revealElements = document.querySelectorAll('.maledoc-card-details');
@@ -78,6 +126,7 @@ const MiddlePart = () => {
             These hurdles can add to an already demanding environment, but with MedxBay, you are no longer navigating this alone.
             Our platform is built to lift the burden, so you can focus on what you do best: caring for your patients.
           </p>
+          <Link to="/enterprise" onClick={handleClick} >Learn More</Link>
         </div>
         <div className="image-content">
     <img src={maledoc3} alt="Doctor" className="doctor-image" />
@@ -156,8 +205,21 @@ const MiddlePart = () => {
             Take control of your healthcare journey with accurate,
             reliable information and tools designed to fit your needs.
         </p>
+        <Link onClick={handleShowPopup}>Sign Up</Link>
     </div>
 </div>
+
+                <SignupCard 
+                show={showPopup} 
+                handleClose={handleClosePopup}
+                 openLoginModal={handleShowLogin}/>
+                        <LoginCard 
+          show={showLoginPopup} 
+          handleClose={handleCloseLoginPopup} 
+          openRegisterModal={handleShowRegister} 
+          handleLogin={handleLogin}
+        />
+
 </div>
   );
 };

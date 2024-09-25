@@ -4,9 +4,9 @@ import React from 'react';
 import Insights from '../Insight/Insights';
 
 import { useEffect } from 'react';
-import MiddlePart from '../../MiddlePart';
+import MiddlePart from '../MiddlePart';
 import Whyus from '../WhyUs/Whyus'
-import Nestednavbar from '../Nestednavbar/Nestednavbar'
+import Nestednavbar from '../../Nestednavbar/Nestednavbar'
 import Hero from '../Hero/Hero'
 
 import Siri from '../siri/Siri';

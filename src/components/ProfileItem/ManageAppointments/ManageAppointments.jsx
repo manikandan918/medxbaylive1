@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Modal from 'react-modal';
 import './manageAppointments.css';
-import { MdOutlineCalendarToday } from "react-icons/md";
-import tick from '../../../assests/img/tick.png'
+import { useLocation } from 'react-router-dom';
+import { RiSearchLine } from 'react-icons/ri';
+import { FaStar } from "react-icons/fa6";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import Modal from 'react-modal';
 Modal.setAppElement('#root');
 
 const ManageAppointments = () => {
-  const [activeTab, setActiveTab] = useState('All');
-  const [visibleAppointments, setVisibleAppointments] = useState(5);
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState(location.pathname.includes('add-review') ? 'Completed' : 'All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [visibleAppointments, setVisibleAppointments] = useState(6);
   const [bookings, setBookings] = useState([]);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -18,6 +21,15 @@ const ManageAppointments = () => {
   const [reviewForm, setReviewForm] = useState({ rating: 0, reviewText: '' });
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+
+  // Effect to update active tab when the route changes
+  useEffect(() => {
+    if (location.pathname.includes('add-review')) {
+      setActiveTab('Completed');
+    } else {
+      setActiveTab('All');
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -54,27 +66,38 @@ const ManageAppointments = () => {
   };
 
 
-  const handleStatusChange = (id, newStatus) => {
-    setBookings(bookings.map(booking => booking._id === id ? { ...booking, status: newStatus } : booking));
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
   };
 
   const getFilteredAppointments = () => {
+    let filtered = bookings;
+    // Apply status filter based on active tab
     switch (activeTab) {
       case 'Upcoming':
-        return bookings.filter(booking => booking.status === 'accepted' && new Date(booking.date) >= new Date());
+        filtered = filtered.filter(booking => booking.status === 'accepted' && new Date(booking.date) >= new Date());
+        break;
       case 'Completed':
-        return bookings.filter(booking => booking.status === 'completed');
+        filtered = filtered.filter(booking => booking.status === 'completed');
+        break;
       case 'Cancelled':
-        return bookings.filter(booking => booking.status === 'rejected');
+        filtered = filtered.filter(booking => booking.status === 'rejected');
+        break;
       case 'All':
       default:
-        return bookings;
+        break;
     }
+
+    // apply search filter based on doctor name
+    if (searchQuery) {
+      filtered = filtered.filter(booking => 
+        booking.doctor && booking.doctor.name.toLowerCase().includes(searchQuery)
+      );
+    }
+    return filtered;
   };
 
   const filteredBookings = getFilteredAppointments();
-  console.log(filteredBookings);
-  
 
   const toggleAppointmentsVisibility = () => {
     setVisibleAppointments(prev => (prev === 5 ? filteredBookings.length : 5));
@@ -148,8 +171,6 @@ const ManageAppointments = () => {
     }
   };
   
-  
-
   const StarRating = ({ rating, onChange, starCount }) => {
     const handleClick = (index) => {
       onChange(index + 1);
@@ -195,7 +216,6 @@ const ManageAppointments = () => {
       setIsSubmitDisabled(false);
     };
   
-
     return (
       <div className="star-rating">
         {[...Array(starCount)].map((_, index) => (
@@ -204,7 +224,7 @@ const ManageAppointments = () => {
             className={`star ${rating > index ? 'filled' : ''}`}
             onClick={() => handleClick(index)}
           >
-            ★
+            <FaStar/>
           </span>
         ))}
       </div>
@@ -221,11 +241,14 @@ const ManageAppointments = () => {
           <button className={`tab ${activeTab === 'Completed' ? 'active' : ''}`} onClick={() => setActiveTab('Completed')}>Completed</button>
           <button className={`tab ${activeTab === 'Cancelled' ? 'active' : ''}`} onClick={() => setActiveTab('Cancelled')}>Cancelled</button>
         </div>
-        <div className='d-flex'>
-          <p className='appointment-acc'><span className={`status-dot green `}></span>Accepted</p>
-          <p className='appointment-acc'><span className={`status-dot orange `}></span>Waiting</p>
-          <p className='appointment-acc'><span className={`status-dot red `}></span>Rejected</p>
-          <p className='appointment-acc'><span className={`status-dot blue `}></span>Completed</p>
+        <div className="user-search-bar">
+          <input
+            type="text"
+            placeholder="Search for doctor..."
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+          <RiSearchLine className="user-search-bar-icon" />
         </div>
       </div>
       <div className="appointments-table-container">
@@ -240,31 +263,35 @@ const ManageAppointments = () => {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(filteredBookings) && filteredBookings.slice(0, visibleAppointments).map(({ _id, doctor, date, time, status, consultationType,hospital, meetingLink }) => (
-              <tr key={_id}>
-                <td>{doctor?.name }</td>
-                <td>{new Date(date).toLocaleDateString()}</td>
-                <td>{time}</td>
-                <td><span className={`status-dot ${getStatusClass(status)}`}>
-
-                </span></td>
-                <td>
-                  {activeTab === 'Completed' ? (
-                    <button className="add-review-button mr-2" onClick={() => openReviewModal({ _id, doctor, date, time, status, consultationType,hospital, meetingLink })}>
-                      Add Review
-                    </button>
-                  ) : (
-                    <button className="view-button" onClick={() => openModal({ _id, doctor, date, time, status, consultationType, hospital, meetingLink })}>
-                      View Appointment
-                    </button>
-                  )}
-                </td>
+            {Array.isArray(filteredBookings) && filteredBookings.length > 0 ? (
+              filteredBookings.slice(0, visibleAppointments).map(({ _id, doctor, date, time, status, consultationType, hospital, meetingLink }) => (
+                <tr key={_id}>
+                  <td>{doctor ? doctor.name : 'N/A'}</td>
+                  <td>{new Date(date).toLocaleDateString()}</td>
+                  <td>{time}</td>
+                  <td><span className={`status-dot ${getStatusClass(status)}`}></span></td>
+                  <td>
+                    {activeTab === 'Completed' ? (
+                      <button className="add-review-button mr-2" onClick={() => openReviewModal({ _id, doctor, date, time, status, consultationType, hospital, meetingLink })}>
+                        Add Review
+                      </button>
+                    ) : (
+                      <button className="view-button" onClick={() => openModal({ _id, doctor, date, time, status, consultationType, hospital, meetingLink })}>
+                        View Appointment
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" style={{ textAlign: 'center' }}>No data available</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
-      {Array.isArray(filteredBookings) && filteredBookings.length > 5 && (
+      {filteredBookings.length > 5 && (
         <button className="view-all-button" onClick={toggleAppointmentsVisibility}>
           {visibleAppointments === 5 ? 'View All' : 'View Less'}
         </button>
@@ -347,7 +374,7 @@ const ManageAppointments = () => {
                       onChange={handleReviewChange}
           
                     />
-                                      {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
 
                   </label>
                 </div>

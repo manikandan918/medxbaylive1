@@ -1,36 +1,39 @@
 .appointments-container {
+  border-radius: 12px;
   background-color: #ffffff;
-  padding: 20px 20px;
+  padding:20px;
   width: 100%;
-  height: calc(100vh - 40px); /* Adjust the height calculation as needed */
-  border-radius: 10px;
+  height: fit-content;
 }
 
 .appointments-container h2 {
-  font-size: 25px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 28.8px;
   color: #272848;
   display: inline-block;
-  padding: 20px 10px 0px 10px;
+  padding:10px;
 }
 
 .tabs-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
   border-bottom: 4px solid #f0f0f5;
 }
 
-.tabs {
+.tabs{
   display: flex;
+  align-items: start;
+  justify-content: start;
   gap: 3rem;
 }
 
-.tab {
+.tab{
   font-weight: 700;
-  padding: 20px 15px 10px 15px;
+  padding:10px 15px;
   font-size: 16px;
   color: #272848;
   border: none;
@@ -51,23 +54,42 @@
   left: 0;
 }
 
-.calendar-button {
+.user-search-bar{
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 7px 20px;
+  justify-content: center;
+  background: #F3F6FF;
+  padding: 10px;
+  width: 340px;
+  height: 35px;
+  border-radius:50px;
+  transition: width 0.3s ease;
+}
+
+.user-search-bar input::placeholder {
+  color: #7979B2;
+}
+
+.user-search-bar input {
   border: none;
-  border-radius: 5px;
-  background-color: #0167ff;
-  color: #ffffff;
+  background: none;
+  outline: none;
+  color: #7979B2;
+  width: 100%;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
+  line-height: 19.2px;       
+}
+
+.user-search-bar .user-search-bar-icon {
+  color: #42427D;
+  width: 17px;
+  height: 17px;
   cursor: pointer;
-  margin-right: 60px;
 }
 
 .appointments-table-container {
-  max-height: calc(100vh - 310px); /* Adjust the height calculation as needed */
+  max-height: calc(100vh - 310px); 
   overflow-y: auto;
 }
 
@@ -122,17 +144,7 @@
 .status-dot.red {
   background-color: red;
 }
-.appointment-acc{
-  margin-right: 10px;
-  margin-bottom: 0;
-}
-.appointment-acc span{
-  margin-right: 4px;
-}
-.tick-mark {
-  width: 20px;
-  height: 20px;
-}
+
 
 .view-button {
   background-color: #0067FF;
@@ -330,40 +342,57 @@
   color: #0067FF; 
 }
 
-
-/* Media Queries for Tablet View */
-@media (max-width: 768px) {
-  .appointments-container {
-    padding: 10px 10px;
+@media (max-width: 1400px) {
+  .tabs{
+    gap:11px;
   }
 
+  .tab{
+    font-size: 15px;
+  }
+
+  .user-search-bar{
+    width: 280px;
+  }
+}
+
+@media (max-width: 1200px) {
+ 
+  .tabs-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap:20px;
+    border: none;
+  }
+
+  .tabs {
+    width: 100%;
+    border-bottom: 4px solid #f0f0f5;
+  }
+
+  .tab {
+    width: 100%;
+  }
+
+  .user-search-bar {
+    width: 100%;
+    height: 35px;
+  }
+
+  .user-search-bar input {
+    font-size: 15px;
+  }
+
+}
+
+@media (max-width: 768px) {
+ 
   .appointments-container h2 {
     font-size: 20px;
     padding: 10px 5px;
   }
-
-  .tabs-container {
-    flex-direction: row;
-    align-items: flex-start;
-    margin-bottom: 10px;
-  }
-
-  .tabs {
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .tab {
-    padding: 10px 5px;
-    font-size: 14px;
-  }
-
-  .calendar-button {
-    padding: 5px 10px;
-    font-size: 14px;
-    margin-right: 10px;
-  }
-
   .appointments-table-container {
     max-height: calc(95vh - 200px);
   }
@@ -388,7 +417,6 @@
   }
 }
 
-/* Media Queries for Mobile View */
 @media (max-width: 480px) {
   .appointments-container {
     padding: 5px 5px;
@@ -397,28 +425,6 @@
   .appointments-container h2 {
     font-size: 18px;
     padding: 5px 5px;
-  }
-
-  .tabs-container {
-    flex-direction: row;
-    align-items: flex-start;
-    margin-bottom: 5px;
-  }
-
-  .tabs {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .tab {
-    padding: 5px 3px;
-    font-size: 12px;
-  }
-
-  .calendar-button {
-    padding: 3px 5px;
-    font-size: 12px;
-    margin-right: 10px;
   }
 
   .appointments-table-container {
@@ -445,7 +451,6 @@
   }
 }
 
-/* Media Queries for Extra Small Mobile View */
 @media (max-width: 300px) {
   .appointments-container {
     padding: 5px 5px;
@@ -456,27 +461,6 @@
     padding: 5px 5px;
   }
 
-  .tabs-container {
-    flex-direction: row;
-    align-items: flex-start;
-    margin-bottom: 5px;
-  }
-
-  .tabs {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .tab {
-    padding: 5px 3px;
-    font-size: 10px;
-  }
-
-  .calendar-button {
-    padding: 3px 5px;
-    font-size: 10px;  
-
-  }
 
   .appointments-table-container {
     max-height: calc(95vh - 130px);

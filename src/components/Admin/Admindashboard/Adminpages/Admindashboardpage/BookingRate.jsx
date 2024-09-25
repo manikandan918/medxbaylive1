@@ -108,32 +108,30 @@ const BookingRate = ({ bookingRates, MyInsights, setMyInsights }) => {
 
   return (
     <>
-      <div className='booking-header'>
-        <h2 className="booking-title">Booking Rate</h2>
-        <div className='insight-patient'>
-          <div className='dashboard-head-common'>
-            <div className="select-container">
-              <select
-                className="select-box-common"
-                value={MyInsights}
-                onChange={(e) => setMyInsights(e.target.value)}
-              >
-                <option value="This Month">This Month</option>
-                <option value="This Week">This Week</option>
-                <option value="This Year">This Year</option>
-              </select>
-              <RiArrowDownSLine className="arrow-icon-filter" />
-            </div>
-          </div>
+    
+      <div className='admin-booking-header'>
+        <h2 className="admin-booking-title">Booking Rate</h2>
+        <div className="admin-select-container">
+          <select 
+            className='admin-recently'
+            value={MyInsights}
+            onChange={(e) => setMyInsights(e.target.value)}
+          >
+            <option>Recently</option>
+            <option>This Month</option>
+            <option>This Week</option>
+            <option>This Year</option>
+          </select>
+          <RiArrowDownSLine className="admin-arrow-icon-filter" />
         </div>
       </div>
-      <div className="booking-area">
-        <div className="rate">
-          <h1 className="booking-number">{highestPercentage}%</h1>
-          <p className='booking-description'>Your highest booking rate this week</p>
-          <p className="increase">Your booking rate is 6% increase from the previous week</p>
+      <div className="admin-booking-area">
+        <div className="admin-rate">
+          <h1 className="admin-booking-number">{highestPercentage}%</h1>
+          <p className='admin-booking-description'>Your highest booking rate this week</p>
+          <p className="admin-increase">Your booking rate is 6% increase from the previous week</p>
         </div>
-        <div className="chart">
+        <div className="admin-chart">
           <Bar ref={chartRef} data={data} options={options} />
         </div>
       </div>

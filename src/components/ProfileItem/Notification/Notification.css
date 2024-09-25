@@ -1,145 +1,225 @@
-.notification-card {
-  /* border: 1px solid #ccc; */
-  border-radius: 10px;
-  padding: 15px;
-  background-color: #fff;
+.user-notification-card {
+  border-radius: 12px;
+  background-color: #ffffff;
+  padding:20px 10px;
   width: 100%;
-  /* margin: auto; */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  max-height: 550px; /* Adjust height as needed */
+  height: fit-content;
 }
 
-.notification-list {
-  margin: 10px;
+.user-notification-card h2 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 28.8px;
+  color: #272848;
+  display: inline-block;
+  padding:10px;
+}
+
+.user-notification-list {
+  padding: 0px 10px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow-y: auto;
+  max-height: 550px;
 }
 
-.notification {
-  display: flex;
-  align-items: flex-start;
-  border: 1px solid #eee;
+.user-notification-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.user-notification-list::-webkit-scrollbar-thumb {
+  background-color:#dfdede;
+  height: 200px;
+  border-radius: 2px;
+}
+
+.user-notification {
+  border: 2px solid #2E37A41A;
   border-radius: 5px;
-  padding: 10px;
+  padding:15px 10px;
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  flex-wrap: wrap;
+  display: flex;
+  align-items:center;
+  gap:10px;
 }
 
-.notification img {
-  border-radius: 50%;
-  margin-right: 15px;
-  width: 100px; /* Adjust width as needed */
-  height: 100px; /* Adjust height as needed */
-  object-fit: cover;
+.user-details-head{
+  display: flex;
+  align-items:center;
+  gap:20px;
 }
 
-.details {
-  flex: 1;
+.user-details-head img {
+  border-radius:10px;
+  width:50px; 
+  height:50px;
 }
 
-.details h2 {
+.user-details-head .user-details {
+  display: flex;
+  align-items:start;
+  flex-direction: column;
+}
+
+.user-details h2 {
   margin: 0;
-  font-size: 18px;
+  padding: 0;
+  font-size: 16px;
   font-weight: 600;
 }
 
-.details p {
-  font-size: 16px;
+.user-details p {
+  font-size: 14px;
   font-weight: 400;
-  margin: 5px 0;
+  margin:0;
+  text-align: justify;
+  padding-right: 15px;
   color: #666;
-  max-width: 500px; /* Set a maximum width for the specialization field */
   overflow-wrap: break-word;
 }
 
-.status {
+.user-notification-list-status {
   margin-left: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.time {
+.user-notification-list-time {
   font-size: 0.9em;
+  width:80px;
   color: #aaa;
-  margin-bottom: 10px; /* Add spacing between time and buttons */
 }
 
-.status p {
+.user-notification-list-status p {
   margin: 0;
   font-weight: bold;
 }
 
-/* Button styles */
-.btn-primary {
-  background-color: #0167FF; /* Blue color for 'Mark as Read' */
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 12px;
-  font-size: 0.9em;
-  cursor: pointer;
-  margin-right: 10px; /* Gap between buttons */
+.user-buttons{
+  display: flex;
+  gap: 10px;
 }
 
-.btn-secondary {
-  background-color: #FF8C00; /* Orange color for 'Delete' */
-  color: #fff;
-  border: none;
+.user-buttons .btn-Mark-Read {
+  border: 1.2px solid #0167FF;
+  color: #0167FF;
+  background: none;
   border-radius: 5px;
-  padding: 8px 12px;
+  width: 110px;
+  padding: 7px 10px;
   font-size: 0.9em;
   cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Responsive Design */
+.user-buttons .btn-Mark-Read:hover {
+  background-color: #0167FF;
+  color: #fff; 
+}
+
+.user-buttons .btn-user-delete-buttons {
+  border: 1.2px solid #FF8C00;
+  color: #FF8C00;
+  background: none;
+  border-radius: 5px;
+  width: 70px;
+  padding: 7px 10px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.user-buttons .btn-user-delete-buttons:hover {
+  background-color: #FF8C00;
+  color: #fff;
+}
+
+@media (max-width: 992px) {
+  .user-notification {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .user-details p {
+    width: 100%;
+    text-align: center;
+  }
+
+  .user-buttons {
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .user-notification-list {
+    max-height: 450px;
+  }
+}
+
 @media (max-width: 768px) {
-  .notification img {
+  .user-notification-card h2 {
+    font-size: 20px;
+  }
+
+  .user-notification img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .user-details h2 {
+    font-size: 16px;
+  }
+
+  .user-details p {
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .user-notification {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .user-notification-list {
+    max-height: 350px;
+  }
+
+  .user-buttons .btn-Mark-Read,
+  .user-buttons .btn-user-delete-buttons {
+    width: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  .user-notification-card {
+    padding: 10px;
+  }
+
+  .user-notification {
+    padding: 10px;
+  }
+
+  .user-notification img {
     width: 50px;
     height: 50px;
-    margin-bottom: 10px;
   }
 
-  .notification {
-    flex-direction: column;
-    align-items: flex-start;
+  .user-details h2 {
+    font-size: 14px;
   }
 
-  .details p {
-    margin-bottom: -5px;
-    max-width: 100%;
+  .user-details p {
+    font-size: 12px;
   }
 
-  .status {
-    align-items: flex-start;
-    margin-top: 10px;
-  }
-
-  .time {
-    margin-bottom: 10px; /* Adjust spacing for small screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .notification img {
-    width: 40px;
-    height: 40px;
-  }
-
-  .details h2 {
-    font-size: 1em;
-  }
-
-  .details p {
-    font-size: 0.9em;
-    margin-bottom: -5px;
-  }
-
-  .time {
+  .user-buttons .btn-Mark-Read,
+  .user-buttons .btn-user-delete-buttons {
+    width: 90px;
     font-size: 0.8em;
-    margin-bottom: 10px; /* Ensure time has spacing on small screens */
   }
 }

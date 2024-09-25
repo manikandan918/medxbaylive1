@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  border-top: 1px solid #ccc;
-  background-color: #fff;
+  background-color: #ffffff;
+  border-bottom-right-radius: 12px;
 }
 
 .chat-input-container input[type="text"] {

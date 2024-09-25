@@ -1,70 +1,109 @@
-import React, { useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation,useParams } from 'react-router-dom';
 import './editviewdoctor.css';
 import doctorprofilesow from '../../../../Assets/doctoprofiletypeone.jpeg';
 import { MdModeEdit, MdDelete } from 'react-icons/md';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { PiPlusCircleFill } from 'react-icons/pi';
-const Editviewdoctor = () => {
+import axios from 'axios';
+import moment from 'moment'
+import {ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-  
+const Editviewdoctor = () => {
   const location = useLocation();
+  const { id } = useParams();
   const doctorData = location.state?.doctor;
   const fileInputRef = useRef(null);
   const lastContactRef = useRef(null);
+
+  const formatDate = (dateString) => {
+    return moment(dateString).format('MM/DD/YYYY');
+  };
+  const bufferToBase64 = (buffer) => {
+    if (typeof buffer === 'string') {
+      return `data:image/jpeg;base64,${buffer}`;
+    } else if (buffer?.data && typeof buffer.data === 'string') {
+      return `data:${buffer.contentType};base64,${buffer.data}`;
+    } else {
+      console.error('Unexpected buffer type:', buffer);
+      return '';
+    }
+  };
+  
   const [formData, setFormData] = useState({
-    profileImage: doctorData?.profileImage || doctorprofilesow,
+    profilePicture: doctorData?.profilePicture ? bufferToBase64(doctorData.profilePicture) : '', // Convert buffer to base64
     name: doctorData?.name || '',
-    about: doctorData?.about || '',
+    about: doctorData?.aboutMe || '',
     title: doctorData?.title || '',
     email: doctorData?.email || '',
-    date: doctorData?.date || '',
+    dateOfBirth: doctorData?.dateOfBirth ? formatDate(doctorData.dateOfBirth) : '',
     gender: doctorData?.gender || '',
     availability: doctorData?.availability || '',
-    bloodgroup: doctorData?.bloodgroup || '',
+    bloodGroup: doctorData?.bloodGroup || '',
     country: doctorData?.country || '',
-    state: doctorData?.state || '',
+    state: doctorData?.state || '', 
     city: doctorData?.city || '',
     consultation: doctorData?.consultation || '',
-    twitter: doctorData?.twitter || '',
-    facebook: doctorData?.facebook || '',
-    linkedin: doctorData?.linkedin || '',
-    instagram: doctorData?.instagram || '',
+    twitter: doctorData?.socialHandles.twitter || '',
+    facebook: doctorData?.socialHandles.facebook || '',
+    linkedin: doctorData?.socialHandles.linkedin || '',
+    instagram: doctorData?.socialHandles.instagram || '',
     website: doctorData?.website || '',
-    specialties: doctorData?.specialties || ['Defult'],
-    conditions: doctorData?.conditions || ['Defult'],
-    languages: doctorData?.languages || ['Defult'],
-    hospitaldata: doctorData?.hospitaldata || [
-      { name: '', street: '', city: '', state: '', country: '', zip: '' }],
-    insurance: doctorData?.insurance || [],
-    awards: doctorData?.awards || ['Defult'],
+    specialties: doctorData?.specialties || ['Default'],
+    conditions: doctorData?.conditions || ['Default'],
+    languages: doctorData?.languages || ['Default'],
+    hospitaldata: doctorData?.hospitaldata || [{ name: '', street: '', city: '', state: '', country: '', zip: '' }],
+    insurance: doctorData?.insurances || [],
+    awards: doctorData?.awards || ['Default'],
   });
+
+  useEffect(() => {
+    if (!doctorData) {
+      const fetchDoctorDetails = async () => {
+        try {
+          const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/edit-doctor/${id}`);
+          const doctorDetails = response.data.doctor;
+          setFormData({
+            ...formData,
+            ...doctorDetails,
+            profilePicture: doctorDetails.profilePicture ? bufferToBase64(doctorDetails.profilePicture) : '', // Convert buffer to base64
+            insurance: doctorDetails.insurances || [],
+            hospitaldata: doctorDetails.hospitals || [{ name: '', street: '', city: '', state: '', country: '', zip: '' }],
+          });
+          console.log(doctorDetails);
+          
+        } catch (error) {
+          console.error('Error fetching doctor details:', error);
+        }
+      };
+      fetchDoctorDetails();
+    }
+  }, [id, doctorData]);
+
   const handleEditClick = () => {
     fileInputRef.current.click();
   };
+
   const handleChange = (event, field, index) => {
     const { id, value, files } = event.target;
-    if (id === 'profileImage' && files && files.length > 0) {
-      // Handle file input for profile image
+    if (id === 'profilePicture' && files && files.length > 0) {
       const file = files[0];
       const reader = new FileReader();
       reader.onload = (e) => {
         setFormData((prevFormData) => ({
           ...prevFormData,
-          profileImage: e.target.result,
+          profilePicture: e.target.result, // Base64 string
         }));
       };
       reader.readAsDataURL(file);
     } else if (field && index !== undefined) {
-      // Handle array field updates, including insurance
-      setFormData((prevFormData) => {
-        const updatedArray = [...prevFormData[field]];
-        updatedArray[index] = value; // Correctly set the new value
-        return {
-          ...prevFormData,
-          [field]: updatedArray,
-        };
-      });
+      const updatedArray = [...formData[field]];
+      updatedArray[index] = value;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [field]: updatedArray,
+      }));
     } else {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -72,12 +111,15 @@ const Editviewdoctor = () => {
       }));
     }
   };
+  
+
   const handleAddItem = (field) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       [field]: [...prevFormData[field], ''],
     }));
   };
+
   const handleRemoveItem = (field, index) => {
     const updatedArray = formData[field].filter((_, i) => i !== index);
     setFormData((prevFormData) => ({
@@ -90,10 +132,28 @@ const Editviewdoctor = () => {
       }
     }, 100);
   };
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    try {
+      // Post the updated form data to the backend
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/update-doctor/${id}`, formData);
+      toast.success('Doctor details updated successfully', {
+        position: 'top-right'  // Use 'top-right' instead of toast.POSITION.TOP_RIGHT
+      });
+      // Redirect or show a success message
+    } catch (error) {
+      console.error('Error updating doctor details:', error);
+      toast.error('Failed to update doctor details. Please try again.', {
+        position: 'top-right'  // Use 'top-right' instead of toast.POSITION.TOP_RIGHT
+      });
+    }
   };
   return (
+    <>
+      <ToastContainer />
+      
     <form onSubmit={handleSubmit}>
       <div className="admin-edit-view-doctor-top-head">
         <h2 className="admin-viewdoctor-head-title">Edit Doctor Profile</h2>
@@ -101,14 +161,14 @@ const Editviewdoctor = () => {
           <div className="admin-viewdoctor-profile-header">
             <div className="admin-viewdoctor-profile-head">
               <img
-                src={formData.profileImage}
+                src={formData.profilePicture || doctorprofilesow}
                 alt="Profile"
                 className="admin-viewdoctor-profile-show"
               />
               <div className="admin-viewdoctor-profile-icon-header">
                 <input
                   type="file"
-                  id="profileImage"
+                  id="profilePicture"
                   ref={fileInputRef}
                   onChange={handleChange}
                   style={{ display: 'none' }}
@@ -176,8 +236,8 @@ const Editviewdoctor = () => {
               <div className="admin-viewdoctor-edit-details-division">
                 <input
                   type="date"
-                  id="date"
-                  value={formData.date}
+                  id="dateOfBirth"
+                  value={formData.dateOfBirth}
                   className="admin-viewdoctor-edit-details-input"
                   onChange={handleChange}
                 />
@@ -240,25 +300,26 @@ const Editviewdoctor = () => {
                 </p>
               </div>
               <div className="admin-viewdoctor-edit-details-division select-box-arrow-icon-head">
-                <select
-                  id="availability"
-                  value={formData.availability}
-                  onChange={handleChange}
-                  className="admin-viewdoctor-edit-details-input select-box-arrow-icon-input"
-                >
-                  <option value="">Select Availability</option>
-                  <option value="Available">Available</option>
-                  <option value="Not Available">Not Available</option>
-                </select>
-                <RiArrowDownSLine className="select-box-arrow-icon" />
-                <p className="admin-viewdoctor-edit-details-input-placeholder">
-                  Availability<span> *</span>
-                </p>
-              </div>
+  <select
+    id="availability"
+    value={formData.availability ? 'Available' : 'Not Available'}
+    onChange={handleChange}
+    className="admin-viewdoctor-edit-details-input select-box-arrow-icon-input"
+  >
+    <option value="">Select Availability</option>
+    <option value="Available">Available</option>
+    <option value="Not Available">Not Available</option>
+  </select>
+  <RiArrowDownSLine className="select-box-arrow-icon" />
+  <p className="admin-viewdoctor-edit-details-input-placeholder">
+    Availability<span> *</span>
+  </p>
+</div>
+
               <div className="admin-viewdoctor-edit-details-division select-box-arrow-icon-head">
                 <select
                   id="bloodgroup"
-                  value={formData.bloodgroup}
+                  value={formData.bloodGroup}
                   onChange={handleChange}
                   className="admin-viewdoctor-edit-details-input select-box-arrow-icon-input"
                 >
@@ -545,39 +606,40 @@ const Editviewdoctor = () => {
               </div>
               {/* Editable List for Insurance & Awards  */}
               <div className="admin-viewdoctor-edit-details-division select-box-arrow-icon-head">
-                {formData.insurance.map((insurance, index) => (
-                  <div key={index} className="admin-viewdoctor-edit-details-division special-division-edit">
-                    <select
-                      id={`insurance-${index}`}
-                      value={insurance}
-                      onChange={(e) => handleChange(e, 'insurance', index)}
-                      className="admin-viewdoctor-edit-details-input select-box-arrow-icon-input mb-2"
-                    >
-                      <option value="">Select Insurance Type</option>
-                      <option value="ADNC">ADNC Insurance</option>
-                      <option value="aetna">aetna Insurance</option>
-                      <option value="AXA">AXA GIG Gulf Insurance</option>
-                      <option value="Daman">Daman Insurance</option>
-                      <option value="MetLife">MetLife Insurance</option>
-                      <option value="National">National General Insurance</option>
-                      <option value="Oriental">Oriental Insurance</option>
-                    </select>
-                    <RiArrowDownSLine className="select-box-arrow-icon-insurance" />
-                    <MdDelete
-                      onClick={() => handleRemoveItem('insurance', index)}
-                      className="admin-viewdoctor-edit-details-remove-icon"
-                    />
-                  </div>
-                ))}
-                <p className="admin-viewdoctor-edit-details-input-placeholder">
-                  Insurance
-                  <PiPlusCircleFill
-                    onClick={() => handleAddItem('insurance')}
-                    className="add-plus-icon"
-                  />
-                  <span> *</span>
-                </p>
-              </div>
+  {formData.insurance.map((insurance, index) => (
+    <div key={index} className="admin-viewdoctor-edit-details-division special-division-edit">
+      <select
+        id={`insurance-${index}`}
+        value={insurance}  // This binds the insurance type from the array to the select element
+        onChange={(e) => handleChange(e, 'insurance', index)}  // Updates the insurance array with selected value
+        className="admin-viewdoctor-edit-details-input select-box-arrow-icon-input mb-2"
+      >
+        <option value="">Select Insurance Type</option>
+        <option value="ADNC">ADNC Insurance</option>
+        <option value="aetna">aetna Insurance</option>
+        <option value="AXA">AXA GIG Gulf Insurance</option>
+        <option value="Daman">Daman Insurance</option>
+        <option value="MetLife">MetLife Insurance</option>
+        <option value="National">National General Insurance</option>
+        <option value="Oriental">Oriental Insurance</option>
+      </select>
+      <RiArrowDownSLine className="select-box-arrow-icon-insurance" />
+      <MdDelete
+        onClick={() => handleRemoveItem('insurance', index)}  // Remove the selected insurance from the array
+        className="admin-viewdoctor-edit-details-remove-icon"
+      />
+    </div>
+  ))}
+  <p className="admin-viewdoctor-edit-details-input-placeholder">
+    Insurance
+    <PiPlusCircleFill
+      onClick={() => handleAddItem('insurance')}  // Add a new blank insurance field to the array
+      className="add-plus-icon"
+    />
+    <span> *</span>
+  </p>
+</div>
+
               {/* Editable List for Awards*/}
               <div className="admin-viewdoctor-edit-details-division special-division-edit">
                 {formData.awards.map((award, index) => (
@@ -611,6 +673,7 @@ const Editviewdoctor = () => {
         </div>
       </div>
     </form>
+    </>
   );
 };
 export default Editviewdoctor;

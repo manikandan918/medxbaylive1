@@ -1,7 +1,7 @@
 import React from 'react';
 import './InboxHeader.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faSearch, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import profileimg from '../../Assets/profileimg.png';
 
 const Header = ({ doctorName ,image}) => {

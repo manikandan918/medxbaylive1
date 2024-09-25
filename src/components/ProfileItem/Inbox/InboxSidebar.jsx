@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './InboxSidebar.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+//using in update dont delete
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { LuClock3 } from "react-icons/lu";
 import { fetchFromServer } from '../../../actions/api';
 import profileimg from "../../Assets/profileimg.png";
 
@@ -55,9 +57,7 @@ const Sidebar = ({ onSelectChat }) => {
   return (
     <div className="sidebar-container">
       <div className="sidebar-header">
-
-   <h6>All Messages</h6>
-      
+       <h6>All Messages</h6>
       </div>
       {/* <div className="search-bar">
         <FontAwesomeIcon icon={faSearch} />
@@ -75,7 +75,7 @@ const Sidebar = ({ onSelectChat }) => {
               <div className="user-info">
                 <div className="user-name">{user.name}</div>
                 <div className="user-message">{user.message}</div>
-                <div className="message-time">{user.time}</div>
+                <div className="message-time"><LuClock3 className='clock-icon-user-message-time'/> {user.time}</div>
               </div>
             </li>
           ))

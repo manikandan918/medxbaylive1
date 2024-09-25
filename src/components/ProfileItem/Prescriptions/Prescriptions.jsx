@@ -1,30 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { MdOutlineFileDownload } from "react-icons/md";
-import './prescriptions.css';
+import "./prescriptions.css";
 
 const Prescriptions = () => {
-  const [visibleAppointments, setVisibleAppointments] = useState(5); // Default number of visible appointments
+  // Default number of visible prescriptions
+  const [visibleAppointments, setVisibleAppointments] = useState(5);
   const [statuses, setStatuses] = useState([]);
 
   useEffect(() => {
     const fetchPrescriptions = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/prescriptions`, { withCredentials: true });
-        console.log('Fetched data:', response.data);
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/patient/prescriptions`,
+          { withCredentials: true }
+        );
+        console.log("Fetched data:", response.data);
         if (Array.isArray(response.data)) {
           const startingSerial = 10001;
-          const prescriptionsWithSerials = response.data.map((prescription, index) => ({
-            ...prescription,
-            serialNumber: startingSerial + index,
-          }));
+          const prescriptionsWithSerials = response.data.map(
+            (prescription, index) => ({
+              ...prescription,
+              serialNumber: startingSerial + index,
+            })
+          );
           setStatuses(prescriptionsWithSerials);
         } else {
-          console.error('Fetched data is not an array:', response.data);
+          console.error("Fetched data is not an array:", response.data);
           setStatuses([]);
         }
       } catch (error) {
-        console.error('Error fetching prescriptions:', error);
+        console.error("Error fetching prescriptions:", error);
       }
     };
 
@@ -32,19 +38,22 @@ const Prescriptions = () => {
   }, []);
 
   const toggleAppointmentsVisibility = () => {
-    setVisibleAppointments(prevVisibleAppointments =>
+    setVisibleAppointments((prevVisibleAppointments) =>
       prevVisibleAppointments === 5 ? statuses.length : 5
     );
   };
 
   const downloadPrescription = async (id) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/prescriptions/${id}/download`, {
-        responseType: 'blob',
-        withCredentials: true
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/patient/prescriptions/${id}/download`,
+        {
+          responseType: "blob",
+          withCredentials: true,
+        }
+      );
       const url = window.URL.createObjectURL(new Blob([response.data]));
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
       a.download = `prescription_${id}.pdf`;
       document.body.appendChild(a);
@@ -52,7 +61,7 @@ const Prescriptions = () => {
       a.remove();
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error downloading the prescription:', error);
+      console.error("Error downloading the prescription:", error);
     }
   };
 
@@ -71,28 +80,41 @@ const Prescriptions = () => {
             </tr>
           </thead>
           <tbody>
-            {statuses.slice(0, visibleAppointments).map(({ _id, meetingDate, meetingTime, doctorName, serialNumber }) => (
-              <tr key={_id}>
-                <td>{serialNumber}</td>
-                <td>{meetingDate.slice(0, 10)}</td>
-                <td>{meetingTime}</td>
-                <td>{doctorName}</td>
-                <td>
-                  <button
-                    className="view-button"
-                    onClick={() => downloadPrescription(_id)}
-                  >
-                    View Prescription <MdOutlineFileDownload />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {statuses
+              .slice(0, visibleAppointments)
+              .map(
+                ({
+                  _id,
+                  meetingDate,
+                  meetingTime,
+                  doctorName,
+                  serialNumber,
+                }) => (
+                  <tr key={_id}>
+                    <td>{serialNumber}</td>
+                    <td>{meetingDate.slice(0, 10)}</td>
+                    <td>{meetingTime}</td>
+                    <td>{doctorName}</td>
+                    <td>
+                      <button
+                        className="view-prescriptions-button"
+                        onClick={() => downloadPrescription(_id)}
+                      >
+                        View Prescription <MdOutlineFileDownload />
+                      </button>
+                    </td>
+                  </tr>
+                )
+              )}
           </tbody>
         </table>
       </div>
       {statuses.length > 5 && (
-        <button className="view-all-button" onClick={toggleAppointmentsVisibility}>
-          {visibleAppointments === 5 ? 'View All' : 'View Less'}
+        <button
+          className="prescriptions-view-all-button"
+          onClick={toggleAppointmentsVisibility}
+        >
+          {visibleAppointments === 5 ? "View All" : "View Less"}
         </button>
       )}
     </div>

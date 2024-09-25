@@ -1,24 +1,25 @@
 .header-container {
   background-color: #ffffff;
-  padding: 10px 20px;
+  padding: 16px 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  border-bottom: 0.25px solid #AFB8CF;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+  border-top-right-radius: 12px;
   position: relative;
 }
 
 .chatProfile {
   display: flex;
   align-items: center;
+  gap:10px;
 }
 
 .chatProfile img {
   width: 45px;
   height: 45px;
-  border-radius: 50%;
-  margin-right: 10px;
+  border-radius:5px;
 }
 
 .chatProfile-name {
