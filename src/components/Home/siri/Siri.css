@@ -125,10 +125,10 @@ padding-top:600px ;
 
     .siri-background {
         width: 100%;
-        height: auto;
+        height: 1200px;
         position: relative;
-        top: 150px;
-     
+        top: 0px;
+        padding-top:0px ;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -146,7 +146,7 @@ padding-top:600px ;
         width: 90%;
         max-width: 100%;
         left: 0;
-        top: -200px;
+        top:-50px;
         position: relative;
     }
 }

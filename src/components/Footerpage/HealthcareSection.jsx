@@ -28,7 +28,7 @@ const HealthcareSection = () => {
       <div className="enp-top-section">
         <div className="enp-text-content">
           <h1>Transforming Healthcare <span>for<br/> Healthcare Entities</span></h1>
-          <div className='sub-health-section'> Revolutionizing how healthcare systems operate <br/>with a global, integrated approach</div>
+          <div className='sub-health-section'> Revolutionizing how healthcare systems operate with a global, integrated approach</div>
           <p>
             As a global leader in healthcare solutions, MedxBay connects hospitals,
              clinics, pharmacies, labs,  cosmetic surgery centers, and more to a unified network that streamlines patient care and operational efficiency. Whether you're managing a large hospital system or a specialized clinic, MedxBay simplifies healthcare delivery    by integrating advanced tools tailored to meet your unique needs.
@@ -42,9 +42,8 @@ const HealthcareSection = () => {
       {/* Bottom Section */}
       <div className="enp-bottom-section">
       <h2>Why MedxBay is Crucial<span className='enp-spanclass091'> for<br /> Your Organization</span></h2>
-      <p>
-        MedxBay is more than a healthcare platform; it's a transformative solution designed for the complexities of modern healthcare systems.
-        By integrating cutting-edge AI technology (coming Q4) and innovative digital solutions, we enable providers to focus on what truly matters—delivering quality care.
+      <p className='health-section-about'>
+        MedxBay is more than a healthcare platform; it's a transformative solution designed for the complexities of modern healthcare systems.By integrating cutting-edge AI technology (coming Q4) and innovative digital solutions, we enable providers to focus on what truly matters—delivering quality care.
       </p>
       <div className="enp-features-grid">
         <div
@@ -53,7 +52,7 @@ const HealthcareSection = () => {
         >
           <img src="../Gloval reach.png" alt="Global Reach" style={{ width: '40px', height: '40px', marginBottom: '20px' }} />
           <h3>Global Reach</h3>
-          <p>Expand your services beyond local markets. MedxBay’s extensive network ensures that healthcare providers can attract and serve patients across regions.</p>
+          <p >Expand your services beyond local markets. MedxBay’s extensive network ensures that healthcare providers can attract and serve patients across regions.</p>
         </div>
         <div
           className={`enp-feature-card ${selectedCard === 1 ? 'selected-feature' : ''}`}

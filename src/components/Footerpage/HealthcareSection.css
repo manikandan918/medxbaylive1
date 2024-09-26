@@ -1,7 +1,7 @@
 
   .enp-top-section {
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
     padding: 2rem;
   }
@@ -9,22 +9,51 @@
   .enp-text-content {
     width: 55%;
    margin-top: 20px;
-    padding: 4rem;
-    
+
+    position: relative;
+    left: 6.5%;
 
   
   }
-  
+  .health-section-about{
+    width: 1002px;
+    position: relative;
+    left: 164px;
+height: 44px;
+font-family: Matter;
+font-size: 14px;
+font-weight: 400;
+line-height: 22.26px;
+text-align: center;
+color: #000000;
+margin-bottom: 50px;
+margin-top: 30px;
+
+  }
   .enp-text-content h1 {
     font-size: 2.5rem;
     font-weight: bold;
     color: #000;
+    width: 569px;
+    height: 84px;
+    font-family: Matter;
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 42px;
+
   }
   
   .enp-text-content h1 span {
+    width: 569px;
+height: 84px;
+font-family: Matter;
+font-size: 35px;
+font-weight: 600;
+line-height: 42px;
+
     font-size: 35px;
 
-    color: #007BFF; /* Blue text for "for Healthcare Entities" */
+    color: #0167FF; 
   }
 
   .enp-bottom-section h1  span{
@@ -33,7 +62,7 @@
   }
 
  .sub-health-section{
-    width: 632px;
+    width: 462px;
 height: 38px;
 
 font-family: Matter;
@@ -53,21 +82,23 @@ margin:20px 0px 20px 0px;
     text-align: justify;
     font-size: 14px;
     font-weight: 400;
-    width: 580px;
+    width: 569px;
+    height: 95px;
   }
   
   .enp-image-content img {
 
 
-    width: 482px;
-height: 494px;
-border-radius: 0px 120px 0px 120px;
+    width: 462px;
+height: 474px;
+border-radius: 0px 100px 0px 100px;
     border-right: 30px;
-    padding: 2rem;
+position: relative;
+left:9%;
     margin-top: 0px;
     margin-right: 50px;
   }
-  
+
   .enp-bottom-section {
 
     margin-bottom: 5rem;
@@ -78,7 +109,15 @@ border-radius: 0px 120px 0px 120px;
   
   .enp-bottom-section h2 {
    margin-bottom: 30px;
-    font-size: 2rem;
+
+
+font-family: Matter;
+font-size: 28px;
+font-weight: 600;
+line-height: 33.6px;
+text-align: center;
+
+
     
   }
   
@@ -113,13 +152,19 @@ border-radius: 0px 120px 0px 120px;
   
   .enp-spanclass091{
     color:  #0167FF;
-    font-size: 2rem;
+    font-size: 28px;
     text-align: center;
   }
 
   .enp-spanclass0916{
-    font-size: 2rem;
-    text-align: center;
+
+font-family: Matter;
+font-size: 28px;
+font-weight: 600;
+line-height: 33.6px;
+text-align: center;
+color: #000000;
+
   }
 
 
@@ -303,15 +348,16 @@ border-radius: 0px 120px 0px 120px;
   }
   
   .enp-cta-section h3 {
-    font-size: 1.8rem;
+    font-size: 28px;
     
-    margin-bottom: 1rem;
-    padding-bottom: 2rem;
+   
+    padding-bottom: 1.5rem;
     text-align: center;
   }
   
   .enp-cta-section h3 span {
-    color: #007BFF;
+    color: #0167FF;
+font-size: 28px;
   }
 
 
@@ -324,7 +370,7 @@ border-radius: 0px 120px 0px 120px;
     color: #555;
     margin-bottom: 2rem;
     padding-bottom: 10px;
-    font-size: 0.8rem;
+    font-size: 16px;
     font-weight: 600;
     text-align: center;
     line-height: 12px;
@@ -375,4 +421,62 @@ border-radius: 0px 120px 0px 120px;
 
   .selected-card {
     background-color: #F2F6FF; /* Background color for selected card */
+}
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .enp-top-section {
+    display: flex;
+justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    gap: 60px;
+  }
+  .enp-text-content {
+    width: 55%;
+   margin-top: 20px;
+
+    position: relative;
+    left: 0px;
+    margin-left:auto;
+margin-right: auto;
+  
+  }
+
+  .health-section-about{
+    width: 1002px;
+    position: relative;
+    left: 0px;
+height: 44px;
+font-family: Matter;
+font-size: 14px;
+font-weight: 400;
+line-height: 22.26px;
+text-align: center;
+color: #000000;
+margin-bottom: 50px;
+margin-top: 30px;
+margin-left: auto;
+margin-right: auto;
+
+  }
+  .enp-image-content img {
+
+
+    width: 362px;
+height: 374px;
+border-radius: 0px 100px 0px 100px;
+    border-right: 30px;
+position: relative;
+left:9%;
+    margin-top: 0px;
+    margin-right: 50px;
+  }
+    .enp-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 60px;
+    padding: 3rem;
+  
+  }
+  
 }

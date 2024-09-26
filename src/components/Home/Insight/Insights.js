@@ -3,64 +3,20 @@ import { useSwipeable } from 'react-swipeable';
 import '../Insight/Insights.css';
 
 function Insights() {
-    const [visibleCards, setVisibleCards] = useState([0, 1]);
+    const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const totalCards = 4;
-
-    useEffect(() => {
-        const handleResize = () => {
-            const screenWidth = window.innerWidth;
-            if (screenWidth < 820) {
-                setVisibleCards([0]);
-            } else if (screenWidth >= 820 && screenWidth <= 1350) {
-                setVisibleCards([0]);
-            } else if (screenWidth > 1950) {
-                setVisibleCards([0, 1, 2]);
-            } else {
-                setVisibleCards([0, 1]);
-            }
-        };
-
-        handleResize();
-
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    const handleLeftClick = () => {
-        setVisibleCards(prevCards => {
-            const screenWidth = window.innerWidth;
-            if (screenWidth < 820) {
-                const newCard = (prevCards[0] - 1 + totalCards) % totalCards;
-                return [newCard];
-            } else if (screenWidth > 2000) {
-                const newCard = (prevCards[0] - 1 + totalCards) % totalCards;
-                return [newCard, (newCard + 1) % totalCards, (newCard + 2) % totalCards];
-            }
-            const newCards = prevCards.map(index => (index - 1 + totalCards) % totalCards);
-            return newCards;
-        });
-    };
-
-    const handleRightClick = () => {
-        setVisibleCards(prevCards => {
-            const screenWidth = window.innerWidth;
-            if (screenWidth < 820) {
-                const newCard = (prevCards[0] + 1) % totalCards;
-                return [newCard];
-            } else if (screenWidth > 2000) {
-                const newCard = (prevCards[prevCards.length - 1] + 1) % totalCards;
-                return [(newCard - 2 + totalCards) % totalCards, (newCard - 1 + totalCards) % totalCards, newCard];
-            }
-            const newCards = prevCards.map(index => (index + 1) % totalCards);
-            return newCards;
-        });
-    };
 
     useEffect(() => {
         document.title = "Explore-Insight";
     }, []);
+
+    const handleLeftClick = () => {
+        setCurrentCardIndex(prevIndex => (prevIndex - 1 + cardData.length) % cardData.length);
+    };
+    
+    const handleRightClick = () => {
+        setCurrentCardIndex(prevIndex => (prevIndex + 1) % cardData.length);
+    };
 
     const cardData = [
         {
@@ -142,10 +98,12 @@ function Insights() {
                 </div>
             </div>
             <div className="insight-card">
-                {visibleCards.map(index => {
-                    const card = cardData[index];
+                {cardData.slice(currentCardIndex, currentCardIndex + 4).map((card, index) => {
                     return (
-                        <div key={index} className={`insight-card-${index % 2 === 0 ? 'one' : 'two'}`}>
+                        <div 
+                            key={index} 
+                            className={`insight-card-${index % 2 === 0 ? 'one' : 'two'} active`}
+                        >
                             <div className={`insight-card-${index % 2 === 0 ? 'one' : 'two'}-background`}>
                                 <div className={`insight-card-${index % 2 === 0 ? 'one' : 'two'}-inner`}>
                                     <div className="image-one">

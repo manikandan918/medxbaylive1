@@ -60,7 +60,7 @@ const Header = () => {
         )}
         <div className="profile-container">
           <li className="nav-item active" style={{ listStyle: 'none' }}>
-            <Link to='/Doctor/profile/Edit'>
+            <Link to='/doc-profile'>
               <div className='image-container'>
                   <img src={profileImage} alt="Profile" />
               </div>

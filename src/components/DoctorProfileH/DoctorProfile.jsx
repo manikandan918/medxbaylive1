@@ -169,9 +169,9 @@ const DoctorProfile = () => {
         <div style={{ fontSize: "14px" }}> {doctor ? doctor.title : "Loading..."}</div>
 
         <br></br>
-        <div style={{ display: "flex", flexDirection: "row", marginLeft:'20px'}}>
+        <div style={{ display: "flex", flexDirection: "row"}}>
           <div style={{ border: "1px solid #bfbebe", padding: "3px 55px", borderRadius:"10px", backgroundColor:"#0167FF", color:"white"  }} onClick={handleShowEdit}>Edit Profile</div>
-          <div style={{ border: "1px solid #bfbebe", padding: "3px 35px", borderRadius:"10px" , marginLeft:'20px'}}
+          <div style={{ border: "1px solid #bfbebe", padding: "3px 35px", borderRadius:"10px" , marginLeft:'3.5px'}}
           className="verify-button"
           onClick={handleVerify}
           disabled={

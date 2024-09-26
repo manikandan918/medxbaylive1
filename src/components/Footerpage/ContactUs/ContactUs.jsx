@@ -80,23 +80,27 @@ const ContactUs = () => {
                             <img className='icon' src={locationIcon} alt="locationIcon" />
                             <div>
                                 <h6>Address</h6>
-                                <p>2972 Westheimer Rd. Santa Ana, Illinois 85486</p>
+                                <p>Compass Building
+Al Shohada Road
+Al Hamra Industrial Zone-FZ
+Ras Al Khaimah, United Arab Emirates</p>
                             </div>
                         </div>
                         <div className="info-item">
                             <img className='icon' src={mailIcon} alt="mailIcon" />
                             <div>
                                 <h6>Email</h6>
-                                <p>willie.jennings@example.com</p>
+                                <p>support@medxbay.com
+                                </p>
                             </div>
                         </div>
-                        <div className="info-item">
+                        {/* <div className="info-item">
                             <img className='icon' src={phoneIcon} alt="phoneIcon" />
                             <div>
                                 <h6>Phone number</h6>
                                 <p>(219) 555-0114</p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="col-md-8 contact-form">

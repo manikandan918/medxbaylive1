@@ -237,6 +237,18 @@ Dr/Physician
                 </Link>
               </li>
 
+              <li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
+                <Link 
+                  className="for-corporates nav-link nav-link-style dropdown-toggle" 
+                  to="/patients" 
+                  role="button" 
+                  onClick={handleLinkClick}
+                >
+         Patients
+                  {/* <FontAwesomeIcon icon={faChevronDown} className="ml-2" /> */}
+                </Link>
+              </li>
+
               <li className="nav-item active ml-md-1">
                 <button className="find-doctor nav-link nav-link-style" onClick={handleShowBlogPopup}>Condition Libraries</button> {/* Update Blog link */}
               </li>
