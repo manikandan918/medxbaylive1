@@ -392,9 +392,9 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                 <div className={`col-7 ${isMapExpanded ? 'col-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
-                            <Link to={`/book-appointment-profile/${doctor._id}`}>
+                            {/* <Link to={`/book-appointment-profile/${doctor._id}`}> */}
                                 <img src={profilePicture} alt={doctor.name || "Doctor"} className="doctor-photo" />
-                            </Link>
+                            {/* </Link> */}
                             <div className={` ${isMapExpanded ? 'mapExpanded-sponsor-rating-stars' : 'd-none'}`}>
                                 {doctor.rating !== undefined ? renderStars(doctor.rating) : renderStars(0)}
                             </div>
@@ -406,10 +406,10 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                             </div>
                         </div>
                         <div className="doctor-details1">
-                  
-                            <Link to={`/book-appointment-profile/${doctor._id}`}>
+{/*                   
+                            <Link to={`/book-appointment-profile/${doctor._id}`}> */}
                                 <h2>{doctor.name}</h2>
-                            </Link>
+                            {/* </Link> */}
                             <p className="speciality">{doctor.speciality}</p>
                             <p className="experience">{doctor.experience || "16 years experience overall"}</p>
                             <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{hospitalCity || "Hospital City"}</p>
