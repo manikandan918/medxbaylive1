@@ -3,7 +3,7 @@ import "./blog.css";
 import { FaStar } from "react-icons/fa";
 import axios from "axios";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const VerifiedTick = () => (
   <div className="blogPageVerifiedTick">
@@ -181,6 +181,7 @@ const getProfileImage = (formData) => {
 };
 
 const Blog = () => {
+  const { condition } = useParams();
   const [loading, setLoading] = useState(true);
   const [blogData, setBlogData] = useState([]);
   const [tempBlog, setTempBlog] = useState([]);
@@ -195,21 +196,27 @@ const Blog = () => {
 
   const loadBlogs = async () => {
     const response = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/patient/blogs`
+      `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${condition}`
     );
-    // console.log(response.data);
+    console.log(response.data);
     if (response.data) {
       setLoading(false);
       var data = response.data;
       setHastags(data.hashtags);
-      setCategoryData(data.categoryCounts);
+      if (Array.isArray(data.blogsByCategory)) {
+        setCategoryData(data.blogsByCategory);
+        // console.log(categoryData)
+      } else {
+        setCategoryData(0); // Or handle as needed
+      }
       setRecentBlog(data.recentBlogs);
       setMostReadBlog(data.mostReadBlogs);
       setTopRatedDoctors(data.topRatedDoctors);
-      setBlogData(response.data);
+      // setBlogData(response.data);
       setTempBlog(response.data);
       setCategories(data.blogsByCategory);
-      const sortedBlogs = data.featuredBlogs.sort(
+      console.log(categories)
+      const sortedBlogs = data.topPriorityBlogs.sort(
         (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
       );
       setFeaturedBlog(sortedBlogs[0]);
@@ -283,35 +290,39 @@ const Blog = () => {
             </div>
           </div>
           {Object.entries(categories)
-            .slice(0, 1)
-            .map(([name, value], index) => (
-              <BlogBiggerCard
-                key={index}
-                title={name}
-                shorter={true}
-                data={value.slice(0, 2)}
-              />
-            ))}
-          {Object.entries(categories)
-            .slice(1, 2)
-            .map(([name, value], index) => (
-              <BlogBiggerCard
-                key={index}
-                shorter={true}
-                title={name}
-                data={value.slice(0, 3)}
-              />
-            ))}
-          {Object.entries(categories)
-            .slice(3, 4)
-            .map(([name, value], index) => (
-              <BlogBiggerCard
-                key={index}
-                shorter={true}
-                title={name}
-                data={value.slice(0, 1)}
-              />
-            ))}
+  .slice(0, 1)
+  .map(([name, value], index) => (
+    <BlogBiggerCard
+      key={index}
+      title={value._id}
+      shorter={true}
+      data={Array.isArray(value.blogs) ? value.blogs.slice(0, 2) : []}  // Ensure value.blogs is an array
+    />
+  ))}
+
+{Object.entries(categories)
+  .slice(1, 2)
+  .map(([name, value], index) => (
+    <BlogBiggerCard
+      key={index}
+      shorter={true}
+      title={value._id}
+      data={Array.isArray(value.blogs) ? value.blogs.slice(0, 3) : []}  // Ensure value.blogs is an array
+    />
+  ))}
+
+{Object.entries(categories)
+  .slice(3, 4)
+  .map(([name, value], index) => (
+    <BlogBiggerCard
+      key={index}
+      shorter={true}
+      title={value._id}
+      data={Array.isArray(value.blogs) ? value.blogs.slice(0, 1) : []}  // Ensure value.blogs is an array
+    />
+  ))}
+
+
         </div>
         <div className="blogPageRHS">
           <div className="blogPageSearchBox">
@@ -324,16 +335,19 @@ const Blog = () => {
               {Object.entries(categoryData)
                 .sort(() => 0.5 - Math.random())
                 .slice(0, 5)
-                .map(([name, count], i) => {
+                .map(([_, count], i) => {
+                  const categoryName = count._id[0] || "Unknown Category"; // Assuming _id holds the category name
+                  const blogCount = count.blogs.length || 0; // Count the number of blogs
                   return (
                     <div className="blogPageTag" key={i}>
                       <TagIcon />
                       <div>
-                        {name} ({count})
+                        {categoryName} ({blogCount})
                       </div>
                     </div>
                   );
                 })}
+
             </div>
 
             <BlogSmallCard
@@ -360,9 +374,9 @@ const Blog = () => {
                 </a>
               </div>
               <div className="blogPagetags-chips">
-                {tagData.slice(0, 10).map((tag, index) => (
+                {hashtags.slice(0, 10).map((tag, index) => (
                   <div key={index} className="blogPagetags-chip">
-                    <div className="blogPagetags-chip-text"># {tag}</div>
+                    <div className="blogPagetags-chip-text"> {tag._id}</div>
                     {/* <FaTimes className="blogPagetags-chip-close" /> */}
                   </div>
                 ))}
@@ -378,8 +392,8 @@ const Blog = () => {
           <BlogBiggerCard
             key={index}
             showAllLink={`/blogs/showAll`}
-            title={name}
-            data={value.slice(0, 6)}
+            title={value._id}
+            data={Array.isArray(value.blogs) ? value.blogs.slice(0, 6) : []}  // Ensure value.blogs is an array
           />
         ))}
 
@@ -394,8 +408,8 @@ const Blog = () => {
           <BlogBiggerCard
             key={index}
             showAllLink={`/blogs/showAll`}
-            title={name}
-            data={value.slice(0, 6)}
+            title={value._id}
+            data={Array.isArray(value.blogs) ? value.blogs.slice(0, 6) : []}  // Ensure value.blogs is an array
           />
         ))}
 
@@ -405,8 +419,8 @@ const Blog = () => {
           <BlogLargerCard
             key={index}
             showAllLink={`/blogs/showAll`}
-            title={name}
-            data={value.slice(0, 3)}
+            title={value._id}
+            data={Array.isArray(value.blogs) ? value.blogs.slice(0, 3) : []}  // Ensure value is an array
           />
         ))}
     </div>

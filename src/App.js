@@ -43,7 +43,7 @@ import HealthcareSection from './components/Footerpage/HealthcareSection';
 import ContactUs from './components/Footerpage/ContactUs/ContactUs';
 import Patients from './components/Footerpage/Patients/Patients';
 import DoctorPhysician from './components/Footerpage/DoctorPhysician/DoctorPhysician';
-
+import Conditions from './components/patientBlog/ConditionLibrariesMenu';
 function App() {
   useEffect(() => {
     document.title = "MedxBay";
@@ -64,7 +64,10 @@ function App() {
           <Route path="/Filters" element={<FilterPage />} />
           <Route path="/verify/login" element={<VerifyLogin />} />
           <Route path="/verify" element={<Verification />} />
-          <Route path="/condition-libraries" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/>
+          <Route path="/condition-libraries/:condition" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/>
+          <Route path="/condition-libraries-menu" element={[<Nestednavbar/>,<Conditions />,<Footer/>]}/>
+          {/* <Route path="/condition-libraries-menu" element={<Conditions />}/> */}
+          {/* <Route path="/condition-libraries" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/> */}
           <Route path="/blogPost/:id" element={[<Nestednavbar/>,<BlogPage />,<Footer/>]}/>      
               <Route path="/edit/profile/doctor" element={[<Navbar/>,<DoctorPopUp />,<Footer/>]}  />
           <Route path="/SubscriptionPlans" element={[<Navbar/>,<SubscriptionPlans />,<Footer/>]}  />

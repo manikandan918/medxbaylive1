@@ -246,9 +246,17 @@ Dr/Physician
                   {/* <FontAwesomeIcon icon={faChevronDown} className="ml-2" /> */}
                 </Link>
               </li>
-
+          
               <li className="nav-item active ml-md-1">
-                <button className="find-doctor nav-link nav-link-style" onClick={handleShowBlogPopup}>Condition Libraries</button> {/* Update Blog link */}
+
+              <Link 
+                  className="for-corporates nav-link nav-link-style dropdown-toggle" 
+                  to="/condition-libraries-menu" 
+                  role="button" 
+                  onClick={handleLinkClick}
+                >
+     Condition Libraries
+                </Link>
               </li>
 
               <li className="nav-item active ml-md-4">
