@@ -2,8 +2,9 @@ import React from "react";
 import Articles from "../Articles";
 import DoctorInfo from "../DoctorInfo";
 import FAQ from "../FAQ";
-import DoctorProfile from "../DoctorProfile";
+import MainPac from "./MainPac";
 import BookAppointment from "../BookAppointment";
+
 
 function PatientFrofile() {
   return (
@@ -12,8 +13,8 @@ function PatientFrofile() {
       <div className="">
         <div style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:"100%", border:"" }}>
            <div style={{border:"", width:"40%", paddingLeft:"5%", paddingRight:"5%"}}>
-            <DoctorProfile />
-            <BookAppointment/>
+            <MainPac />
+            {/* <BookAppointment/> */}
           </div>
           <div style={{border:"", width:"60%", paddingLeft:"", paddingRight:"5%"}}>
             <DoctorInfo />

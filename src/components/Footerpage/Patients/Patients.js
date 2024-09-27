@@ -1,14 +1,60 @@
-import React from "react";
+import React, { useEffect,useRef,useState} from 'react';
+
 import "./Patients.css";
 import Patientsfirst from "../../../assests/img/Patientsfirst.png";
 import Patientssecond from "../../../assests/img/Patientssecond.png"; 
 import Patientsthird1 from "../../../assests/img/Patientsthird1.png"; 
 import Patientsthird2 from "../../../assests/img/Patientsthird2.png"; 
 import Patientsthird3 from "../../../assests/img/Patientsthird3.png"; 
-
+import SignupCard from '../../signup/signup';
+import LoginCard from '../../login/login';
 import CheckIcon from "../../../assests/img/check-icon.png"; 
 
 const Patients = () => {
+  const revealedCardsRef = useRef(new Set()); // To track revealed cards
+  const handleClick = () =>{
+    window.scrollTo(0,0);
+  };
+
+  const handleShowPopup = () => setShowPopup(true);
+  const [showPopup, setShowPopup] = useState(false);
+  const [isRegisterClicked, setIsRegisterClicked] = useState(false);
+  const [isSignInClicked, setIsSignInClicked] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const handleCloseLoginPopup = () => setShowLoginPopup(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState('');
+
+  const handleCloseLoginCard = () => {
+    setIsRegisterClicked(false);
+  };
+  const handleSignInClick = () => {
+    setIsSignInClicked(true);
+    setIsRegisterClicked(false);
+  };
+  const handleCloseRegister = () => {
+    setShowPopup(false);
+  };
+  const handleShowLogin = () => {
+    setShowLoginPopup(true);
+  };
+  const handleClosePopup = () => setShowPopup(false);
+
+  const handleShowRegister = () => {
+    setShowPopup(true);
+  };
+  const handleLogin = (role) => {
+    sessionStorage.setItem('loggedIn', 'true');
+    sessionStorage.setItem('role', role);
+
+    setIsLoggedIn(true);
+    setUserRole(role);
+    setIsSignInClicked(false); 
+    setIsRegisterClicked(false); 
+    handleCloseLoginPopup(); 
+    handleClosePopup(); 
+  };
+
     return (
       <div className="Patients-whole-container">
         {/* First Section */}
@@ -162,10 +208,21 @@ const Patients = () => {
 
         {/* fourth section */}
         <div className="patients-fourth-section">
-        <h1 className="fourth-section-heading">Ready to Transform<span className="Patients-highlight-text">Your Global</span><p className="Patients-highlight-text"> Healthcare Experience?</p></h1>
+        <h1 className="fourth-section-heading">Ready to Transform<span className="Patients-highlight-text">  Your Global</span><p className="Patients-highlight-text"> Healthcare Experience?</p></h1>
         <p className="fourth-section-description">Sign up now to become part of a global community dedicated to making healthcare simple, accessible, and effective. Your health journey matters, and MedxBay is here to support you every step of the way—anywhere in the world.</p>
-        <button className="patients-fourth-signup-button">Sign up</button>
+        <button className="patients-fourth-signup-button" onClick={handleShowPopup}>Sign up</button>
         </div>
+        <SignupCard 
+                show={showPopup} 
+                handleClose={handleClosePopup}
+                 openLoginModal={handleShowLogin}/>
+                        <LoginCard 
+          show={showLoginPopup} 
+          handleClose={handleCloseLoginPopup} 
+          openRegisterModal={handleShowRegister} 
+          handleLogin={handleLogin}
+        />
+
       </div>
     );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';  // Import useState from React
 import './HealthcareSection.css';  // Create and link a CSS file for styling
 import { useNavigate } from 'react-router-dom';
+import tick from '../Assets/Tick.png';
 
 const HealthcareSection = () => {
     const [selectedCard, setSelectedCard] = useState(null);  // Initialize state
@@ -176,7 +177,7 @@ const HealthcareSection = () => {
                 <div className="enp-icon">
                     <i className="enp-fas fa-check-circle"></i>
                 </div>
-                <img src="../Tick.png" alt="Team of Doctors" style={{ width: '30px', height: '30px', marginBottom: '10px' }} />
+                <img src={tick} alt="Team of Doctors" style={{ width: '30px', height: '30px', marginBottom: '10px' }} />
                 <h3>Telehealth Integration</h3>
                 <p>
                     Provide your patients with secure, accessible care through video consultations and digital follow-up tools.
@@ -190,7 +191,7 @@ const HealthcareSection = () => {
                 <div className="enp-icon">
                     <i className="enp-fas fa-check-circle"></i>
                 </div>
-                <img src="../Tick.png" alt="Team of Doctors" style={{ width: '30px', height: '30px', marginBottom: '10px' }} />
+                <img src={tick} alt="Team of Doctors" style={{ width: '30px', height: '30px', marginBottom: '10px' }} />
                 <h3>AI-Driven Engagement</h3>
                 <p>
                     Enhance patient interactions with AI-powered tools that provide actionable insights, improving overall care quality. (Coming soon)
@@ -204,7 +205,7 @@ const HealthcareSection = () => {
                 <div className="enp-icon">
                     <i className="enp-fas fa-check-circle"></i>
                 </div>
-                <img src="../Tick.png" alt="Team of Doctors" style={{ width: '30px', height: '30px' , marginBottom: '10px'}} />
+                <img src={tick} alt="Team of Doctors" style={{ width: '30px', height: '30px' , marginBottom: '10px'}} />
                 <h3>Blockchain-Enabled Records</h3>
                 <p>
                     Ensure secure access to patient medical records with blockchain technology, allowing seamless data sharing between providers and patients across the globe. (Coming soon)

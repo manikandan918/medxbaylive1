@@ -4,27 +4,47 @@ import BookAppointment from "../BookAppointment";
 import { useState, useEffect } from "react";
 import profileImage from "../../Assets/profileimg.png";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useParams} from "react-router-dom";
 import "../tail.css";
-
+import { fetchFromDoctor } from "../../../actions/api";
+const bufferToBase64 = (buffer) => {
+  if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
+    const bytes = new Uint8Array(buffer.data);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return `data:image/jpeg;base64,${btoa(binary)}`;
+  } else {
+    console.error('Unexpected buffer type:', typeof buffer);
+    return '';
+  }
+};
 const MainPac = () => {
   const navigate = useNavigate();
-  const [profileimg, setProfileimage] = useState("");
+  const [profile, setProfile] = useState("");
   const [doctor, setDoctor] = useState([]);
   const [insurance, setInsurance] = useState([]);
   const [setBlogs] = useState([]);
+  const { id } = useParams();
   const [verificationStatus, setVerificationStatus] = useState("");
+  const getProfile = (a) => {
+    if (a.profilePicture && a.profilePicture.data) {
+      const base64String = bufferToBase64(a.profilePicture.data);
+      setProfile(base64String);
+    }
+  };
+  useEffect(() => {
+  if (id) {
   const fetchDoctorDetails = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/doctor/profile/update`,
-        { withCredentials: true }
-      );
-      const doctorData = response.data;
+      const response = await fetchFromDoctor(`/doctors/${id}/slots`);
 
-      console.log(doctorData);
-      if (doctorData.doctor.dateOfBirth) {
-        const date = new Date(doctorData.doctor.dateOfBirth);
+      
+
+      console.log(response);
+      if (response.doctor.dateOfBirth) {
+        const date = new Date(response.doctor.dateOfBirth);
         const formattedDate = `${String(date.getDate()).padStart(
           2,
           "0"
@@ -32,129 +52,71 @@ const MainPac = () => {
           2,
           "0"
         )}-${date.getFullYear()}`;
-        doctorData.doctor.dateOfBirth = formattedDate;
+        response.doctor.dateOfBirth = formattedDate;
       }
-      var formData = doctorData.doctor;
-      const profileImageData = formData?.profilePicture
-        ? `data:image/jpeg;base64,${formData.profilePicture.data}`
-        : profileImage;
-      setProfileimage(profileImageData);
-      setDoctor(doctorData.doctor);
-      setInsurance(doctorData.insurances);
-      setBlogs(doctorData.blogs);
-      setVerificationStatus(doctorData.doctor.verified);
+      
+      getProfile(response.doctor);
+      setDoctor(response.doctor);
+      setInsurance(response.insurances);
+      setBlogs(response.blogs);
+      setVerificationStatus(response.doctor.verified);
     } catch (error) {
       console.error("Error fetching doctor details:", error);
     }
   };
+      fetchDoctorDetails();
+}
 
-  useEffect(() => {
-    fetchDoctorDetails();
+
+
   }, []);
 
   const [loading, setLoading] = useState(false);
-  const handleVerify = async (e) => {
-    e.preventDefault();
-
-    if (
-      doctor.verified === "Verified" &&
-      doctor.subscriptionVerification !== "Verified"
-    ) {
-      navigate("/SubscriptionPlans");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/doctor/profile/verify`,
-        {},
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      await fetchDoctorDetails();
-    } catch (error) {
-      console.error(
-        "Verification request failed:",
-        error.response?.data?.message || error.message
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
+ 
   const handleShowEdit = () => {
     navigate("/edit/profile/doctor");
   };
 
-  useEffect(() => {
-    document.title = "Doctor-Edit";
-
-    fetchDoctorDetails();
-  }, []);
-
 
   return (
-    <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full">
-      <div className="flex flex-col max-md:mt-8">
-        <div className="flex overflow-hidden flex-col pb-4 bg-white rounded-xl shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-          <div className="flex overflow-hidden flex-col  max-md:px-2">
-            <img
-              loading="lazy"
-              src={profileimg}
-              alt="Doctor's profile picture"
-              className="object-contain w-full "
-            />
-          </div>
-          <div className="flex flex-col items-start px-4 w-full">
-            <div className="flex justify-evenly gap-20">
-              <div className="text-2xl font-medium text-slate-800">
-                {doctor ? doctor.name : "Loading..."}
-              </div>
-              <div className="py-1">
-                <img
-                  loading="lazy"
-                  src="/DoctorProfile/share.png"
-                  alt=""
-                  className="object-contain shrink-0  aspect-square h-[30px] w-[30px]"
-                />
-              </div>
-            </div>
-            <div className=" text-[14px] text-gray-600">
-              {doctor ? doctor.title : "Loading..."}
-            </div>
-            <div className="flex gap-2 justify-between self-stretch mt-4 w-full">
-              <button className="gap-2.5 self-stretch px-4  text-base font-medium leading-loose text-white bg-blue-600 rounded-md h-[32px]"
-              onClick={handleShowEdit}>
-                Edit profile
-              </button>
+    <div className="doc-back" style={{ backgroundColor: "white", marginTop:"40px", borderRadius:"20px" }}>
+     
 
-              <button
-                className="gap-2.5 self-stretch px-2  text-base font-medium leading-loose bg-white text-blue-600 rounded-md h-[32px] border border-blue-600"
-                onClick={handleVerify}
-                disabled={
-                  loading ||
-                  doctor.verified === "Pending" ||
-                  (doctor.verified === "Verified" &&
-                    doctor.subscriptionVerification === "Verified")
-                }
-              >
-                {doctor.verified === "Verified"
-                  ? doctor.subscriptionVerification === "Verified"
-                    ? doctor.subscriptionType
-                    : "Subscribe"
-                  : doctor.verified === "Pending"
-                  ? "Pending"
-                  : "Request To Verify"}
-              </button>
-            </div>
+
+      <div className="background-container">
+        <img
+          src={profile}
+          alt="Overlap Example"
+          className="overlapping-image"
+        />
+      </div>
+      <br></br>
+      <br></br>
+    
+      <div style={{ backgroundColor: "white", padding:"20px", borderRadius:"20px"}}>
+        <div style={{ fontWeight: 500, fontSize: "18px" }}>
+        {doctor ? doctor.name : "Loading..."}
+        </div>
+        <div style={{ fontSize: "14px" }}> {doctor ? doctor.title : "Loading..."}</div>
+
+      
+        <div>
+          <div>
+            <img src="" />
+            <span>{doctor ? doctor.email : "Loading..."}</span>
+          </div>
+          
+          <div>
+            <img src="" />
+            <span>{doctor ? doctor.country : "Loading..."}</span>
+          </div>
+          <div>
+            <img src="" />
+            <span>{doctor ? doctor.role : "Loading..."}</span>
           </div>
         </div>
-        <BookAppointment/>
       </div>
+
     </div>
   );
 };

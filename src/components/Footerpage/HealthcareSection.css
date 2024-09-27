@@ -18,7 +18,7 @@
   .health-section-about{
     width: 1002px;
     position: relative;
-    left: 164px;
+
 height: 44px;
 font-family: Matter;
 font-size: 14px;
@@ -28,6 +28,9 @@ text-align: center;
 color: #000000;
 margin-bottom: 50px;
 margin-top: 30px;
+margin-left: auto;
+margin-right: auto;
+justify-content: center;
 
   }
   .enp-text-content h1 {
@@ -423,60 +426,29 @@ font-size: 28px;
     background-color: #F2F6FF; /* Background color for selected card */
 }
 @media (min-width: 1024px) and (max-width: 1439px) {
-  .enp-top-section {
-    display: flex;
-justify-content: space-between;
-    align-items: center;
-    padding: 2rem;
-    gap: 60px;
-  }
+
+
+
   .enp-text-content {
     width: 55%;
    margin-top: 20px;
 
     position: relative;
-    left: 0px;
-    margin-left:auto;
-margin-right: auto;
+    left: 6.5%;
+
   
   }
+  
 
-  .health-section-about{
-    width: 1002px;
-    position: relative;
-    left: 0px;
-height: 44px;
-font-family: Matter;
-font-size: 14px;
-font-weight: 400;
-line-height: 22.26px;
-text-align: center;
-color: #000000;
-margin-bottom: 50px;
-margin-top: 30px;
-margin-left: auto;
-margin-right: auto;
-
-  }
   .enp-image-content img {
-
 
     width: 362px;
 height: 374px;
 border-radius: 0px 100px 0px 100px;
     border-right: 30px;
 position: relative;
-left:9%;
+left:36%;
     margin-top: 0px;
     margin-right: 50px;
   }
-    .enp-content-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-top: 60px;
-    padding: 3rem;
-  
-  }
-  
 }

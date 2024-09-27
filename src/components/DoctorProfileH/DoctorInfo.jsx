@@ -3,6 +3,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import profileImage from "../Assets/profileimg.png";
 import axios from "axios";
+import { fetchFromDoctor } from "../../actions/api";
+import {  useParams} from "react-router-dom";
+
 // import "./DoctorInfo.css";
 
 const bufferToBase64 = (logo) => {
@@ -24,12 +27,57 @@ const bufferToBase64 = (logo) => {
 
 
 const DoctorInfo = () => {
+  const { id } = useParams();
   const [profileimg, setProfileimage] = useState("");
   const [doctor, setDoctor] = useState([]);
   const [insurance, setInsurance] = useState([]);
   const [setBlogs] = useState([]);
   const [verificationStatus, setVerificationStatus] = useState("");
-  const fetchDoctorDetails = async () => {
+  useEffect(() => {
+    if (id) {
+    const fetchDoctorDetails = async () => {
+      try {
+        const response = await fetchFromDoctor(`/doctors/${id}/slots`);
+  
+        
+  
+        console.log(response);
+        if (response.doctor.dateOfBirth) {
+          const date = new Date(response.doctor.dateOfBirth);
+          const formattedDate = `${String(date.getDate()).padStart(
+            2,
+            "0"
+          )}-${String(date.getMonth() + 1).padStart(
+            2,
+            "0"
+          )}-${date.getFullYear()}`;
+          response.doctor.dateOfBirth = formattedDate;
+        }
+   
+     
+        setDoctor(response.doctor);
+        setInsurance(response.insurances);
+        setBlogs(response.blogs);
+        setVerificationStatus(response.doctor.verified);
+      } catch (error) {
+        console.error("Error fetching doctor details:", error);
+      }
+    };
+        fetchDoctorDetails();
+  }
+  
+  
+  
+    }, []);
+
+
+    
+
+  const getBaseImage = (logo) => {
+    const base64String = bufferToBase64(logo);
+    return base64String;
+  };
+  const fetchDoctorDetail = async () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/doctor/profile/update`,
@@ -64,14 +112,8 @@ const DoctorInfo = () => {
   };
 
   useEffect(() => {
-    fetchDoctorDetails();
+    fetchDoctorDetail();
   }, []);
-
-  const getBaseImage = (logo) => {
-    const base64String = bufferToBase64(logo);
-    return base64String;
-  };
-
 
   const [isReadMore, setIsReadMore] = useState(true);
 

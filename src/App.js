@@ -42,6 +42,7 @@ import PopupModal from './components/PopupModal';
 import HealthcareSection from './components/Footerpage/HealthcareSection';
 import ContactUs from './components/Footerpage/ContactUs/ContactUs';
 import Patients from './components/Footerpage/Patients/Patients';
+import DoctorPhysician from './components/Footerpage/DoctorPhysician/DoctorPhysician';
 
 function App() {
   useEffect(() => {
@@ -81,6 +82,8 @@ function App() {
           <Route path="/admin/dashboardpage/*" element={<Adminroute/>} />
           <Route path="/contact-us" element={[<Nestednavbar/>,<ContactUs />,<Footer/>]}/>
           <Route path="/patients" element={[<Nestednavbar/>,<Patients />,<Footer/>]}/>
+          <Route path="/doctor/physician" element={[<Nestednavbar/>,<DoctorPhysician />,<Footer/>]}/>
+
 
 
         </Routes>
