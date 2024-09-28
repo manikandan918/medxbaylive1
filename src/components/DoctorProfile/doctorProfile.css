@@ -433,7 +433,7 @@ z-index: 1;
 display: flex; 
 flex-direction: column;
 
-top:15% !important;
+top:10% !important;
 width: 100%;
 max-width: 440px;
 margin-left: auto;

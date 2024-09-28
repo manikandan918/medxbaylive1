@@ -14,7 +14,7 @@ function PatientFrofile() {
         <div style={{display:"flex", flexDirection:"row",justifyContent:"space-between", width:"100%", border:"" }}>
            <div style={{border:"", width:"40%", paddingLeft:"5%", paddingRight:"5%"}}>
             <MainPac />
-            {/* <BookAppointment/> */}
+            <BookAppointment/>
           </div>
           <div style={{border:"", width:"60%", paddingLeft:"", paddingRight:"5%"}}>
             <DoctorInfo />

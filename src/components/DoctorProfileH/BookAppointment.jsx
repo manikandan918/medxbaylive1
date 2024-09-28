@@ -11,6 +11,8 @@ import moment from "moment";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchFromDoctor } from "../../actions/api";
+import {  useNavigate } from 'react-router-dom';
+
 const bufferToBase64 = (buffer) => {
   if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
     const bytes = new Uint8Array(buffer.data);
@@ -26,6 +28,8 @@ const bufferToBase64 = (buffer) => {
 };
 
 const BookAppointment = () => {
+  const navigate = useNavigate();
+
   const [totalFees,setTotalFees]= useState();
   const [userLocation, setUserLocation] = useState({ lat: 0, lng: 0 });
 
@@ -154,7 +158,7 @@ useEffect(() => {
       evening: []
   };
 
-  // Group time slots into morning, afternoon, evening
+
   if (dates[selectedDate]) {
       dates[selectedDate].timeSlots.forEach(slot => {
           const hour = parseInt(slot.startTime.split(':')[0], 10);
@@ -235,12 +239,22 @@ const handleBookAppointment = async () => {
     });
 
     const result = await response.json();
-    console.log('Booking response:', result);
-
+    // console.log(result.url);
     if (response.ok) {
-        window.location.href = result.url; 
+      if (consultationType === "Video call" && result.url) {
+        window.open(result.url);
+      } else {
+        navigate('/profile/userprofile/manage/appointments');
+        toast.info('Booking successful.', {
+          className: 'toast-center',
+          closeButton: true,
+          progressBar: true,
+        });
+      }
+
+    
     } else {
-        toast.info('Unexpected response from server. Please try again.', {
+        toast.error('Unexpected server response. Please try again.', {
             className: 'toast-center toast-fail',
             closeButton: true,
             progressBar: true,
@@ -262,12 +276,28 @@ const currencySymbols = {
   gbp: '£',
   aed: 'د.إ',
   eur: '€',
-  // Add more currencies and symbols as needed
+
 };
 
-const handleConsultationTypeChange = (type) => {
+const handleConsultationTypeChange = async (type) => {
   setConsultationType(type);
+  
+ 
+  try {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/doctors/${doctorData._id}/slots`, {
+      withCredentials: true
+    });
+    const { feesInAllCurrencies, totalFee } = response.data;
+    setCurrencies(feesInAllCurrencies);
+    setTotalFees(totalFee);
+    console.log(currencies);
+    console.log(totalFees);
+  } catch (error) {
+    console.error("Error fetching doctor's fees:", error);
+    toast.error("Unable to fetch fees. Please try again.");
+  }
 };
+
   return (
     <div
     className="Appointment-container"
@@ -282,16 +312,31 @@ onClick={() => handleConsultationTypeChange('In-person')}
 <div className="book-appointment-inperson-icon"></div>
 <div className="book-appointment-inperson-container">In-person</div>
 </div>
-<div 
-className={`video-consultation-container ${consultationType === 'Video call' ? 'active' : 'inactive'}`}
-onClick={() => handleConsultationTypeChange('Video call')}
+<div
+  className={`video-consultation-container ${consultationType === 'Video call' ? 'active' : 'inactive'}`}
+  onClick={() => handleConsultationTypeChange('Video call')}
 >
-<div className="video-consultation-container-icon"></div>
-<div className="video-consultation-text">Video Consultation</div>
-
+  <div className="video-consultation-container-icon"></div>
+  <div className="video-consultation-text">Video Consultation</div>
 </div>
 
 </div>
+{consultationType === 'Video call' && doctorData.doctorFee && (
+                                <div className="minimal-dropdown-doctor">
+                                <select
+                                    value={currencytoBookingData}
+                                    onChange={(e) => setCurrencytoBookingData(e.target.value)}
+                                >
+                                    {Object.entries(currencies).map(([currency, value], index) => (
+                                         <option key={index} value={currency}>
+                                         {currency.toUpperCase()} - {currencySymbols[currency] || ''}{value}
+                                     </option>
+                                    ))}
+                                </select>
+                            </div>
+                            
+                            )}
+
 
     <div className="Appointment-select-place">Select Place</div>
     <div className="Appointment-select-place-dropdown">

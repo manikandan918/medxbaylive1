@@ -22,6 +22,7 @@ const VerifyLogin = ({ show, handleClose,openRegisterModal }) => {
     useEffect(() => {
         import('./login.css');
         import ('../signup/signup.css')
+        import('./VerifyLogin.css')
       }, []);
       const navigate = useNavigate();
       const typedElement = useRef('');
@@ -319,7 +320,7 @@ const VerifyLogin = ({ show, handleClose,openRegisterModal }) => {
      </div> */}
 
      <div className="sign-up-button-container"></div>
-        <Form onSubmit={isForgotPassword ? forgetPassword : verifylogin} className="form-overall-container-login">
+        <Form onSubmit={isForgotPassword ? forgetPassword : verifylogin} className="form-overall-container-login-verify">
           <Form.Group className="mb-3" controlId="formEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control
