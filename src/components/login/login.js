@@ -339,7 +339,7 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
               <span ref={typedElement}></span>
             </p>
           </div>
-          <div className='running-container-verify'>
+          <div className='running-container'>
           <img src={curvedesign} alt="meds" className="curvedesign" />
           <p className="running-text">
             <span ref={typedElementTwo}></span>
