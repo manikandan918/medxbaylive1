@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import Comment from "./Comment";
 import { IoIosCalendar } from "react-icons/io";
 import { TbMessage } from "react-icons/tb";
 import { LuEye } from "react-icons/lu";
+import { FaEdit } from "react-icons/fa";
+
 import { IoLogoFacebook } from "react-icons/io5";
 import { IoLogoLinkedin } from "react-icons/io5";
 import { FaTwitter } from "react-icons/fa";
 import { SiInstagram } from "react-icons/si";
 import moment from "moment";
 import profileImage from "../../../Assets/profileimg.png";
+import axios from 'axios';
+import EditBlog from './EditBlog';
 
 const bufferToBase64 = (buffer) => {
   if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
@@ -37,8 +41,81 @@ function BlogDetails({blog}) {
       return profileImage;
     }
   };
+  const [showAddNewBlog, setShowAddNewBlog] = useState(false); 
+  const [blogData,setBlogData]=useState([])
+  const [tempBlog,setTempBlog]=useState([])
+  const [reletedPost,setReletedPost]=useState([])
+  const [tags,setTags]=useState([])
+  const [mostReads,setMostReads]=useState([])
+  const [categories,setCategories]=useState([])
+
+  const handleAddClick = () => {
+    setShowAddNewBlog(true); 
+  };
+
+  const handleCancel = () => {
+    setShowAddNewBlog(false); 
+  };
+
+  const loadBlogs =async () =>{
+    const response = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/doctor/profile/blogs`,
+      { withCredentials: true }
+    );
+    if(response.data){
+      setBlogData(response.data.blogs);
+      setTempBlog(response.data.blogs)
+    }else{
+      setBlogData([]);
+      console.log(response.data)
+    }
+  }
+  const loadPosts =async () =>{
+    const response = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/doctor/blogs`,
+      { withCredentials: true }
+    );
+    if(response.data){
+      var data=response.data;
+      setReletedPost(data?.relatedPosts)
+      setCategories(data?.categoryCountMap)
+      setMostReads(data?.mostReadBlogs)
+      setTags(data?.hashtagCountMap)
+    }else{
+      setBlogData([]);
+      console.log(response.data)
+    }
+  }
+
+  useEffect(()=>{
+      loadBlogs()
+      loadPosts()
+  },[])
+
+  const handleData = (data) => {
+    setTempBlog(data)
+  }
+
+  const handleTags = (selectedTag) => {
+    const filteredBlogs = blogData.filter(blog =>
+      blog.hashtags && blog.hashtags.includes(selectedTag)
+    );
+    setTempBlog(filteredBlogs);
+  };
+
+  const handleCategories = (c) => {
+    const filteredBlogs = blogData.filter(blog =>
+      blog.categories && blog.categories.includes(c)
+    );
+    setTempBlog(filteredBlogs);
+  };
+  
 
   return (
+    <>
+    {showAddNewBlog ? (
+      <EditBlog onCancel={handleCancel} loadBlogs={loadBlogs}/> 
+    ) : (
         <div className="blog-cnt">
           <div className="blog-post-cnt">
             <h4>{blog.title}</h4>
@@ -56,6 +133,12 @@ function BlogDetails({blog}) {
                 <div className="date-info-cnt">
                   <LuEye size="1.1rem" className="date-info-cnt-icon"/>
                   <p className="blue-text">{blog.readCount}</p>
+                </div>
+
+          
+                <div className="date-info-cnt">
+                  <FaEdit size="1.1rem" className="date-info-cnt-icon" onClick={handleAddClick}/>
+                  <p className="blue-text"></p>
                 </div>
               </div>
             </div>
@@ -103,6 +186,8 @@ function BlogDetails({blog}) {
             <Comment comment={blog.comments}/>  
           </div>
         </div>
+            )}
+    </>
   )
 }
 
