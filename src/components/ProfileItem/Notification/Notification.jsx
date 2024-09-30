@@ -50,13 +50,18 @@ const Notification = () => {
       <div className="user-notification-list">
         {notifications.map(notification => (
           <div key={notification._id} className="user-notification">
-
+            
             <div className="user-details-head">
-              <img src={notification.senderProfilePic || 'default-image-url'} alt="No Profile" />
+              {/* Render profile photo for chat notifications or default image for others */}
+              <img 
+                src={notification.type === 'chat' 
+                  ? (notification.senderProfilePic || '/logo-notification.jpg')  // Use the provided default image path
+                  : '/logo-notification.jpg'}  // Default image for non-chat notifications
+                alt="Notification" 
+              />
               <div className="user-details">
                 <h2>{notification.senderName}</h2>
-                <p>{notification.specialization}</p>
-                <p>{notification.message}</p>
+                <p>{notification.message}</p> {/* Removed the specialization or 'General' text */}
               </div>
             </div>
 

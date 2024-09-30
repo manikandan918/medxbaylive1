@@ -11,7 +11,7 @@
 .patients-first-section {
     display: flex;
     justify-content: space-between;
-    gap: 80px;
+    gap: 50px;
 }
 
 .Patients-text-content{
@@ -100,8 +100,8 @@
 
 .patients-second-section-area {
     display: flex;
-    justify-content: space-between;
-    gap: 80px;
+    /* justify-content: space-between; */
+    gap: 60px;
     margin-top: 30px;
 }
 
@@ -110,6 +110,7 @@
     height: 600px;
     border-radius: 10px;
     object-fit: cover;
+    filter: drop-shadow(2px 2px 2px #1A0F011F);
 }
 
 .second-section-text-area {
@@ -123,7 +124,7 @@
 .second-section-items {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
 }
 
 .second-section-item {
@@ -138,6 +139,7 @@
 }
 .second-section-item-title{
     margin-left: 10px;
+    line-height: 30px;
     color: rgba(2, 48, 71, 1);
 
 }
@@ -225,7 +227,7 @@ border-radius: 50%;
 .patients-step h3 {
     font-size: 18px;
     font-weight: 500;
-    line-height: 21.6px;
+    line-height: 26.6px;
     text-align: center;
     color: rgba(2, 48, 71, 1);
     margin-bottom: 10px;
@@ -437,7 +439,7 @@ border-radius: 50%;
       line-height: 20px;
     }
     .second-section-item h3 {
-        font-size: 16px;
+        font-size: 13px;
     }
 
     .second-section-item p {
@@ -449,12 +451,26 @@ border-radius: 50%;
         font-size: 14px;
     }
     .second-section-item-title{
-        font-size: 14px;
+        font-size: 12px;
+        margin-left: 5px;
+    }
+    .second-section-item-number{
+        font-size: 10px;
+        font-weight: 600;
+        padding: 3px 4px;
+        border-radius: 50%;
+        }
+    .patients-check-icon{
+        width: 17px;
+        height: 17px;
+    }
+    .first-section-head-item h3{
+        font-size: 13px;
     }
 }
 
 
-@media (min-width: 1781px) {
+@media (min-width: 1500px) {
     /* Container */
     .Patients-whole-container {
         padding: 80px;
@@ -463,7 +479,8 @@ border-radius: 50%;
 
     /* First Section */
     .patients-first-section {
-        justify-content: space-around;
+        justify-content: center;
+        align-items: center;
         gap: 50px;
     }
 
@@ -490,7 +507,8 @@ border-radius: 50%;
     .patients-first-section-items {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        /* justify-content: center;
+        align-items: center; */
         gap: 40px;
     }
 
@@ -534,8 +552,8 @@ border-radius: 50%;
 
     .patients-second-section-area {
         display: flex;
-        justify-content: space-around;
-        gap: 80px;
+        justify-content: center;
+        /* gap: 80px; */
         margin-top: 30px;
     }
 
@@ -558,6 +576,7 @@ border-radius: 50%;
     }
 
     /* Third Section */
+
     .third-section-heading {
         text-align: center;
         font-size: 48px;
@@ -566,6 +585,7 @@ border-radius: 50%;
     }
 
     .third-section-description {
+/* padding:0px 100px 0px 100px; */
         font-size: 20px;
         line-height: 28px;
         text-align: center;
@@ -574,7 +594,7 @@ border-radius: 50%;
 
     .patients-steps {
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
         margin-top: 30px;
     }
 

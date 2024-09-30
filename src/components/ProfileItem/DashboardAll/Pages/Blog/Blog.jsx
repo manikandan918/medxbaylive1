@@ -110,12 +110,12 @@ const Blog = () => {
                   <BlogCard blogData={tempBlog} loadBlogs={loadBlogs}/>
                 </div>
               </div>
-              <div className="widget-cnt">
+              {/* <div className="widget-cnt">
                 <RelatedPost reletedPost={reletedPost} handleData={handleData}/>
                 <Tags tags={tags} handleTags={handleTags}/>
                 <MostReads mostReads={mostReads} handleData={handleData}/>
                 <Categories categories={categories} handleCategories={handleCategories}/>   
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
