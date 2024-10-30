@@ -39,10 +39,10 @@ import DoctorEditPatient from './components/PatientProfile/doctorEdit';
 import MainDoc from "./components/DoctorProfileH/MainDoc/MainDoc";
 import PatientFrofile from "./components/DoctorProfileH/MainDoc/PatientFrofile"
 import PopupModal from './components/PopupModal';
-import HealthcareSection from './components/Footerpage/HealthcareSection';
 import ContactUs from './components/Footerpage/ContactUs/ContactUs';
 import Patients from './components/Footerpage/Patients/Patients';
 import DoctorPhysician from './components/Footerpage/DoctorPhysician/DoctorPhysician';
+import Enterprise from './components/Footerpage/Enterprise/Enterprise';
 import Conditions from './components/patientBlog/ConditionLibrariesMenu';
 import EditBlog from './components/ProfileItem/DashboardAll/Pages/Blog/Blog/EditBlog';
 function App() {
@@ -76,7 +76,7 @@ function App() {
           <Route path="/faq/section" element={[<Navbar/>,<FaqSection />,<Footer/>]} />
           <Route path="/about/section" element={[<Navbar/>,<About />,<Footer/>]} />
           <Route path="/terms" element={[<Navbar/>,<TermsAndConditions />,<Footer/>]} />
-          <Route path="/enterprise" element={[<Navbar/>,<HealthcareSection />,<Footer/>]} />
+          <Route path="/enterprise" element={[<Navbar/>,<Enterprise />,<Footer/>]} />
           <Route path="/signup" element={[<Navbar/>,<SignupCard />,<Footer/>]} />
           <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
           <Route path="/doc-profile" element={[<Nestednavbar/>,<MainDoc />,<Footer/>]}/>
@@ -88,8 +88,6 @@ function App() {
           <Route path="/patients" element={[<Nestednavbar/>,<Patients />,<Footer/>]}/>
           <Route path="/doctor/physician" element={[<Nestednavbar/>,<DoctorPhysician />,<Footer/>]}/>
           <Route path="/blogs/edit/:id" element={[<Nestednavbar/>,<EditBlog />,<Footer/>]}/>
-
-
 
         </Routes>
       </Router>

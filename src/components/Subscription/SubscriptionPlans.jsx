@@ -6,53 +6,47 @@ import tee from '../../assests/tee.svg'
 import 'react-toastify/dist/ReactToastify.css';
 import { SubTitle } from "chart.js";
 import SubscriptionContact from "./SubscriptionContact";
+import { useNavigate } from "react-router-dom";
+import MobileSubscriptionPlans from "./Mobilesubscription";
 const SubscriptionPlans = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("Monthly");
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleSubscriptionModal = () => setShowSubscriptionModal(!showSubscriptionModal);
+  // const toggleSubscriptionModal = () => setShowSubscriptionModal(!showSubscriptionModal);
+  const toggleSubscriptionModal = () => navigate('/contact-us');
 
   const monthlyPlans = [
+
     {
-      name: "Free",
+      name: "Standard",
       price: "$0",
       features: {
-        "Basic Profile": true,
-        "Premium Profile": false,
-        "Accept Telehealth calls": true,
-        "Access to Knowledge base": false,
-        "Patients can book appointment": false,
+        "Basic Profile": false,
+        "Premium Profile": true,
+        "Accept Telehealth calls": "10% service charge",
+        "Access to Knowledge base": true,
+        "Patients can book appointment": true,
         "Chat with patients with our integrated messaging app": false,
         "Access to email customer support": false,
+        "Access to our social media network for medical providers + medical suppliers":true,
         "1 free article in our condition library": false,
       },
     },
     {
-      name: "Standard",
-      price: "$765",
-      features: {
-        "Basic Profile": false,
-        "Premium Profile": true,
-        "Accept Telehealth calls": "3% service charge",
-        "Access to Knowledge base": false,
-        "Patients can book appointment": true,
-        "Chat with patients with our integrated messaging app": true,
-        "Access to email customer support": true,
-        "1 free article in our condition library": true,
-      },
-    },
-    {
       name: "Premium",
-      price: "$1,020",
+      price: "$150",
       features: {
         "Basic Profile": false,
         "Premium Profile": true,
-        "Accept Telehealth calls": false,
+        "Accept Telehealth calls": true,
         "Access to Knowledge base": true,
         "Patients can book appointment": true,
         "Chat with patients with our integrated messaging app": true,
         "Access to email customer support": true,
+        "Access to our AI bot to follow-up with patients, help manage admin takes and aid with diagnosis" :true,
+        "Access to our social media network for medical providers + medical suppliers":true,
         "1 free article in our condition library": "When paid yearly",
       },
     },
@@ -67,51 +61,59 @@ const SubscriptionPlans = () => {
         "Patients can book appointment": true,
         "Chat with patients with our integrated messaging app": true,
         "Access to email customer support": true,
+        "Access to our AI bot to follow-up with patients, help manage admin takes and aid with diagnosis" :true,
+        "Access to our social media network for medical providers + medical suppliers":true,
+        "1 free article in our condition library": "When paid each providers <br/> get 2 free articles",
+      },
+    },
+    {
+      name: "Suppliers",
+      price: "--",
+      features: {
+        "Basic Profile": false,
+        "Premium Profile": true,
+        "Accept Telehealth calls": true,
+        "Access to Knowledge base": true,
+        "Patients can book appointment": true,
+        "Chat with patients with our integrated messaging app": true,
+        "Access to email customer support": true,
+        "Access to our AI bot to follow-up with patients, help manage admin takes and aid with diagnosis" :true,
+        "Access to our social media network for medical providers + medical suppliers":true,
         "1 free article in our condition library": true,
       },
     },
   ];
 
   const yearlyPlans = [
+
     {
-      name: "Free",
+      name: "Standard",
       price: "$0",
       features: {
-        "Basic Profile": true,
-        "Premium Profile": false,
-        "Accept Telehealth calls": false,
-        "Access to Knowledge base": false,
-        "Patients can book appointment": false,
+        "Basic Profile": false,
+        "Premium Profile": true,
+        "Accept Telehealth calls": "10% service charge",
+        "Access to Knowledge base": true,
+        "Patients can book appointment": true,
         "Chat with patients with our integrated messaging app": false,
         "Access to email customer support": false,
+        "Access to our social media network for medical providers + medical suppliers":true,
         "1 free article in our condition library": false,
       },
     },
     {
-      name: "Standard",
-      price: "$7,500",
-      features: {
-        "Basic Profile": false,
-        "Premium Profile": true,
-        "Accept Telehealth calls": "3% service charge",
-        "Access to Knowledge base": false,
-        "Patients can book appointment": true,
-        "Chat with patients with our integrated messaging app": true,
-        "Access to email customer support": true,
-        "1 free article in our condition library": true,
-      },
-    },
-    {
       name: "Premium",
-      price: "$9,600",
+      price: "$1530",
       features: {
         "Basic Profile": false,
         "Premium Profile": true,
-        "Accept Telehealth calls": false,
+        "Accept Telehealth calls": true,
         "Access to Knowledge base": true,
         "Patients can book appointment": true,
         "Chat with patients with our integrated messaging app": true,
         "Access to email customer support": true,
+        "Access to our AI bot to follow-up with patients, help manage admin takes and aid with diagnosis" :true,
+        "Access to our social media network for medical providers + medical suppliers":true,
         "1 free article in our condition library": "When paid yearly",
       },
     },
@@ -126,6 +128,24 @@ const SubscriptionPlans = () => {
         "Patients can book appointment": true,
         "Chat with patients with our integrated messaging app": true,
         "Access to email customer support": true,
+        "Access to our AI bot to follow-up with patients, help manage admin takes and aid with diagnosis" :true,
+        "Access to our social media network for medical providers + medical suppliers":true,
+        "1 free article in our condition library": "When paid each providers <br/> get 2 free articles",
+      },
+    },
+    {
+      name: "Suppliers",
+      price: "--",
+      features: {
+        "Basic Profile": false,
+        "Premium Profile": true,
+        "Accept Telehealth calls": true,
+        "Access to Knowledge base": true,
+        "Patients can book appointment": true,
+        "Chat with patients with our integrated messaging app": true,
+        "Access to email customer support": true,
+        "Access to our AI bot to follow-up with patients, help manage admin takes and aid with diagnosis" :true,
+        "Access to our social media network for medical providers + medical suppliers":true,
         "1 free article in our condition library": true,
       },
     },
@@ -136,10 +156,7 @@ const SubscriptionPlans = () => {
   const handlePlanClick = (planName) => setSelectedPlan(planName);
 
   const features = [
-    {
-      title: "Basic Profile",
-      subtitle: "Name, photo, specialty, conditions, location, URL",
-    },
+
     {
       title: "Premium Profile",
       subtitle:
@@ -161,6 +178,12 @@ const SubscriptionPlans = () => {
       title: "Access to email customer support",
     },
     {
+      title: "Access to our AI bot to follow-up with patients, help manage admin takes and aid with diagnosis",
+    },
+    {
+      title: "Access to our social media network for medical providers + medical suppliers",
+    },
+    {
       title: "1 free article in our condition library",
     },
   ];
@@ -168,8 +191,13 @@ const SubscriptionPlans = () => {
   const currentPlans = selectedPeriod === "Monthly" ? monthlyPlans : yearlyPlans;
 
   const handleSubscribe = async (planName) => {
+
     if (!selectedPlan && !planName) {
       toast.info("Please select a subscription plan");
+      return;
+    }
+    if (planName === "Standard") {
+      toast.info("You're already in Standard Trial");
       return;
     }
   
@@ -180,7 +208,7 @@ const SubscriptionPlans = () => {
       setSelectedPlan(planName);
     }
   
-    if (planName === "Enterprise") {
+    if (planName === "Enterprise" || planName === "Suppliers" ) {
       window.location.href = `${process.env.REACT_APP_BASE_URL}/doctor/subscribe`;
       return;
     }
@@ -255,7 +283,7 @@ const SubscriptionPlans = () => {
                 >
                   <div className="plan-name">{plan.name}</div>
                   <div className="plan-price">{plan.price}</div>
-                  {plan.name === "Enterprise" ? (
+                  {plan.name === "Enterprise" || plan.name === "Suppliers" ? (
   <button
     className={`add-contact-btn ${selectedPlan === plan.name ? "active" : ""}`}
     onClick={toggleSubscriptionModal}
@@ -304,8 +332,13 @@ const SubscriptionPlans = () => {
                     {plan.features[feature.title] === true && (
                         <img src={tee} alt="Team of Doctors" style={{ width: '30px' ,height:"30px",marginBottom:"20px",marginTop:"20px"}} />
                       )}
-                    {plan.features[feature.title] === false ? "" : (typeof plan.features[feature.title] === "string" && plan.features[feature.title])}
-                  </td>
+                     {plan.features[feature.title] === false ? "" : (
+    typeof plan.features[feature.title] === "string" ? (
+      <div dangerouslySetInnerHTML={{ __html: plan.features[feature.title] }} />
+    ) : (
+      plan.features[feature.title]
+    )
+  )}</td>
                 ))}
               </tr>
             ))}
@@ -316,6 +349,7 @@ const SubscriptionPlans = () => {
     
     </div>
     <SubscriptionContact  show={showSubscriptionModal} handleClose={() => setShowSubscriptionModal(false)}/>
+      <MobileSubscriptionPlans/>
     </>
   );
 };

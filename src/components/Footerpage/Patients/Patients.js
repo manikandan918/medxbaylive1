@@ -6,6 +6,8 @@ import Patientssecond from "../../../assests/img/Patientssecond.png";
 import Patientsthird1 from "../../../assests/img/Patientsthird1.png"; 
 import Patientsthird2 from "../../../assests/img/Patientsthird2.png"; 
 import Patientsthird3 from "../../../assests/img/Patientsthird3.png"; 
+import curveimg from '../../../assests/img/curveimg.png';
+
 import SignupCard from '../../signup/signup';
 import LoginCard from '../../login/login';
 import CheckIcon from "../../../assests/img/check-icon.png"; 
@@ -185,7 +187,7 @@ const Patients = () => {
       <h3>Sign Up</h3>
       <p>Create your free account in minutes, no matter where you are in the world.</p>
     </div>
-    <div className="patient-curve"></div> 
+    {/* <div className="patient-curve" ></div>  */}
     <div className="patients-step">
       <div className="patients-step-icon">
         <div className="patients-step-icon-number">02</div>
@@ -194,7 +196,7 @@ const Patients = () => {
       <h3>Set Up Your Profile</h3>
       <p>Confirm your email (check your spam) and enter information in your profile.</p>
     </div>
-    <div className="patient-curve"></div> 
+    {/* <div className="patient-curve"></div>  */}
     <div className="patients-step">
       <div className="patients-step-icon">
         <div className="patients-step-icon-number">03</div>
