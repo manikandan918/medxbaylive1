@@ -1075,6 +1075,15 @@
     display: none;
 }
 
+.physician-timeline-item:before {
+display: none;
+}
+
+/* === Numbers in the timeline === */
+.physician-timeline-number {
+  display: none;
+}
+
 .physician-timeline-item.physician-timeline-left .physician-timeline-content,
 .physician-timeline-item.physician-timeline-right .physician-timeline-content {
     text-align: left;
