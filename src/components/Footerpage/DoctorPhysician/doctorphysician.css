@@ -1068,7 +1068,7 @@
     justify-content: center;
     gap: 30px;
     margin-top: 100px;
-    position: relative;
+    position: none;
     height: 0%;
   }
   
@@ -1081,13 +1081,15 @@
   .physician-timeline-item.physician-timeline-left .physician-timeline-content {
     text-align: left;
     width: 450px;
-    height: fit-content;
+    height: auto;
+    /* height: fit-content; */
   }
   
   .physician-timeline-item.physician-timeline-right .physician-timeline-content {
     text-align: left;
     width: 450px;
-    height: fit-content;
+    height: auto;
+    /* height: fit-content; */
   }
   
   .physician-timeline-item.physician-timeline-left .physician-timeline-image {
@@ -1142,20 +1144,23 @@
   .physician-timeline-item.physician-timeline-left .physician-timeline-content {
     text-align: left;
     width: 400px;
-    height: fit-content;
+    height: auto;
+    /* height: fit-content; */
     padding: 0 20px;
   }
   
   .physician-timeline-item.physician-timeline-right .physician-timeline-content {
     text-align: left;
     width: 400px;
-    height: fit-content;
+    height: auto;
+    /* height: fit-content; */
     padding: 0 20px;
   }
   
   .physician-timeline-image {
     width: 350px;
-    height: fit-content;
+    height:auto;
+    /* height: fit-content; */
     padding: 0 20px;
   }
   
@@ -1201,20 +1206,23 @@
   .physician-timeline-item.physician-timeline-left .physician-timeline-content {
     text-align: left;
     width: 300px;
-    height: fit-content;
+    height: auto;
+    /* height: fit-content; */
     padding: 0 20px;
   }
   
   .physician-timeline-item.physician-timeline-right .physician-timeline-content {
     text-align: left;
     width: 300px;
-    height: fit-content;
+    height: auto;
+    /* height: fit-content; */
     padding: 0 20px;
   }
 
   .physician-timeline-image {
     width: 300px;
-    height: fit-content;
+    height: auto;
+    /* height: fit-content; */
     padding: 0 20px;
   }
 
