@@ -1073,8 +1073,9 @@
   }
   
   .physician-timeline-container-sub:before {
-    width: 0px;
-    background-color: none;
+    display:none;
+    /* width: 0px;
+    background-color: none; */
   }
   
   .physician-timeline-item.physician-timeline-left .physician-timeline-content {
