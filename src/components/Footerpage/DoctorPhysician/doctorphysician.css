@@ -1060,7 +1060,6 @@
   }
   
   /*==============challenges-container=========End=======*/
-  /*==============timeline-container=========Start=======*/
   .physician-timeline-item {
     display: flex;
     flex-direction: column;
@@ -1070,43 +1069,31 @@
     margin-top: 100px;
     position: none;
     height: 0%;
-  }
-  
-  .physician-timeline-container-sub:before {
-    display:none;
-    /* width: 0px;
-    background-color: none; */
-  }
-  
-  .physician-timeline-item.physician-timeline-left .physician-timeline-content {
+}
+
+.physician-timeline-container-sub:before {
+    display: none;
+}
+
+.physician-timeline-item.physician-timeline-left .physician-timeline-content,
+.physician-timeline-item.physician-timeline-right .physician-timeline-content {
     text-align: left;
     width: 450px;
     height: auto;
-    /* height: fit-content; */
-  }
-  
-  .physician-timeline-item.physician-timeline-right .physician-timeline-content {
-    text-align: left;
-    width: 450px;
-    height: auto;
-    /* height: fit-content; */
-  }
-  
-  .physician-timeline-item.physician-timeline-left .physician-timeline-image {
+}
+
+.physician-timeline-item.physician-timeline-left .physician-timeline-image,
+.physician-timeline-item.physician-timeline-right .physician-timeline-image {
     margin-bottom: 30px;
-  }
-  
-  .physician-timeline-item.physician-timeline-right .physician-timeline-image {
-    margin-bottom: 30px;
-  }
-  
-  .physician-timeline-number {
+}
+
+.physician-timeline-number {
     top: -70px;
-  }
-  
-  .physician-timeline-item:before {
+}
+
+.physician-timeline-item:before {
     top: -34px;
-  }
+}
   
   /*==============timeline-container=========End=======*/
 
@@ -1141,35 +1128,23 @@
   }
   /*==============healthcare-platform===========End=====*/
   /*==============timeline-container=========Start=======*/
-  .physician-timeline-item.physician-timeline-left .physician-timeline-content {
-    text-align: left;
-    width: 400px;
-    height: auto;
-    /* height: fit-content; */
-    padding: 0 20px;
-  }
-  
+  .physician-timeline-item.physician-timeline-left .physician-timeline-content,
   .physician-timeline-item.physician-timeline-right .physician-timeline-content {
-    text-align: left;
-    width: 400px;
-    height: auto;
-    /* height: fit-content; */
-    padding: 0 20px;
+      text-align: left;
+      width: 400px;
+      height: auto;
+      padding: 0 20px;
   }
-  
+
   .physician-timeline-image {
-    width: 350px;
-    height:auto;
-    /* height: fit-content; */
-    padding: 0 20px;
+      width: 350px;
+      height: auto;
+      padding: 0 20px;
   }
-  
-  .physician-timeline-item.physician-timeline-left .physician-timeline-image {
-    margin-bottom: 0px;
-  }
-  
+
+  .physician-timeline-item.physician-timeline-left .physician-timeline-image,
   .physician-timeline-item.physician-timeline-right .physician-timeline-image {
-    margin-bottom: 0px;
+      margin-bottom: 0px;
   }
 }  
 
@@ -1203,11 +1178,25 @@
     padding: 0 20px;
   }
 
-  .physician-timeline-item.physician-timeline-left .physician-timeline-content {
+  .physician-timeline-item.physician-timeline-left .physician-timeline-content,
+    .physician-timeline-item.physician-timeline-right .physician-timeline-content {
+        text-align: left;
+        width: 300px;
+        height: auto;
+        padding: 0 20px;
+    }
+  
+    .physician-timeline-image {
+        width: 300px;
+        height: auto;
+        padding: 0 20px;
+    }
+
+  /* .physician-timeline-item.physician-timeline-left .physician-timeline-content {
     text-align: left;
     width: 300px;
     height: auto;
-    /* height: fit-content; */
+    height: fit-content;
     padding: 0 20px;
   }
   
@@ -1215,14 +1204,14 @@
     text-align: left;
     width: 300px;
     height: auto;
-    /* height: fit-content; */
+    height: fit-content;
     padding: 0 20px;
-  }
+  } */
 
   .physician-timeline-image {
     width: 300px;
     height: auto;
-    /* height: fit-content; */
+    height: fit-content;
     padding: 0 20px;
   }
 
